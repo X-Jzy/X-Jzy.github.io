@@ -1184,7 +1184,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #8bc440;
+    background: #ff3bd5;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -2775,4 +2775,13 @@ body {
 }
 .header-inner {
   background: rgba(255,255,255,0.7);
+}
+#live2d,
+.l2d-widget,
+canvas[id^="live2d"],
+canvas.live2d {
+  transform-origin: bottom right;
+  z-index: 9999;
+  pointer-events: auto;
+  transform: translate(50px, 50px);
 }
