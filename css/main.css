@@ -1009,6 +1009,7 @@ pre code {
 .site-brand-container {
   display: flex;
   flex-shrink: 0;
+  background-color: #fff;
   padding: 0 10px;
 }
 .use-motion .column,
@@ -1184,7 +1185,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ff3bd5;
+    background: #342e44;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -1921,6 +1922,15 @@ pre code {
   top: 0;
   width: 100%;
 }
+a:not(.btn) {
+  color: #f89fa0;
+  border-bottom: none;
+}
+a:not(.btn):hover {
+  color: #ff7a7a;
+  font-weight: bold;
+  text-decoration: underline;
+}
 .post-gallery {
   display: flex;
   min-height: 200px;
@@ -2506,7 +2516,7 @@ header.header {
   }
 }
 .site-brand-container {
-  background: var(--theme-color);
+  background-color: rgba(119,203,224,0.5);
 }
 @media (max-width: 991px) {
   .site-nav-on .site-brand-container {
