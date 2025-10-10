@@ -49,6 +49,7 @@ NexT.utils = {
         try {
           await navigator.clipboard.writeText(code);
           button.querySelector('i').className = 'fa fa-check-circle fa-fw';
+          console.log("复制成功");
         } catch {
           button.querySelector('i').className = 'fa fa-times-circle fa-fw';
         }
