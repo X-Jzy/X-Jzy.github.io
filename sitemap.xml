@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://x-jzy.github.io/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://x-jzy.github.io/tags/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://x-jzy.github.io/categories/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://x-jzy.github.io/archives/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://x-jzy.github.io/2025/10/10/Hexo8.2.0%E4%BB%A5%E4%B8%8A%E7%89%88%E6%9C%AC%E9%83%A8%E7%BD%B2Valine/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://x-jzy.github.io/categories/Hexo/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://x-jzy.github.io/2025/10/09/%E5%9C%A8Hexo%E9%83%A8%E7%BD%B2Live2d/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://x-jzy.github.io/2025/10/08/test/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://x-jzy.github.io/2025/10/07/hello-world/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://x-jzy.github.io/tags/Hexo/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://x-jzy.github.io/tags/Live2D/</loc>
+  <lastmod>2025-10-11T16:35:45+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>
