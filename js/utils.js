@@ -175,9 +175,9 @@ document.addEventListener('visibilitychange', function () {
         if (input) {
           // hexo-helper-live2d 插件通常在页面中以 L2Dwidget.init(...) 初始化模型
           // 这里做简单跳转到 model.json 来触发加载（部分实现依赖插件）
-          const modelUrl = input.replace(/\/$/, '') + '/model.json'
-          window.open(modelUrl, '_blank')
-          alert('已尝试打开模型文件：' + modelUrl + '\n若要真正切换模型，请在 _config.yml 中修改 live2d.model.use 并重新生成站点。')
+          // const modelUrl = input.replace(/\/$/, '') + '/model.json'
+          // window.open(modelUrl, '_blank')
+          // alert('已尝试打开模型文件：' + modelUrl + '\n若要真正切换模型，请在 _config.yml 中修改 live2d.model.use 并重新生成站点。')
         }
         break
       case 'about':
