@@ -1,4 +1,6 @@
 /* global NexT, CONFIG */
+
+//标题更换
 var title = document.title;
 var titleTime;
 
@@ -21,6 +23,192 @@ document.addEventListener('visibilitychange', function () {
     console.log('用户回到了当前页面');
   }
 });
+
+
+
+
+//live2d菜单
+(function () {
+  const MENU_ID = 'live2d-context-menu'
+  const DEFAULT_TRANSFORM = 'translate(50px, 50px)'
+  let handlersAttached = false
+  const SELECTORS = ['#live2d', '.l2d-widget', 'canvas[id^="live2d"]', 'canvas.live2d']
+  const HIDDEN_KEY = 'live2d_hidden'
+
+  function createMenu() {
+    let menu = document.getElementById(MENU_ID)
+    if (menu) return menu
+
+    menu = document.createElement('div')
+    menu.id = MENU_ID
+    menu.className = 'live2d-context-menu'
+    const items = [
+      { text: '切换模型', action: 'switch' },
+      { text: '隐藏/显示看板娘', action: 'toggle' },
+      { text: '关于看板娘', action: 'about' }
+    ]
+
+    items.forEach(it => {
+      const el = document.createElement('div')
+      el.className = 'live2d-context-menu__item'
+      el.textContent = it.text
+      el.dataset.action = it.action
+      menu.appendChild(el)
+    })
+
+    document.body.appendChild(menu)
+    return menu
+  }
+
+  function hideMenu() {
+    const m = document.getElementById(MENU_ID)
+    if (m) m.style.display = 'none'
+  }
+
+  function showMenu(x, y) {
+    const m = createMenu()
+    m.style.left = `${x}px`
+    m.style.top = `${y}px`
+    m.style.display = 'block'
+    // 防止菜单超出右/下边界
+    const rect = m.getBoundingClientRect()
+    if (rect.right > window.innerWidth) {
+      m.style.left = `${Math.max(8, window.innerWidth - rect.width - 8)}px`
+    }
+    if (rect.bottom > window.innerHeight) {
+      m.style.top = `${Math.max(8, window.innerHeight - rect.height - 8)}px`
+    }
+  }
+
+  function getLive2DElement() {
+    return document.querySelector('#live2d, .l2d-widget, canvas[id^="live2d"], canvas.live2d')
+  }
+
+  function findLive2DElements() {
+    const els = []
+    SELECTORS.forEach(sel => {
+      document.querySelectorAll(sel).forEach(e => els.push(e))
+    })
+    return els
+  }
+
+  function showAllLive2d() {
+    const nodes = findLive2DElements()
+    if (!nodes.length) return
+    nodes.forEach(n => {
+      n.style.display = ''
+    })
+    localStorage.removeItem(HIDDEN_KEY)
+  }
+
+  function attachHandlers() {
+    if (handlersAttached) return
+    handlersAttached = true
+    const el = getLive2DElement()
+    if (!el) return
+
+    // 右键菜单
+    el.addEventListener('contextmenu', function (ev) {
+      ev.preventDefault()
+      ev.stopPropagation()
+      showMenu(ev.clientX, ev.clientY)
+      return false
+    }, { passive: false })
+
+    // 点击菜单项
+    document.body.addEventListener('click', function (ev) {
+      const menu = document.getElementById(MENU_ID)
+      if (!menu) return
+      const target = ev.target
+      if (target && target.classList && target.classList.contains('live2d-context-menu__item')) {
+        const action = target.dataset.action
+        handleAction(action)
+        hideMenu()
+        ev.preventDefault()
+      } else {
+        // 点击菜单外，隐藏菜单
+        if (!menu.contains(ev.target)) hideMenu()
+      }
+    })
+
+    // Esc 或调整窗口隐藏
+    window.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape') hideMenu()
+        // 快捷键 L 显示/隐藏
+      if (ev.key.toLowerCase() === 'l') {
+        const nodes = findLive2DElements()
+        if (!nodes.length) return
+        const anyVisible = nodes.some(n => window.getComputedStyle(n).display !== 'none')
+        if (anyVisible) {
+          nodes.forEach(n => n.style.display = 'none')
+          localStorage.setItem(HIDDEN_KEY, '1')
+        } else {
+          showAllLive2d()
+        }
+      }
+    })
+    window.addEventListener('resize', hideMenu)
+    window.addEventListener('scroll', hideMenu, true)
+  }
+
+  
+
+  function handleAction(action) {
+    const nodes = Array.from(document.querySelectorAll(SELECTORS.join(',')))
+    if (!nodes.length) return
+    switch (action) {
+      case 'toggle': {
+        const hiddenKey = 'live2d_hidden'
+        const anyVisible = nodes.some(n => window.getComputedStyle(n).display !== 'none')
+        if (anyVisible) {
+          nodes.forEach(n => n.style.display = 'none')
+          alert("键盘按L重新呼出看板娘！")
+          localStorage.setItem(hiddenKey, '1')
+        } else {
+          nodes.forEach(n => n.style.display = '')
+          localStorage.removeItem(hiddenKey)
+        }
+        break
+      }
+      case 'switch':
+        const input = prompt('请输入模型名称:')
+        if (input) {
+          // hexo-helper-live2d 插件通常在页面中以 L2Dwidget.init(...) 初始化模型
+          // 这里做简单跳转到 model.json 来触发加载（部分实现依赖插件）
+          const modelUrl = input.replace(/\/$/, '') + '/model.json'
+          window.open(modelUrl, '_blank')
+          alert('已尝试打开模型文件：' + modelUrl + '\n若要真正切换模型，请在 _config.yml 中修改 live2d.model.use 并重新生成站点。')
+        }
+        break
+      case 'about':
+        alert('关于啥呢。。。')
+        break
+      default:
+        break
+    }
+  }
+
+  // 重新绑定在页面加载或 pjax 后
+  function initOnPage() {
+    // small delay to wait widget inserted
+    setTimeout(function () {
+      attachHandlers()
+      // 应用持久化的隐藏状态
+      try {
+        const el = getLive2DElement()
+        if (el && localStorage.getItem('live2d_hidden') === '1') {
+          el.style.display = 'none'
+        }
+      } catch (e) {
+        // ignore
+      }
+    }, 300)
+  }
+
+  document.addEventListener('DOMContentLoaded', initOnPage)
+  document.addEventListener('page:loaded', initOnPage)
+  document.addEventListener('pjax:success', initOnPage)
+})()
 
 
 HTMLElement.prototype.wrap = function (wrapper) {
