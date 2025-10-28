@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="使用Redis做缓存，简单优化软件工程实践课的MySql读写的性能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis优化Spring项目的数据库读写">
+<meta property="og:url" content="http://example.com/2025/10/27/Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="使用Redis做缓存，简单优化软件工程实践课的MySql读写的性能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/25.10.27.Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/1.png">
+<meta property="og:image" content="http://example.com/imgs/25.10.27.Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/2.png">
+<meta property="og:image" content="http://example.com/imgs/25.10.27.Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/3.png">
+<meta property="article:published_time" content="2025-10-27T05:56:01.000Z">
+<meta property="article:modified_time" content="2025-10-28T06:06:49.801Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="后端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/25.10.27.Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/1.png">
+
+
+<link rel="canonical" href="http://example.com/2025/10/27/Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2025/10/27/Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/","path":"2025/10/27/Redis优化Spring项目的数据库读写/","title":"Redis优化Spring项目的数据库读写"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redis优化Spring项目的数据库读写 | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">优化思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%A1%88%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">具体案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">性能测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E8%AE%BA"><span class="nav-number">5.</span> <span class="nav-text">测试结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BC%93%E5%AD%98%E4%B8%8D%E4%B8%80%E8%87%B4"><span class="nav-number">6.</span> <span class="nav-text">数据库缓存不一致</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E7%BC%93%E5%AD%98%E8%BF%98%E6%98%AF%E6%9B%B4%E6%96%B0%E7%BC%93%E5%AD%98"><span class="nav-number">6.1.</span> <span class="nav-text">删除缓存还是更新缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E6%93%8D%E4%BD%9C%E7%BC%93%E5%AD%98%E8%BF%98%E6%98%AF%E5%85%88%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.2.</span> <span class="nav-text">先操作缓存还是先操作数据库</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/10/27/Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Redis优化Spring项目的数据库读写 | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis优化Spring项目的数据库读写
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-10-27 13:56:01" itemprop="dateCreated datePublished" datetime="2025-10-27T13:56:01+08:00">2025-10-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-10-28 14:06:49" itemprop="dateModified" datetime="2025-10-28T14:06:49+08:00">2025-10-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2025/10/27/Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/" class="post-meta-item leancloud_visitors" data-flag-title="Redis优化Spring项目的数据库读写" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>使用Redis做缓存，简单优化软件工程实践课的MySql读写的性能</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>醋来了！前面对Redis的学习就是为了优化一下一个完整的SpringBoot+MySql项目的数据库搜索的性能，使用Redis作为MySql数据库的缓存使用，优化高频读取操作的性能，以及涉及多表查询的结果的缓存(减小服务器负担)。</p>
+<h2 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a>优化思路</h2><p>本质上就是非常经典的缓存模型，客户端对一些高频接口或高搜索复杂度接口进行请求时，在后端将请求先引导到对Redis的访问，若请求命中(Redis存有对应的数据)，则直接返回给客户端该数据，若未命中(Redis返回结果为空)，则按照正常流程访问MySql等主数据库，并在返回结果前向Redis写入该数据(并设置过期时间)，以便下次访问。</p>
+<p><img src="/../imgs/25.10.27.Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/1.png" alt="img1"></p>
+<h2 id="具体案例"><a href="#具体案例" class="headerlink" title="具体案例"></a>具体案例</h2><p>案例代码来自软件工程专业课《软件工程综合实践》的Vue3+SpringBoot+MySql的项目。</p>
+<p>这里选择一个涉及多表查询的查询性能较差的搜索:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Orders <span class="title function_">getOrdersById</span><span class="params">(Integer orderId)</span> &#123;</span><br><span class="line">  <span class="comment">//从Redis查询</span></span><br><span class="line">  <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;orders:id:&quot;</span> + orderId;      <span class="comment">//统一设置key为 &quot;类名:请求参数名&quot;+请求参数名</span></span><br><span class="line">  <span class="type">Orders</span> <span class="variable">redis_order</span> <span class="operator">=</span> (Orders) redisTemplate.opsForValue().get(key);       <span class="comment">//查询key</span></span><br><span class="line">  <span class="keyword">if</span>(redis_order != <span class="literal">null</span>)</span><br><span class="line">    <span class="keyword">return</span> redis_order;</span><br><span class="line"></span><br><span class="line">  <span class="type">Orders</span> <span class="variable">orders</span> <span class="operator">=</span>ordersMapper.getOrdersById(orderId);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//存入Redis</span></span><br><span class="line">  redisTemplate.opsForValue().set(key,orders,<span class="number">3600</span>, TimeUnit.SECONDS);</span><br><span class="line">  <span class="keyword">return</span> orders;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>具体实现还是非常简单的，接下来简单测试一下性能。</p>
+<h2 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h2><p>因为是课程设计的小项目，数据量没有多大，只是相对的对比一下采用Redis做缓存和不用时在ApiFox上的响应速度。</p>
+<p>在ApiFox上对接口对应的方法getOrderById进行100次测试，结果如下：</p>
+<p>使用Redis作为缓存的100次访问测试：</p>
+<p><img src="/../imgs/25.10.27.Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/2.png" alt="img2"></p>
+<p>未使用Redis作为缓存的100次访问测试：</p>
+<p><img src="/../imgs/25.10.27.Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/3.png" alt="img3"></p>
+<h2 id="测试结论"><a href="#测试结论" class="headerlink" title="测试结论"></a>测试结论</h2><p>可见二者有着较大的性能差异，并且随着查询接口对数据库搜索数据规模的增大，不使用缓存机制的搜索时间还将上升，而使用Redis作为缓存本质上就是对一个键值对进行简单的读取，除了第一次的未命中外，此后的缓存访问都将以较快的速度进行。</p>
+<p>此外针对高热度的访问接口，缓存机制也将持续保留并刷新其过期时间，本质上是对高负载接口的读写优化。</p>
+<p>那么代价是什么呢？</p>
+<h2 id="数据库缓存不一致"><a href="#数据库缓存不一致" class="headerlink" title="数据库缓存不一致"></a>数据库缓存不一致</h2><p>缓存是写入Redis了，如果在其过期时间内又有在MySql对其相关数据进行了操作，导致MySql上的对应数据和Redis上的不一致，此时Redis上存的不就是错误数据了吗？</p>
+<p>此时的解决方法就是，在后端的涉及Redis存储的数据的类的操作，也是不仅仅要更新MySql，也要”更新“Redis(如果有)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> Orders <span class="title function_">handleOrders</span><span class="params">(Integer orderId, String orderState)</span> &#123;</span><br><span class="line">  <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;orders:id:&quot;</span> + orderId;</span><br><span class="line">  <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span>userMapper.getUserByName(getCurrentUserName());</span><br><span class="line">  <span class="type">Orders</span> <span class="variable">order</span> <span class="operator">=</span>ordersMapper.getOrdersById(orderId);</span><br><span class="line">  <span class="type">int</span> <span class="variable">businessId</span> <span class="operator">=</span> order.getBusinessId();</span><br><span class="line">  <span class="type">User</span> <span class="variable">boss</span> <span class="operator">=</span> userMapper.getUserByName(getCurrentUserName());</span><br><span class="line">  List&lt;Business&gt; businessList = businessMapper.getBusinessListByUserId(boss.getId());</span><br><span class="line">  <span class="type">boolean</span> <span class="variable">isAssociated</span> <span class="operator">=</span> businessList.stream()</span><br><span class="line">    .anyMatch(biz -&gt; biz.getId().equals(businessMapper.getBusinessById(businessId).getId()));</span><br><span class="line">  <span class="keyword">if</span> (<span class="string">&quot;BUSINESS&quot;</span>.equals(getCurrentUserType()) &amp;&amp; !isAssociated) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;错误：老板未关联此商家&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  ordersMapper.handleOrders(orderId, orderState);</span><br><span class="line">  redisTemplate.delete(key);       <span class="comment">//删除!!!</span></span><br><span class="line">  <span class="keyword">return</span> ordersMapper.getOrdersById(orderId); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除缓存还是更新缓存"><a href="#删除缓存还是更新缓存" class="headerlink" title="删除缓存还是更新缓存"></a>删除缓存还是更新缓存</h3><p>在对缓存数据进行更新时有两个选择：<br>更新缓存:找到对应的key，更新其value<br>删除缓存:直接删除对应key的键值对数据，等待下一次访问时再将数据写入缓存</p>
+<p>通常会先更新数据库再删除缓存，而不是直接更新缓存，原因如下：<br>1.简单直接：代码逻辑清晰，不易出错。<br>2.避免并发写问题：在多个线程&#x2F;服务同时更新同一个数据时，无论操作顺序如何，最终都会通过删除缓存来保证下次读取到最新数据。它避免了“更新顺序”竞态条件（后面会详述）。<br>3.处理复杂数据：如果缓存的数据是经过复杂计算或聚合（如多个表的JOIN结果），更新缓存时需要重复这个复杂计算。而删除缓存则把计算延迟到下次读取时，逻辑更清晰。<br>4.写操作轻量：写操作只需要处理数据库，无需关心缓存数据的构建，性能更好。</p>
+<h3 id="先操作缓存还是先操作数据库"><a href="#先操作缓存还是先操作数据库" class="headerlink" title="先操作缓存还是先操作数据库"></a>先操作缓存还是先操作数据库</h3><p>推荐先操作数据库，再操作缓存，出现不一致的概率远低于先操作缓存再更新数据库。</p>
+<p>具体原因涉及多线程相关，可以自行了解。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+              <a href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag"># 后端</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/25/Redis%E7%9A%84%E5%AE%9E%E6%88%98Demo/" rel="prev" title="Redis的实战Demo">
+                  <i class="fa fa-angle-left"></i> Redis的实战Demo
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/10/28/Redis%E7%9A%84%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F/" rel="next" title="Redis的缓存穿透">
+                  Redis的缓存穿透 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">56k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:20</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2025/10/27/Redis%E4%BC%98%E5%8C%96Spring%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
