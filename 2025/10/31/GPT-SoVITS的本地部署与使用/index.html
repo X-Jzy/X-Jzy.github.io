@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://example.com/imgs/25.10.31.GPT-SoVITS%E7%9A%84%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E4%B8%8E%E4%BD%BF%E7%94%A8/6.png">
 <meta property="og:image" content="http://example.com/imgs/25.10.31.GPT-SoVITS%E7%9A%84%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E4%B8%8E%E4%BD%BF%E7%94%A8/7.png">
 <meta property="article:published_time" content="2025-10-31T00:17:44.000Z">
-<meta property="article:modified_time" content="2025-10-31T10:21:19.550Z">
+<meta property="article:modified_time" content="2025-10-31T10:28:38.976Z">
 <meta property="article:author" content="桐谷鸣人">
 <meta property="article:tag" content="AI">
 <meta name="twitter:card" content="summary">
@@ -254,7 +254,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-10-31 08:17:44 / 修改时间：18:21:19" itemprop="dateCreated datePublished" datetime="2025-10-31T08:17:44+08:00">2025-10-31</time>
+      <time title="创建时间：2025-10-31 08:17:44 / 修改时间：18:28:38" itemprop="dateCreated datePublished" datetime="2025-10-31T08:17:44+08:00">2025-10-31</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -331,7 +331,6 @@
 <p>在此提醒，最好使用对应语言训练的模型输出对应的语言，如果强迫让日文模型说中文会有一股丁真的风味，同样中文模型说英文也会有Chinglish的味道。 正如前面所说，训练模型时留下的音色决定了上面的不同，不同的语言的不同发音习惯导致了这一点。</p>
 <h3 id="剩下的一些参数"><a href="#剩下的一些参数" class="headerlink" title="剩下的一些参数"></a>剩下的一些参数</h3><p>不懂就别乱调，因为我也不懂</p>
 <h3 id="最终示例"><a href="#最终示例" class="headerlink" title="最终示例"></a>最终示例</h3><p><img src="/../imgs/25.10.31.GPT-SoVITS%E7%9A%84%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E4%B8%8E%E4%BD%BF%E7%94%A8/6.png" alt="img6"></p>
-<p><a href="../imgs/25.10.31.GPT-SoVITS%E7%9A%84%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E4%B8%8E%E4%BD%BF%E7%94%A8/1.wav">audio:生成音频</a></p>
 <h2 id="接口调用"><a href="#接口调用" class="headerlink" title="接口调用"></a>接口调用</h2><p>那么如何使用接口去调用GPT-SoVITS呢？<br>所幸，作者考虑了这一点，为我们留下了宝贵的财富——根目录下的 <strong>api_v2.py</strong></p>
 <h3 id="修改bat-并启动api服务"><a href="#修改bat-并启动api服务" class="headerlink" title="修改bat 并启动api服务"></a>修改bat 并启动api服务</h3><p>方便起见，我们仍然使用bat启动程序。<br>在根目录下新建文件 <em>api.bat</em><br><strong>记事本打开</strong>，输入</p>
 <figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> &quot;SCRIPT_DIR=%~dp0&quot;</span><br><span class="line"><span class="built_in">set</span> &quot;SCRIPT_DIR=<span class="variable">%SCRIPT_DIR:~0,-1%</span>&quot;</span><br><span class="line"><span class="built_in">cd</span> /d &quot;<span class="variable">%SCRIPT_DIR%</span>&quot;</span><br><span class="line"><span class="built_in">set</span> &quot;<span class="built_in">PATH</span>=<span class="variable">%SCRIPT_DIR%</span>\runtime;<span class="variable">%PATH%</span>&quot;</span><br><span class="line">runtime\python.exe -I api_v2.py</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure>
