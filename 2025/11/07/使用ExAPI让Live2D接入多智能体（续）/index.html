@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="对此前demo的完善，仍旧处于初期的开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用ExAPI让Live2D接入多智能体（续）">
+<meta property="og:url" content="http://example.com/2025/11/07/%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="对此前demo的完善，仍旧处于初期的开发">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/25.11.7.%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/1.png">
+<meta property="og:image" content="http://example.com/imgs/25.11.7.%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/2.png">
+<meta property="og:image" content="http://example.com/imgs/25.11.7.%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/3.png">
+<meta property="article:published_time" content="2025-11-07T10:46:32.000Z">
+<meta property="article:modified_time" content="2025-11-16T05:58:39.434Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Live2D">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/25.11.7.%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/1.png">
+
+
+<link rel="canonical" href="http://example.com/2025/11/07/%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2025/11/07/%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/","path":"2025/11/07/使用ExAPI让Live2D接入多智能体（续）/","title":"使用ExAPI让Live2D接入多智能体（续）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用ExAPI让Live2D接入多智能体（续） | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E5%BD%95%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">语音录制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB"><span class="nav-number">3.</span> <span class="nav-text">语音识别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GUI"><span class="nav-number">4.</span> <span class="nav-text">GUI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E6%83%85%E5%8C%85%E4%B8%8E%E5%AF%B9%E8%AF%9D%E6%83%85%E6%84%9F%EF%BC%88%EF%BC%9F%EF%BC%9F%EF%BC%9F%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">表情包与对话情感（？？？）</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/11/07/%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用ExAPI让Live2D接入多智能体（续） | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用ExAPI让Live2D接入多智能体（续）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-11-07 18:46:32" itemprop="dateCreated datePublished" datetime="2025-11-07T18:46:32+08:00">2025-11-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-11-16 13:58:39" itemprop="dateModified" datetime="2025-11-16T13:58:39+08:00">2025-11-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2025/11/07/%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/" class="post-meta-item leancloud_visitors" data-flag-title="使用ExAPI让Live2D接入多智能体（续）" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>对此前demo的完善，仍旧处于初期的开发</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>此前的Demo实现了角色对话、语音合成、邮件接收与提醒。</p>
+<p>接下来要实现:<br>1.语音识别(用户对话)<br>2.GUI<br>3.情感对应的对话表情包 以及 TTS的情感体现</p>
+<h2 id="语音录制"><a href="#语音录制" class="headerlink" title="语音录制"></a>语音录制</h2><p>通过语音识别让用户实现语音输入与AI交互。<br>但是现在已经不仅仅是语音识别了，我们现在要实现用户的语音输入，即录音功能。<br>使用pyaudio与wave库</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">CHUNK = <span class="number">1024</span>  <span class="comment"># 每个缓冲区的帧数</span></span><br><span class="line">FORMAT = pyaudio.paInt16  <span class="comment"># 采样位数</span></span><br><span class="line">CHANNELS = <span class="number">1</span>  <span class="comment"># 单声道</span></span><br><span class="line">RATE = <span class="number">44100</span>  <span class="comment"># 采样频率</span></span><br><span class="line"></span><br><span class="line">is_recording = <span class="number">0</span>     <span class="comment">#状态判断，主要用于打断</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">record_audio</span>(<span class="params">wave_out_path, record_second</span>):</span><br><span class="line">    <span class="keyword">global</span> is_recording  <span class="comment"># 声明使用全局变量</span></span><br><span class="line">    p = pyaudio.PyAudio()  <span class="comment"># 实例化对象</span></span><br><span class="line">    stream = p.<span class="built_in">open</span>(<span class="built_in">format</span>=FORMAT,</span><br><span class="line">                    channels=CHANNELS,</span><br><span class="line">                    rate=RATE,</span><br><span class="line">                    <span class="built_in">input</span>=<span class="literal">True</span>,</span><br><span class="line">                    frames_per_buffer=CHUNK)  <span class="comment"># 打开流，传入响应参数</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;开始录制&quot;</span>)</span><br><span class="line">    is_recording=<span class="number">1</span></span><br><span class="line">    wf = wave.<span class="built_in">open</span>(wave_out_path, <span class="string">&#x27;wb&#x27;</span>) </span><br><span class="line">    wf.setnchannels(CHANNELS)  <span class="comment"># 声道设置</span></span><br><span class="line">    wf.setsampwidth(p.get_sample_size(FORMAT))  <span class="comment"># 采样位数设置</span></span><br><span class="line">    wf.setframerate(RATE)  <span class="comment"># 采样频率设置</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">int</span>(RATE * record_second / CHUNK)):</span><br><span class="line">        data = stream.read(CHUNK)</span><br><span class="line">        wf.writeframes(data)  <span class="comment"># 写入数据</span></span><br><span class="line">        <span class="keyword">if</span> is_recording==<span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;录音打断&quot;</span>)</span><br><span class="line">            <span class="keyword">break</span>        <span class="comment">#执行时被main打断，is_置为0，则break到下面的stop与close</span></span><br><span class="line">    stream.stop_stream()  <span class="comment"># 关闭流</span></span><br><span class="line">    stream.close()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;完成录制&quot;</span>)</span><br><span class="line">    is_recording=<span class="number">0</span></span><br><span class="line">    p.terminate()</span><br><span class="line">    wf.close()</span><br></pre></td></tr></table></figure>
+
+<p>按钮信号与槽</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#语音识别</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">handle_audio</span>(<span class="params">self</span>):         </span><br><span class="line">    <span class="keyword">if</span> audio_record.is_recording == <span class="number">0</span>:     <span class="comment"># 未录制中，开始</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;用户按下按钮开始录音，并自动发送&quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 创建录音线程，避免阻塞UI</span></span><br><span class="line">        <span class="variable language_">self</span>.ui.audioButton.setText(<span class="string">&quot;停止录音&quot;</span>)</span><br><span class="line">        <span class="variable language_">self</span>.record_thread = threading.Thread(</span><br><span class="line">            target=<span class="variable language_">self</span>._record_and_process,   </span><br><span class="line">            daemon=<span class="literal">True</span></span><br><span class="line">        )</span><br><span class="line">        <span class="variable language_">self</span>.record_thread.start()</span><br><span class="line">    <span class="keyword">elif</span> audio_record.is_recording == <span class="number">1</span>:    <span class="comment"># 录制中，打断</span></span><br><span class="line">        <span class="variable language_">self</span>.ui.audioButton.setText(<span class="string">&quot;开始录音&quot;</span>)</span><br><span class="line">        audio_record.is_recording = <span class="number">0</span>   <span class="comment"># 置0，打断</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="语音识别"><a href="#语音识别" class="headerlink" title="语音识别"></a>语音识别</h2><p>借助了 FunAsr ，<a target="_blank" rel="noopener" href="https://x-jzy.github.io/2025/11/04/FunAsr%E7%9A%84%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E4%B8%8E%E4%BD%BF%E7%94%A8/#more">参见我此前的博客</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">model = AutoModel(</span><br><span class="line">    model=<span class="string">&quot;paraformer-zh&quot;</span>,</span><br><span class="line">    vad_model=<span class="string">&quot;fsmn-vad&quot;</span>, </span><br><span class="line">    punc_model=<span class="string">&quot;ct-punc-c&quot;</span>,</span><br><span class="line">    spk_model=<span class="string">&quot;cam++&quot;</span>,  <span class="comment"># 可选，如果需说话人分离</span></span><br><span class="line">    disable_update=<span class="literal">True</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">audio_to_text</span>():</span><br><span class="line">    res = model.generate(</span><br><span class="line">        <span class="built_in">input</span>=<span class="string">&quot;C:\\Users\\X.J\\Desktop\\live2d_ai\\gui\\record.wav&quot;</span>,</span><br><span class="line">        batch_size_s=<span class="number">60</span>,</span><br><span class="line">    )</span><br><span class="line">    <span class="built_in">print</span>(res)</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<p>录音并提取文本提交给ai</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_record_and_process</span>(<span class="params">self</span>):</span><br><span class="line">    audio_record.record_audio(<span class="string">&quot;record.wav&quot;</span>, <span class="number">20</span>)</span><br><span class="line">    <span class="keyword">if</span> audio_record.is_recording == <span class="number">0</span>:</span><br><span class="line">        user_input = asr.audio_to_text()[<span class="number">0</span>].get(<span class="string">&quot;text&quot;</span>,<span class="string">&quot;&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;用户输入&quot;</span>+user_input)</span><br><span class="line">        <span class="keyword">if</span> user_input:</span><br><span class="line">            <span class="comment"># 通过信号通知主线程更新UI</span></span><br><span class="line">            <span class="variable language_">self</span>.update_ui_signal.emit(<span class="string">&quot;你&quot;</span>, user_input, <span class="literal">True</span>)</span><br><span class="line">                </span><br><span class="line">            <span class="comment"># 调用LLM获取回复</span></span><br><span class="line">            response = llm.chat(user_input)</span><br><span class="line">            <span class="variable language_">self</span>.update_ui_signal.emit(<span class="string">&quot;AI&quot;</span>, response, <span class="literal">False</span>)</span><br><span class="line">                </span><br><span class="line">            <span class="comment"># 发送回复到Live2D</span></span><br><span class="line">            live2d_api.send_json_message(response)</span><br><span class="line">            live2d_api.send_sound()</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> user_input:</span><br><span class="line">            <span class="variable language_">self</span>.update_ui_signal.emit(<span class="string">&quot;AI&quot;</span>, <span class="string">&quot;未识别到语音内容，请重试&quot;</span>, <span class="literal">False</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="GUI"><a href="#GUI" class="headerlink" title="GUI"></a>GUI</h2><p>那么就写一个UI吧，由于代码都是python完成的，所以想到了使用pyQt去写UI<br>这里使用PySide6</p>
+<p>初期UI，懒得美化</p>
+<p><img src="/../imgs/25.11.7.%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/1.png" alt="img1"></p>
+<h2 id="表情包与对话情感（？？？）"><a href="#表情包与对话情感（？？？）" class="headerlink" title="表情包与对话情感（？？？）"></a>表情包与对话情感（？？？）</h2><p>并非真正的情感，而是让llm在每次返回句子的时候选择一个展示给用户的表情。关于如何催眠llm这样做就不赘述了，和角色提示词的思路差不多。</p>
+<p>该表情用中文中括号包围 ：<br>例如： 你好【微笑】<br>在接收到句子后通过字符串操作提取出纯净句子(pure_text)与表情(expression)<br>pure_text依旧用于展示在页面中给用户，expression有着对应的文件夹下存储所有可能的表情，并直接写入html。</p>
+<p>资源来自 <strong>蔚蓝档案wiki</strong> ,差分就是好啊(赞赏)！</p>
+<p><img src="/../imgs/25.11.7.%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/2.png" alt="img2"></p>
+<p>提取pure_text与expression</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 提取纯净text(日文无需)</span></span><br><span class="line">pattern = <span class="string">r&#x27;【[^】]*】&#x27;</span></span><br><span class="line">pure_text = re.sub(pattern, <span class="string">&#x27;&#x27;</span>, response)</span><br><span class="line"><span class="keyword">if</span> pure_text != response:</span><br><span class="line">    expression = response.split(<span class="string">&quot;【&quot;</span>)[<span class="number">1</span>][:<span class="number">2</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;表情&quot;</span>+expression)</span><br><span class="line"><span class="variable language_">self</span>.add_message_to_display(<span class="string">&quot;AI&quot;</span>, pure_text,expression ,<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>调用，并将img插入html</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add_message_to_display</span>(<span class="params">self, sender: <span class="built_in">str</span>, content: <span class="built_in">str</span>, expression: <span class="built_in">str</span> , is_user: <span class="built_in">bool</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;添加消息到聊天区域&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 转义HTML特殊字符，防止格式错乱</span></span><br><span class="line">    escaped_content = html.escape(content).replace(<span class="string">&#x27;\n&#x27;</span>, <span class="string">&#x27;&lt;br&gt;&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 获取当前时间</span></span><br><span class="line">    <span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line">    timestamp = datetime.now().strftime(<span class="string">&quot;%H:%M&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 根据消息类型设置不同的样式</span></span><br><span class="line">    <span class="keyword">if</span> is_user:</span><br><span class="line">        <span class="string">&quot;&quot;&quot;省略&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># AI消息 - 左侧</span></span><br><span class="line">        message_html = <span class="string">f&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        &lt;table width=&quot;100%&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;tr&gt;</span></span><br><span class="line"><span class="string">                &lt;td width=&quot;70%&quot; align=&quot;left&quot;&gt;</span></span><br><span class="line"><span class="string">                    &lt;div style=&quot;background: #FF0; color: #000; padding: 10px 15px; </span></span><br><span class="line"><span class="string">                                border-radius: 18px; border-bottom-left-radius: 5px; </span></span><br><span class="line"><span class="string">                                border: 1px solid #E5E5EA; max-width: 100%;&quot;&gt;</span></span><br><span class="line"><span class="string">                        &lt;strong&gt;<span class="subst">&#123;sender&#125;</span>&lt;/strong&gt;&lt;br&gt;<span class="subst">&#123;escaped_content&#125;</span></span></span><br><span class="line"><span class="string">                    &lt;/div&gt;</span></span><br><span class="line"><span class="string">                    &lt;div style=&quot;font-size: 11px; color: #999; margin: 5px 8px;&quot;&gt;</span></span><br><span class="line"><span class="string">                        <span class="subst">&#123;timestamp&#125;</span></span></span><br><span class="line"><span class="string">                    &lt;/div&gt;</span></span><br><span class="line"><span class="string">                &lt;/td&gt;</span></span><br><span class="line"><span class="string">                &lt;td width=&quot;30%&quot;&gt;&lt;/td&gt;</span></span><br><span class="line"><span class="string">            &lt;/tr&gt;</span></span><br><span class="line"><span class="string">        &lt;/table&gt;</span></span><br><span class="line"><span class="string">        &lt;img style=&quot;width:20%; height:auto; max-width:160px; display:block; margin-top:130px;&quot; src=&quot;expressions/<span class="subst">&#123;expression&#125;</span>.png&quot;&gt;</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>最终效果如下：</p>
+<p><img src="/../imgs/25.11.7.%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/3.png" alt="img3"></p>
+<p>只是看起来还是非常有内味的，只是不知道为什么像重做个类MomoTalk的UI了。(Flag)</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/Live2D/" rel="tag"># Live2D</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/11/04/FunAsr%E7%9A%84%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E4%B8%8E%E4%BD%BF%E7%94%A8/" rel="prev" title="FunAsr的本地部署与使用">
+                  <i class="fa fa-angle-left"></i> FunAsr的本地部署与使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">79k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:18</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2025/11/07/%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%EF%BC%88%E7%BB%AD%EF%BC%89/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
