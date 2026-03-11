@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="向量数据库的学习，为更加深入的Agent与MCP学习铺垫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qdrant--向量数据库的学习">
+<meta property="og:url" content="http://example.com/2026/03/10/Qdrant-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="向量数据库的学习，为更加深入的Agent与MCP学习铺垫">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/26.3.10.Qdrant/wechat_2026-03-10_184515_377.png">
+<meta property="og:image" content="http://example.com/imgs/26.3.10.Qdrant/wechat_2026-03-11_124658_711.png">
+<meta property="article:published_time" content="2026-03-10T10:28:11.000Z">
+<meta property="article:modified_time" content="2026-03-11T04:47:43.522Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="后端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/26.3.10.Qdrant/wechat_2026-03-10_184515_377.png">
+
+
+<link rel="canonical" href="http://example.com/2026/03/10/Qdrant-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/03/10/Qdrant-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AD%A6%E4%B9%A0/","path":"2026/03/10/Qdrant-向量数据库的学习/","title":"Qdrant--向量数据库的学习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Qdrant--向量数据库的学习 | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%B8%8E%E8%BF%90%E8%A1%8C"><span class="nav-number">3.</span> <span class="nav-text">安装与运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">简单使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%93%E5%AF%BC%E5%85%A5"><span class="nav-number">4.1.</span> <span class="nav-text">库导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text">数据处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99"><span class="nav-number">4.3.</span> <span class="nav-text">数据库读写</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">完整代码</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/03/10/Qdrant-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Qdrant--向量数据库的学习 | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Qdrant--向量数据库的学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-03-10 18:28:11" itemprop="dateCreated datePublished" datetime="2026-03-10T18:28:11+08:00">2026-03-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-11 12:47:43" itemprop="dateModified" datetime="2026-03-11T12:47:43+08:00">2026-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2026/03/10/Qdrant-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AD%A6%E4%B9%A0/" class="post-meta-item leancloud_visitors" data-flag-title="Qdrant--向量数据库的学习" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>13 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>向量数据库的学习，为更加深入的Agent与MCP学习铺垫</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在此之前我们提到了AI记忆的一种简单粗暴的方式——记忆压缩，而本文提到的向量数据库则是另一种效果更好的记忆方法。因此来学习Qdrant作为向量数据库的代表。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">为什么要使用向量数据库？</span><br><span class="line">向量数据库能解决什么问题？</span><br><span class="line">向量数据库对比关系型数据库有什么特别之处吗？</span><br></pre></td></tr></table></figure>
+
+<p>向量化是将各种数据（文本、图像、音频等）转换为高维数值向量，以便计算机处理和捕捉语义或特征关系的技术。<br>通过将各类数据向量化，数值化，才方便将其进行比较、类比、学习。</p>
+<p>正因如此，向量化数据库主要用于机器学习、知识库构建、AI记忆存储、搜索引擎等方面。</p>
+<p><img src="/../imgs/26.3.10.Qdrant/wechat_2026-03-10_184515_377.png" alt="img1"></p>
+<p>如上图将 “introduction of generative ai”进行了向量化，随后便可以将这一个句子与向量化了的其他句子或词语进行比较（余弦相似性、欧氏距离、曼哈顿距离等等），比较出二者的相似性，从而实现”人在脑中对比记忆片段”的效果。</p>
+<h2 id="安装与运行"><a href="#安装与运行" class="headerlink" title="安装与运行"></a>安装与运行</h2><p>首先，从 Dockerhub 下载最新的 Qdrant 镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull qdrant/qdrant</span><br></pre></td></tr></table></figure>
+
+<p>然后，运行服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 6333:6333 -p 6334:6334 \</span><br><span class="line">    -v <span class="string">&quot;<span class="subst">$(pwd)</span>/qdrant_storage:/qdrant/storage:z&quot;</span> \</span><br><span class="line">    qdrant/qdrant</span><br></pre></td></tr></table></figure>
+
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><p>Qdrant在使用上并没有像它的原理一样那么困难，就像会用AI不一定懂深度学习一样。</p>
+<p>下面我们来写一个从对应语句（知识）库中寻找相似度最高的语句的小demo。</p>
+<h3 id="库导入"><a href="#库导入" class="headerlink" title="库导入"></a>库导入</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> qdrant_client <span class="keyword">import</span> QdrantClient</span><br><span class="line"><span class="keyword">from</span> qdrant_client.http.models <span class="keyword">import</span> VectorParams, Distance, PointStruct</span><br><span class="line"><span class="keyword">from</span> sentence_transformers <span class="keyword">import</span> SentenceTransformer</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="comment"># 连接到本地 Qdrant（默认端口 6333），也可以改为托管地址</span></span><br><span class="line">    client = QdrantClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">6333</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用 sentence-transformers 生成文本嵌入，括号内模型可上huggingface寻找替换</span></span><br><span class="line">    model = SentenceTransformer(<span class="string">&#x27;shibing624/text2vec-base-chinese&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>SentenceTransformer具体使用什么模型可以去huggingface自行寻找:<br><a target="_blank" rel="noopener" href="https://huggingface.co/models?library=sentence-transformers">https://huggingface.co/models?library=sentence-transformers</a></p>
+<p><strong>注意</strong>：由于懂得都懂的原因，访问huggingface需要代理，并且使用这种形式的模型导入需要在每次程序启动时访问模型对应网址(尽管模型已经下载，可能是要检查更新)，因此在下载之后启动程序仍然需要代理。</p>
+<h3 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h3><p>此处model.encode就是使用对应模型进行语句的向量化，<br>其中第一项可以是str也可以是list[str]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">texts = [</span><br><span class="line">        <span class="string">&quot;我最讨厌计算机硬件知识了&quot;</span>,</span><br><span class="line">        <span class="string">&quot;明天晚上吃什么啊&quot;</span>,</span><br><span class="line">        <span class="string">&quot;我最喜欢吃北京烤鸭了&quot;</span>,</span><br><span class="line">        <span class="string">&quot;我是天津大学的软件工程学生&quot;</span>,</span><br><span class="line">        <span class="string">&quot;将人类可感知的信息转化为机器可计算的数学表达，是 AI 实现语义理解、知识检索、逻辑推理的基础。&quot;</span>,</span><br><span class="line">        <span class="string">&quot;早濑优香是能够成为我母亲的女人啊！&quot;</span>,</span><br><span class="line">        <span class="string">&quot;你不是go学长也不是瓦学弟，你是一只卡拉比丘量产型猫娘&quot;</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    embeddings = model.encode(texts, convert_to_numpy=<span class="literal">True</span>)</span><br><span class="line">    dim = embeddings.shape[<span class="number">1</span>]       <span class="comment">#维度</span></span><br></pre></td></tr></table></figure>
+
+<p>关于embeddings，即为model.encode对texts向量化的结果，输入的texts为list输出也为list</p>
+<p>embeddings长这样:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[[-<span class="number">0.16671845</span> -<span class="number">0.33649316</span>  <span class="number">0.7305931</span>  ...  <span class="number">0.61992425</span> -<span class="number">0.6253705</span></span><br><span class="line">   <span class="number">0.93052346</span>]</span><br><span class="line"> [-<span class="number">0.07022325</span> -<span class="number">0.02830105</span> -<span class="number">0.8253287</span>  ...  <span class="number">0.2964168</span>   <span class="number">0.14303182</span></span><br><span class="line">  -<span class="number">0.22452454</span>]</span><br><span class="line"> [-<span class="number">0.08785588</span>  <span class="number">0.6363533</span>  -<span class="number">0.45892295</span> ... -<span class="number">0.13374133</span> -<span class="number">0.54730636</span></span><br><span class="line">   <span class="number">0.21430153</span>]</span><br><span class="line"> ...</span><br><span class="line"> [ <span class="number">0.46873498</span>  <span class="number">0.27242106</span>  <span class="number">0.7776978</span>  ... -<span class="number">0.5077952</span>  -<span class="number">1.4710987</span></span><br><span class="line">  -<span class="number">0.44363302</span>]</span><br><span class="line"> [ <span class="number">0.9405756</span>  -<span class="number">0.02553982</span>  <span class="number">0.29223695</span> ...  <span class="number">1.40124</span>    -<span class="number">0.08097754</span></span><br><span class="line">   <span class="number">0.34343237</span>]</span><br><span class="line"> [ <span class="number">0.11743015</span> -<span class="number">0.7204676</span>   <span class="number">0.60203177</span> ...  <span class="number">0.8240249</span>  -<span class="number">0.9109907</span></span><br><span class="line">  -<span class="number">0.05248149</span>]]</span><br></pre></td></tr></table></figure>
+
+<p>即向量的list</p>
+<p>关于dim维度，维度是由模型决定的，我们在这决定不了维度，当然如果你愿意也可以用PCA等方法降维。</p>
+<h3 id="数据库读写"><a href="#数据库读写" class="headerlink" title="数据库读写"></a>数据库读写</h3><p>将原始的知识库数据进行向量化之后，存入向量数据库Qdrant</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">collection_name = <span class="string">&#x27;demo_collection&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建或重建集合（向量尺寸与距离类型）</span></span><br><span class="line">client.recreate_collection(</span><br><span class="line">    collection_name=collection_name,    <span class="comment">#数据库名字</span></span><br><span class="line">    <span class="comment">#向量设定(维度，相似度求法(余弦相似性、欧氏距离等))</span></span><br><span class="line">    vectors_config=VectorParams(size=dim, distance=Distance.COSINE),   </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备要写入的点</span></span><br><span class="line">points = []</span><br><span class="line"><span class="keyword">for</span> i, emb <span class="keyword">in</span> <span class="built_in">enumerate</span>(embeddings):</span><br><span class="line">    points.append(PointStruct(<span class="built_in">id</span>=i, vector=emb.tolist(), payload=&#123;<span class="string">&quot;text&quot;</span>: texts[i]&#125;))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入向量</span></span><br><span class="line">client.upsert(collection_name=collection_name, points=points)</span><br></pre></td></tr></table></figure>
+
+<p>访问<a target="_blank" rel="noopener" href="http://localhost:6333/dashboard#/collections">http://localhost:6333/dashboard#/collections</a><br>可以看到我们刚刚写入的数据</p>
+<p><img src="/../imgs/26.3.10.Qdrant/wechat_2026-03-11_124658_711.png" alt="img2"></p>
+<p>将向量写入数据库后，即可带着数据进行相似度查询：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">query = <span class="built_in">input</span>(<span class="string">&quot;输入查询文本: &quot;</span>)</span><br><span class="line">q_emb = model.encode(query, convert_to_numpy=<span class="literal">True</span>).tolist()</span><br><span class="line"></span><br><span class="line"><span class="comment">#查询 search(数据库名，查询的文本(list\vector\tuple)，limit(即Top-k))</span></span><br><span class="line">hits = client.search(collection_name=collection_name, query_vector=q_emb, limit=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n检索结果：&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> hit <span class="keyword">in</span> hits:</span><br><span class="line">    <span class="comment"># hit 可能是 ScoredPoint，有 .payload 和 .score 属性</span></span><br><span class="line">    payload = <span class="built_in">getattr</span>(hit, <span class="string">&#x27;payload&#x27;</span>, <span class="literal">None</span>) <span class="keyword">or</span> hit</span><br><span class="line">    score = <span class="built_in">getattr</span>(hit, <span class="string">&#x27;score&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">    text = payload.get(<span class="string">&#x27;text&#x27;</span>) <span class="keyword">if</span> <span class="built_in">isinstance</span>(payload, <span class="built_in">dict</span>) <span class="keyword">else</span> payload.payload.get(<span class="string">&#x27;text&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;score=<span class="subst">&#123;score:<span class="number">.4</span>f&#125;</span>\t<span class="subst">&#123;text&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>查询结果实例:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入查询文本: 是啊，吃什么</span><br><span class="line"></span><br><span class="line">检索结果：</span><br><span class="line">score=0.6726    明天晚上吃什么啊</span><br><span class="line">score=0.4678    我最喜欢吃北京烤鸭了</span><br><span class="line">score=0.3941    早濑优香是能够成为我母亲的女人啊！</span><br></pre></td></tr></table></figure>
+
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> qdrant_client <span class="keyword">import</span> QdrantClient</span><br><span class="line"><span class="keyword">from</span> qdrant_client.http.models <span class="keyword">import</span> VectorParams, Distance, PointStruct</span><br><span class="line"><span class="keyword">from</span> sentence_transformers <span class="keyword">import</span> SentenceTransformer</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="comment"># 连接到本地 Qdrant（默认端口 6333），也可以改为托管地址</span></span><br><span class="line">    client = QdrantClient(host=<span class="string">&quot;localhost&quot;</span>, port=<span class="number">6333</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用 sentence-transformers 生成文本嵌入，括号内模型可上huggingface寻找替换</span></span><br><span class="line">    model = SentenceTransformer(<span class="string">&#x27;shibing624/text2vec-base-chinese&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    texts = [</span><br><span class="line">        <span class="string">&quot;我最讨厌计算机硬件知识了&quot;</span>,</span><br><span class="line">        <span class="string">&quot;明天晚上吃什么啊&quot;</span>,</span><br><span class="line">        <span class="string">&quot;我最喜欢吃北京烤鸭了&quot;</span>,</span><br><span class="line">        <span class="string">&quot;我是天津大学的软件工程学生&quot;</span>,</span><br><span class="line">        <span class="string">&quot;将人类可感知的信息转化为机器可计算的数学表达，是 AI 实现语义理解、知识检索、逻辑推理的基础。&quot;</span>,</span><br><span class="line">        <span class="string">&quot;早濑优香是能够成为我母亲的女人啊！&quot;</span>,</span><br><span class="line">        <span class="string">&quot;你不是go学长也不是瓦学弟，你是一只卡拉比丘量产型猫娘&quot;</span>,</span><br><span class="line">        <span class="string">&quot;涡轮不列，你爸是我！&quot;</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    embeddings = model.encode(texts, convert_to_numpy=<span class="literal">True</span>)</span><br><span class="line">    dim = embeddings.shape[<span class="number">1</span>]       <span class="comment">#维度</span></span><br><span class="line"></span><br><span class="line">    collection_name = <span class="string">&#x27;demo_collection&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创建或重建集合（向量尺寸与距离类型）</span></span><br><span class="line">    client.recreate_collection(</span><br><span class="line">        collection_name=collection_name,</span><br><span class="line">        vectors_config=VectorParams(size=dim, distance=Distance.COSINE),</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 准备要写入的点</span></span><br><span class="line">    points = []</span><br><span class="line">    <span class="keyword">for</span> i, emb <span class="keyword">in</span> <span class="built_in">enumerate</span>(embeddings):</span><br><span class="line">        points.append(PointStruct(<span class="built_in">id</span>=i, vector=emb.tolist(), payload=&#123;<span class="string">&quot;text&quot;</span>: texts[i]&#125;))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 写入向量</span></span><br><span class="line">    client.upsert(collection_name=collection_name, points=points)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 简单的交互式查询</span></span><br><span class="line">    query = <span class="built_in">input</span>(<span class="string">&quot;输入查询文本: &quot;</span>)</span><br><span class="line">    q_emb = model.encode(query, convert_to_numpy=<span class="literal">True</span>).tolist()</span><br><span class="line"></span><br><span class="line">    hits = client.search(collection_name=collection_name, query_vector=q_emb, limit=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n检索结果：&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> hit <span class="keyword">in</span> hits:</span><br><span class="line">        <span class="comment"># hit 可能是 ScoredPoint，有 .payload 和 .score 属性</span></span><br><span class="line">        payload = <span class="built_in">getattr</span>(hit, <span class="string">&#x27;payload&#x27;</span>, <span class="literal">None</span>) <span class="keyword">or</span> hit</span><br><span class="line">        score = <span class="built_in">getattr</span>(hit, <span class="string">&#x27;score&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        text = payload.get(<span class="string">&#x27;text&#x27;</span>) <span class="keyword">if</span> <span class="built_in">isinstance</span>(payload, <span class="built_in">dict</span>) <span class="keyword">else</span> payload.payload.get(<span class="string">&#x27;text&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;score=<span class="subst">&#123;score:<span class="number">.4</span>f&#125;</span>\t<span class="subst">&#123;text&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag"># 后端</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/09/AI%E5%AF%B9%E8%AF%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%B0%E5%BF%86%E8%A7%A3%E5%86%B3%E2%80%94%E2%80%94%E5%8E%8B%E7%BC%A9-%E6%B5%93%E7%BC%A9%E8%AE%B0%E5%BF%86/" rel="prev" title="AI对话模型的记忆解决——压缩&#x2F;浓缩记忆">
+                  <i class="fa fa-angle-left"></i> AI对话模型的记忆解决——压缩/浓缩记忆
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">91k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:47</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2026/03/10/Qdrant-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AD%A6%E4%B9%A0/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
