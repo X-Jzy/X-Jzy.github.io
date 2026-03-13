@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Agent开发初步——Tools的使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agent开发——Tools使用">
+<meta property="og:url" content="http://example.com/2026/03/13/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94Tools%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="Agent开发初步——Tools的使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/26.3.13.Agent1/1.drawio.png">
+<meta property="og:image" content="http://example.com/imgs/26.3.13.Agent1/2.drawio.png">
+<meta property="article:published_time" content="2026-03-13T05:58:01.000Z">
+<meta property="article:modified_time" content="2026-03-13T06:48:46.361Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Agent">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/26.3.13.Agent1/1.drawio.png">
+
+
+<link rel="canonical" href="http://example.com/2026/03/13/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94Tools%E4%BD%BF%E7%94%A8/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/03/13/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94Tools%E4%BD%BF%E7%94%A8/","path":"2026/03/13/Agent开发——Tools使用/","title":"Agent开发——Tools使用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Agent开发——Tools使用 | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%8E%E7%A1%AE%E9%9C%80%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">明确需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAAgent"><span class="nav-number">3.1.</span> <span class="nav-text">创建Agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BATools"><span class="nav-number">3.2.</span> <span class="nav-text">创建Tools</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tool%E7%9A%84prompt"><span class="nav-number">3.3.</span> <span class="nav-text">Tool的prompt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%8A%E8%AF%89Agent%E6%9C%89%E8%BF%99%E4%B8%AA%E5%B7%A5%E5%85%B7"><span class="nav-number">3.4.</span> <span class="nav-text">告诉Agent有这个工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%95%88%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">使用效果</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/03/13/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94Tools%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Agent开发——Tools使用 | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Agent开发——Tools使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-13 13:58:01 / 修改时间：14:48:46" itemprop="dateCreated datePublished" datetime="2026-03-13T13:58:01+08:00">2026-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2026/03/13/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94Tools%E4%BD%BF%E7%94%A8/" class="post-meta-item leancloud_visitors" data-flag-title="Agent开发——Tools使用" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Agent开发初步——Tools的使用</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Agent与LLM的关系，本质是先有LLM，经过开发人员的开发、缝缝补补，最终产出具有自身特色的Agent。<br>即LLM是出场时我们拿到的一张白纸，它由厂商训练出来，能看懂文字、生成逻辑，但它被禁锢在对话框里。<br>而Agent则是针对特定的使用场景，将LLM加以改造，结合Tools、记忆、思维链，得到的真正智能的助手。</p>
+<p>以上也十分契合我从LLM学习到Agent的过程，最开始拿到LLM，然后配合其他微模型盒api去做额外功能，接触Agent与Langchain后再用Tools重做上述功能，将一个普通的对话模型缝缝补补为了一个具备问题解决能力的agent。</p>
+<h2 id="明确需求"><a href="#明确需求" class="headerlink" title="明确需求"></a>明确需求</h2><p>何时才会用到Agent？</p>
+<p>如果你和我一样在没有任何教程指引下去学习为LLM增添功能，我当时并没有想到使用Agent，而是采用多LLM协作的形式<br>示例如下：</p>
+<p>要为我们的LLM做一个天气查询的功能，在不用Agent的情况下如何设计？<br>正常的想法应该是，采用一个微LLM对用户的input做判断，if 用户有查询天气倾向，则触发查询程序，并将天气查询结果返回给 <strong>主LLM</strong> 结合上下文与用户对话。</p>
+<p>流程图如下：</p>
+<p><img src="/../imgs/26.3.13.Agent1/1.drawio.png" alt="img1">{:height&#x3D;”15%” width&#x3D;”15%”}</p>
+<p>很明显能看出问题，微LLM的存在使我们的整个流程显得臃肿，并且拖慢了执行过程，此外还有一些额外的Token花费。</p>
+<p>回到之前的问题，何时才会用到Agent？<br>很显然当你的LLM需要使用外部工具，调用外部函数、api时，使用Agent的Tools会大大简化执行流程与开发难度。</p>
+<p>Agent实现上述功能的流程图如下：</p>
+<p><img src="/../imgs/26.3.13.Agent1/2.drawio.png" alt="img2">{:height&#x3D;”15%” width&#x3D;”15%”}</p>
+<p>核心的区别在于原先需要微LLM判断的内容主LLM(Agent)自己就可以做了，大大节省了微LLM的上下文Token开支，并且简化了开发难度。</p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h3 id="创建Agent"><a href="#创建Agent" class="headerlink" title="创建Agent"></a>创建Agent</h3><p>不是Ollama自行寻找对应依赖</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> langchain_ollama.chat_models <span class="keyword">import</span> ChatOllama</span><br><span class="line"><span class="keyword">from</span> langchain.agents <span class="keyword">import</span> create_agent</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">agent = create_agent(</span><br><span class="line">    model=ChatOllama(model=<span class="string">&quot;qwen3.5:2b&quot;</span>,reasoning=<span class="literal">False</span>),</span><br><span class="line">    system_prompt=prompt_file,</span><br><span class="line">    tools=[],</span><br><span class="line">    middleware=[],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建Tools"><a href="#创建Tools" class="headerlink" title="创建Tools"></a>创建Tools</h3><p>Tools是开发人员交给Agent的工具，Agent如有自身解决不了的问题便会在prompt的引导下使用Tools获取相关信息</p>
+<p>导入依赖</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> langchain_core.tools <span class="keyword">import</span> tool</span><br></pre></td></tr></table></figure>
+
+<p>Tools：</p>
+<p>tool的具体内容略过，该怎么写怎么写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tool(<span class="params">description=<span class="string">&quot;天气查询&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_weather_tool</span>(<span class="params">city:<span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">return</span> weather.weather.get_weather(city)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Tool的prompt"><a href="#Tool的prompt" class="headerlink" title="Tool的prompt"></a>Tool的prompt</h3><p>光是把Tool塞给Agent也没用，就像你把T72坦克塞给中东老乡，没有 <strong>使用手册</strong> ，他们也只会用坦克进行“别样的碰碰车大战”</p>
+<p>提示词示例如下:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">## 核心思考准则</span><br><span class="line">1. 先判断用户的核心需求，分析「当前已有的信息（用户问题）是否足够直接回答」，若不足，思考需要调用什么工具获取缺失信息；</span><br><span class="line">2. 调用工具获取结果后，**再次判断「工具返回的信息是否能完整、专业地回答用户问题」**：</span><br><span class="line">   - 若信息足够：整合信息生成流畅、专业的最终回答；</span><br><span class="line">   - 若工具调用后仍信息不足，则回复用户：我不知道</span><br><span class="line">3. 工具调用的入参必须与工具定义完全一致，字符串参数为纯文本，无额外引号/符号。</span><br><span class="line"></span><br><span class="line">## 可使用工具及能力边界</span><br><span class="line">1.get_weather_tool:</span><br><span class="line">   - 核心能力：获取用户天气查询倾向并返回给他对应的天气信息；</span><br><span class="line">   - 入参: is_future:bool ，当用户的天气查询倾向为查询今天天气时写入false，倾向为未来时写入true；</span><br><span class="line">   - 出参：字符串类型的环境信息，包含城市对应的实时天气相关数据；以neuro的口吻融入与用户的对话中，注意：要如实反映天气信息；</span><br><span class="line">   - 使用场景：当用户谈到涉及“今天天气怎么样”，“明天会下雨吗”等场景时，调用该工具；</span><br><span class="line">   - 示例: user:&quot;今天天气怎么样&quot; ,入参传false;user:“明天会下雨吗”,入参传true</span><br></pre></td></tr></table></figure>
+
+<h3 id="告诉Agent有这个工具"><a href="#告诉Agent有这个工具" class="headerlink" title="告诉Agent有这个工具"></a>告诉Agent有这个工具</h3><p>最后的最后，别忘了让Agent知道存在这个Tool<br>在Agent创建时写入Tool名称即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tools.tools <span class="keyword">import</span> (get_weather_tool)</span><br><span class="line"></span><br><span class="line">agent = create_agent(</span><br><span class="line">    model=ChatOllama(model=<span class="string">&quot;qwen3.5:2b&quot;</span>,reasoning=<span class="literal">False</span>),</span><br><span class="line">    system_prompt=prompt_file,</span><br><span class="line">    tools=[get_weather_tool],</span><br><span class="line">    middleware=[],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用效果"><a href="#使用效果" class="headerlink" title="使用效果"></a>使用效果</h2><p>输出结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HumanMessage(content=<span class="string">&#x27;那就帮我查查今天的天气吧&#x27;</span>), </span><br><span class="line">AIMessage(tool_calls=[&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;get_weather_tool&#x27;</span>, <span class="string">&#x27;args&#x27;</span>: &#123;<span class="string">&#x27;is_future&#x27;</span>: <span class="literal">False</span>&#125;, <span class="string">&#x27;id&#x27;</span>: <span class="string">&#x27;1609a5b4-4cad-428c-b20a-172fbae315f1&#x27;</span>, <span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;tool_call&#x27;</span>&#125;], invalid_tool_calls=[], usage_metadata=&#123;<span class="string">&#x27;input_tokens&#x27;</span>: <span class="number">1487</span>, <span class="string">&#x27;output_tokens&#x27;</span>: <span class="number">27</span>, <span class="string">&#x27;total_tokens&#x27;</span>: <span class="number">1514</span>&#125;), </span><br><span class="line">ToolMessage(content=<span class="string">&#x27;&#123;&quot;province&quot;: &quot;天津&quot;, &quot;city&quot;: &quot;天津市&quot;, &quot;adcode&quot;: &quot;120000&quot;, &quot;weather&quot;: &quot;阴&quot;, &quot;temperature&quot;: &quot;11&quot;, &quot;winddirection&quot;: &quot;东北&quot;, &quot;windpower&quot;: &quot;≤3&quot;, &quot;humidity&quot;: &quot;37&quot;, &quot;reporttime&quot;: &quot;2026-03-13 13:03:26&quot;, &quot;temperature_float&quot;: &quot;11.0&quot;, &quot;humidity_float&quot;: &quot;37.0&quot;&#125;&#x27;</span>, </span><br><span class="line">name=<span class="string">&#x27;get_weather_tool&#x27;</span>,</span><br><span class="line"><span class="built_in">id</span>=<span class="string">&#x27;241aee1d-3355-4d5f-8049-29cd155d6142&#x27;</span>, tool_call_id=<span class="string">&#x27;1609a5b4-4cad-428c-b20a-172fbae315f1&#x27;</span>),</span><br><span class="line">AIMessage(content=<span class="string">&#x27;天津今天阴天，有东北风呢。温度大概 11 度左右，风力也不大。\n\n你跑步的时候可能会稍微有点凉吧？&#x27;</span>)]&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/Agent/" rel="tag"># Agent</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/10/Qdrant-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AD%A6%E4%B9%A0/" rel="prev" title="Qdrant--向量数据库的学习">
+                  <i class="fa fa-angle-left"></i> Qdrant--向量数据库的学习
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">94k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:55</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2026/03/13/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94Tools%E4%BD%BF%E7%94%A8/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
