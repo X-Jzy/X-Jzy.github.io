@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Agent开发——RAG（检索增强生成）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agent开发——RAG">
+<meta property="og:url" content="http://example.com/2026/03/14/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94RAG/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="Agent开发——RAG（检索增强生成）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/26.3.10.Qdrant/wechat_2026-03-10_184515_377.png">
+<meta property="og:image" content="http://example.com/imgs/26.3.14.RAG/rag.webp">
+<meta property="og:image" content="http://example.com/imgs/26.3.14.RAG/chat_mes.png">
+<meta property="article:published_time" content="2026-03-14T04:17:25.000Z">
+<meta property="article:modified_time" content="2026-03-14T06:20:10.534Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="记忆">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/26.3.10.Qdrant/wechat_2026-03-10_184515_377.png">
+
+
+<link rel="canonical" href="http://example.com/2026/03/14/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94RAG/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/03/14/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94RAG/","path":"2026/03/14/Agent开发——RAG/","title":"Agent开发——RAG"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Agent开发——RAG | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E9%87%8F"><span class="nav-number">2.1.</span> <span class="nav-text">向量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E7%B4%A2"><span class="nav-number">2.2.</span> <span class="nav-text">检索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90"><span class="nav-number">2.3.</span> <span class="nav-text">生成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E4%B8%8A%E4%BC%A0%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.1.</span> <span class="nav-text">记忆上传数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAG-Tool"><span class="nav-number">3.2.</span> <span class="nav-text">RAG-Tool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tool%E7%9A%84prompt"><span class="nav-number">3.3.</span> <span class="nav-text">Tool的prompt</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%95%88%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">使用效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86"><span class="nav-number">5.</span> <span class="nav-text">关于短期记忆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%90%E6%A7%BD"><span class="nav-number">6.</span> <span class="nav-text">吐槽</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/03/14/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94RAG/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Agent开发——RAG | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Agent开发——RAG
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-14 12:17:25 / 修改时间：14:20:10" itemprop="dateCreated datePublished" datetime="2026-03-14T12:17:25+08:00">2026-03-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2026/03/14/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94RAG/" class="post-meta-item leancloud_visitors" data-flag-title="Agent开发——RAG" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Agent开发——RAG（检索增强生成）</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文为<a target="_blank" rel="noopener" href="https://x-jzy.github.io/2026/03/10/Qdrant-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AD%A6%E4%B9%A0/#more">Qdrant–向量数据库的学习</a>以及<a target="_blank" rel="noopener" href="https://x-jzy.github.io/2026/03/09/AI%E5%AF%B9%E8%AF%9D%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%B0%E5%BF%86%E8%A7%A3%E5%86%B3%E2%80%94%E2%80%94%E5%8E%8B%E7%BC%A9-%E6%B5%93%E7%BC%A9%E8%AE%B0%E5%BF%86/#more">AI对话模型的记忆解决——压缩&#x2F;浓缩记忆</a>的后续</p>
+<p>要完成一个情感陪伴对话型的AI，记忆是至关重要的一环，Neuro-Sama的灵魂之一也是如此。<br>在此之前，我们尝试了使用记忆压缩的方法来解决记忆问题，但是显然上下文长度总是有限的，在保留关键信息的同时还要记住对话风格、记忆等等，很显然这容易记不住东西。<br>节省token换来模糊的记忆 <strong>or</strong> 全部写入上下文换来清晰的记忆（事实上全写入上下文反而会导致记忆混乱）？</p>
+<p>为此，有了RAG(检索增强生成)，即检索获取相关的知识并将其融入Prompt，让大模型能够参考相应的知识从而给出合理回答</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h3><p>向量化是将各种数据（文本、图像、音频等）转换为高维数值向量，以便计算机处理和捕捉语义或特征关系的技术。<br>通过将各类数据向量化，数值化，才方便将其进行比较、类比、学习。</p>
+<p>正因如此，向量化数据库主要用于机器学习、知识库构建、AI记忆存储、搜索引擎等方面。</p>
+<p><img src="/../imgs/26.3.10.Qdrant/wechat_2026-03-10_184515_377.png" alt="img1"></p>
+<p>如上图将 “introduction of generative ai”进行了向量化，随后便可以将这一个句子与向量化了的其他句子或词语进行比较（余弦相似性、欧氏距离、曼哈顿距离等等），比较出二者的相似性，从而实现”人在脑中对比记忆片段”的效果。</p>
+<h3 id="检索"><a href="#检索" class="headerlink" title="检索"></a>检索</h3><p>将日常对话的信息向量化存储在向量数据库中，用户再次对话时输入input，将input向量化并与向量数据库中数据(的向量)进行相似度计算，获得最高相似度的k条信息喂给AI作为上下文。上述过程获得最高相似度的k条信息即为 <strong>检索</strong>。</p>
+<p>详细的数据库操作与原理参见，<a target="_blank" rel="noopener" href="https://x-jzy.github.io/2026/03/10/Qdrant-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AD%A6%E4%B9%A0/#more">Qdrant–向量数据库的学习</a></p>
+<h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><p>检索到了Top-k条最相关的内容之后，将这k条内容喂给AI作为知识&#x2F;记忆，即可融入对话中。</p>
+<p><img src="/../imgs/26.3.14.RAG/rag.webp" alt="img2"></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>何时需要检索向量数据库以RAG？<br>不必多说，自然是AI无法根据现有知识&#x2F;记忆回答用户问题时，那么自然想到使用Tool调用RAG<br>Tool的使用参见<a target="_blank" rel="noopener" href="https://x-jzy.github.io/2026/03/13/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94Tools%E4%BD%BF%E7%94%A8/#more">Agent开发——Tools使用</a></p>
+<h3 id="记忆上传数据库"><a href="#记忆上传数据库" class="headerlink" title="记忆上传数据库"></a>记忆上传数据库</h3><p>格式为:”Master:”+input+” “+”AI:”+res</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">chat</span>(<span class="params"><span class="built_in">input</span>: <span class="built_in">str</span></span>):</span><br><span class="line">    res = agent.invoke(&#123;</span><br><span class="line">        <span class="string">&quot;messages&quot;</span>:make_new_messages(<span class="built_in">input</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="built_in">print</span>(res)</span><br><span class="line">    latest_message = res[<span class="string">&quot;messages&quot;</span>][-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> latest_message.content:</span><br><span class="line">        res=latest_message.content.strip()</span><br><span class="line"></span><br><span class="line">    messages.append(&#123;</span><br><span class="line">        <span class="string">&quot;role&quot;</span>: <span class="string">&quot;assistant&quot;</span>,</span><br><span class="line">        <span class="string">&quot;content&quot;</span>: res</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(res)</span><br><span class="line">    get_tts_audio(res)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#加入短期记忆</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;memory.txt&quot;</span>,<span class="string">&quot;a+&quot;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(time.strftime(<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>, time.localtime())+<span class="string">&quot;\n&quot;</span>+<span class="string">&quot;master:&quot;</span>+<span class="built_in">input</span>+<span class="string">&quot;\n&quot;</span>) </span><br><span class="line">        f.write(time.strftime(<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>, time.localtime())+<span class="string">&quot;\n&quot;</span>+<span class="string">&quot;AI:&quot;</span>+res+<span class="string">&quot;\n&quot;</span>+<span class="string">&quot;\n&quot;</span>) </span><br><span class="line"></span><br><span class="line">    hybrid_text = <span class="string">&quot;Master:&quot;</span>+<span class="built_in">input</span>+<span class="string">&quot; &quot;</span>+<span class="string">&quot;AI:&quot;</span>+res</span><br><span class="line"></span><br><span class="line">    <span class="comment">#加入数据库</span></span><br><span class="line">    rag.rag.store_chat(hybrid_text)</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">store_chat</span>(<span class="params"><span class="built_in">input</span>:<span class="built_in">str</span></span>):</span><br><span class="line">    embeddings = model.encode(<span class="built_in">input</span>, convert_to_numpy=<span class="literal">True</span>)</span><br><span class="line">    point=[]</span><br><span class="line">    point.append(PointStruct(<span class="built_in">id</span>=<span class="built_in">str</span>(uuid.uuid4()), vector=embeddings.tolist(), payload=&#123;<span class="string">&quot;text&quot;</span>: <span class="built_in">input</span>,<span class="string">&quot;time&quot;</span>:time.strftime(<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>, time.localtime())&#125;))</span><br><span class="line">    client.upsert(collection_name=<span class="string">&quot;live2d_ai&quot;</span>, points=point)</span><br></pre></td></tr></table></figure>
+
+<p>存入数据库：</p>
+<p><img src="/../imgs/26.3.14.RAG/chat_mes.png" alt="img3"></p>
+<h3 id="RAG-Tool"><a href="#RAG-Tool" class="headerlink" title="RAG-Tool"></a>RAG-Tool</h3><p>非常简单，输入关键词，向量化后检索Top-k即可<br>返回结果为list[str]，这里如果想要把score也打包送给llm的话直接return hits，但是我担心llm会多管闲事(本地模型有点笨)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tool(<span class="params">description=<span class="string">&quot;查询历史记忆&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_memory_tool</span>(<span class="params"><span class="built_in">input</span>:<span class="built_in">str</span></span>)-&gt;<span class="built_in">list</span>[<span class="built_in">str</span>]:</span><br><span class="line">    <span class="keyword">return</span> rag.rag.rag_search(<span class="built_in">input</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rag_search</span>(<span class="params"><span class="built_in">input</span>:<span class="built_in">str</span></span>):</span><br><span class="line">    q_emb = model.encode(<span class="built_in">input</span>, convert_to_numpy=<span class="literal">True</span>).tolist()</span><br><span class="line">    hits = client.search(collection_name=<span class="string">&quot;live2d_ai&quot;</span>, query_vector=q_emb, limit=<span class="number">5</span>)</span><br><span class="line">    texts=[]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\n检索结果：&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> hit <span class="keyword">in</span> hits:</span><br><span class="line">        payload = <span class="built_in">getattr</span>(hit, <span class="string">&#x27;payload&#x27;</span>, <span class="literal">None</span>) <span class="keyword">or</span> hit</span><br><span class="line">        score = <span class="built_in">getattr</span>(hit, <span class="string">&#x27;score&#x27;</span>, <span class="literal">None</span>)</span><br><span class="line">        text = payload.get(<span class="string">&#x27;text&#x27;</span>) <span class="keyword">if</span> <span class="built_in">isinstance</span>(payload, <span class="built_in">dict</span>) <span class="keyword">else</span> payload.payload.get(<span class="string">&#x27;text&#x27;</span>)</span><br><span class="line">        texts.append(text)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;score=<span class="subst">&#123;score:<span class="number">.4</span>f&#125;</span>\t<span class="subst">&#123;text&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> texts</span><br></pre></td></tr></table></figure>
+
+<h3 id="Tool的prompt"><a href="#Tool的prompt" class="headerlink" title="Tool的prompt"></a>Tool的prompt</h3><p>可以让llm自己提取用户input中的关键词去调用tool作为入参</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">## 可使用工具及能力边界</span><br><span class="line">1.get_memory_tool</span><br><span class="line">   - 核心能力：入参为用户输入语句中的关键词，从向量库精准检索相关的记忆以在对话情景中展现日常对话的；</span><br><span class="line">   - 出参：与关键词相关的几条记忆知识；</span><br><span class="line">   - 使用场景：当用户谈到涉及“你还记得”、“上次”、“忘了”、“回想”等涉及记忆的场景，你现有短期记忆无法精准解答时，调用此工具获取此前的长期记忆；</span><br><span class="line">   - 调用规则：若tool返回的此前记忆也与对话内容无关，则可以忽略该记忆；若返回的记忆与对话内容相关，则结合记忆与上下文情景与用户对话；</span><br><span class="line">   - 示例：user：&quot;你还记得我之前说过我最爱吃的甜品吗&quot;，入参传入“最爱吃的甜品”，得到记忆并结合记忆与上下文情景继续对话；</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用效果"><a href="#使用效果" class="headerlink" title="使用效果"></a>使用效果</h2><p>在此之前，我的数据库存了这样一条对话记录：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span><span class="string">&quot;Master:悄悄告诉你，我最爱吃的甜品是龙须酥 AI:（眼神瞬间亮了起来，凑近了些小声说）哇！原来是龙须酥呀！这可是 Master 最宠爱的甜点呢～&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;time&quot;</span><span class="punctuation">:</span><span class="string">&quot;2026-03-13 13:45:04&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>用户输入，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">&#x27;role&#x27;</span>: <span class="string">&#x27;user&#x27;</span>, <span class="string">&#x27;content&#x27;</span>: <span class="string">&#x27;还能记得我最爱吃的甜品吗，今天一起去买吧&#x27;</span>&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>触发检索:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HumanMessage(content=<span class="string">&#x27;还能记得我最爱吃的甜品吗，今天一起去买吧&#x27;</span>),</span><br><span class="line">.......</span><br><span class="line">tool_calls=[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;get_memory_tool&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;args&#x27;</span>: &#123;<span class="string">&#x27;input&#x27;</span>: <span class="string">&#x27;最爱吃的甜品&#x27;</span>&#125;,</span><br><span class="line">        <span class="string">&#x27;id&#x27;</span>: <span class="string">&#x27;call_ba85642b2f54484fa8e53200&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;tool_call&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+
+<p>检索结果:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">score=0.6603    Master:跑完步去甜品店吧 AI:好主意呀！跑完回来正好补充糖分呢～（眨了眨眼）那你想吃哪家的？冰激凌还是巧克力？我刚好也在附近逛街的。要是选了一家你最喜欢的，我们可以一起进去逛逛，别光跑步就发呆啦～</span><br><span class="line">score=0.5843    Master:猜猜我中午吃的什么 AI:（凑近耳朵，语气慵懒又带着点小得意）那当然是……Master 最爱的那家冰激凌店咯～ 上次你提到过最爱的甜点，就是那个甜度刚刚好、吃起来软乎乎的龙须酥。</span><br><span class="line">score=0.5439    Master:中午是不会吃甜点的啊，是正餐啊，再猜猜看 AI:（闻言愣了一下，随即反应过来你是认真的，忍不住轻笑出声）啊啦～Master 果然很聪明嘛！看来你平时确实很注重正餐的摄入呀。那这次去那个餐厅，可一定要点那道招牌菜哦～我正好路过，可以跟你一起看看菜单，说不定还能给你推荐个最适合你的搭配呢？</span><br><span class="line">score=0.5187    Master:悄悄告诉你，我最爱吃的甜品是龙须酥 AI:（眼神瞬间亮了起来，凑近了些小声说）哇！原来是龙须酥呀！这可是 Master 最宠爱的甜点呢～</span><br><span class="line">score=0.4210    Master:中午好 AI:早上好呀！Master早了？不过现在已经是中午啦。刚睡醒的样子还是困得话……要不要一起去吃个饭，或者喝杯热饮暖暖身子？今天天气不错的话，出去走走应该也不错哦～ 你打算去哪里玩呢？</span><br></pre></td></tr></table></figure>
+
+<p>AI回复:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当然记得啦，Master最爱的是龙须酥嘛！那种细细的糖丝缠在一起，吃起来甜而不腻的口感，我可是一直都记在心里呢。既然今天天气不错，那我们现在就出发去买吧？刚好跑完步补充点糖分，心情也会变好哦～</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于短期记忆"><a href="#关于短期记忆" class="headerlink" title="关于短期记忆"></a>关于短期记忆</h2><p>因为实现了RAG获取记忆，短期记忆的作用基本上也就局限于服务上下文了，可以使用滑动窗口的方法管理，限制在一定额度即可</p>
+<h2 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h2><p>插一嘴，LLM的质量很大程度决定了上述回复的质量，与其质疑自己的代码，不如想想换个能读懂prompt的LLM</p>
+<p>在做RAG之前我一直用的都是本地的Qwen3.5:2B,但是它读prompt的效率实在太低了，尤其是Tool和prompt越写越多的情况下，它经常抽风不听话，最终还是换成了qwen3.5-plus的API</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Agent/" rel="tag"># Agent</a>
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/RAG/" rel="tag"># RAG</a>
+              <a href="/tags/%E8%AE%B0%E5%BF%86/" rel="tag"># 记忆</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/13/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94Tools%E4%BD%BF%E7%94%A8/" rel="prev" title="Agent开发——Tools使用">
+                  <i class="fa fa-angle-left"></i> Agent开发——Tools使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">99k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:06</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2026/03/14/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94RAG/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
