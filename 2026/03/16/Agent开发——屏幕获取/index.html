@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Agent开发——屏幕获取,让AI识别你屏幕的信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agent开发——屏幕获取">
+<meta property="og:url" content="http://example.com/2026/03/16/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E5%B1%8F%E5%B9%95%E8%8E%B7%E5%8F%96/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="Agent开发——屏幕获取,让AI识别你屏幕的信息">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/26.3.16.%E5%B1%8F%E5%B9%95%E8%AF%86%E5%88%AB/1.drawio.png">
+<meta property="og:image" content="http://example.com/imgs/26.3.16.%E5%B1%8F%E5%B9%95%E8%AF%86%E5%88%AB/screenshot1.jpg">
+<meta property="article:published_time" content="2026-03-16T03:38:59.000Z">
+<meta property="article:modified_time" content="2026-03-16T06:15:02.548Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="Agent">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/26.3.16.%E5%B1%8F%E5%B9%95%E8%AF%86%E5%88%AB/1.drawio.png">
+
+
+<link rel="canonical" href="http://example.com/2026/03/16/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E5%B1%8F%E5%B9%95%E8%8E%B7%E5%8F%96/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/03/16/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E5%B1%8F%E5%B9%95%E8%8E%B7%E5%8F%96/","path":"2026/03/16/Agent开发——屏幕获取/","title":"Agent开发——屏幕获取"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Agent开发——屏幕获取 | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%8F%E5%B9%95%E6%88%AA%E5%8F%96"><span class="nav-number">3.1.</span> <span class="nav-text">屏幕截取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tool"><span class="nav-number">3.2.</span> <span class="nav-text">Tool</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Prompt"><span class="nav-number">3.2.1.</span> <span class="nav-text">Prompt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tool%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.2.2.</span> <span class="nav-text">Tool实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%95%88%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">使用效果</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/03/16/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E5%B1%8F%E5%B9%95%E8%8E%B7%E5%8F%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Agent开发——屏幕获取 | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Agent开发——屏幕获取
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-16 11:38:59 / 修改时间：14:15:02" itemprop="dateCreated datePublished" datetime="2026-03-16T11:38:59+08:00">2026-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2026/03/16/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E5%B1%8F%E5%B9%95%E8%8E%B7%E5%8F%96/" class="post-meta-item leancloud_visitors" data-flag-title="Agent开发——屏幕获取" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>11 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Agent开发——屏幕获取,让AI识别你屏幕的信息</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>动机来源:首先,毫无疑问的是Neuro-Sama,在Vedel打游戏的时候能够识别屏幕信息并做出吐槽,其实Neuro早在两年前就已经能打游戏了,不清楚使用的是视觉识别还是直接读游戏内存<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV171421o7hz/?share_source=copy_web&vd_source=63f275b3f23da7b489c3b616cf5cee68">【Neuro】AI对杀戮尖塔的顶级理解</a>.<br>此外,也来源于–<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1oxFSzUEvf/?share_source=copy_web&vd_source=63f275b3f23da7b489c3b616cf5cee68">ai妹妹无信息知晓敌人数量与位置</a>,一个叫 <strong>妹居物语</strong> 的AI陪伴应用的桌宠模式,也能够做到上述Neuro-sama的功能.</p>
+<p>本质上来说这实现起来并不复杂</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>目前市面上的很多AI都已经有了多模态的功能,他们不单单是LLM,同时集成了图像识别的功能,现在实现起来就简单多了.</p>
+<p>实现上述功能的流程图如下:</p>
+<p><img src="/../imgs/26.3.16.%E5%B1%8F%E5%B9%95%E8%AF%86%E5%88%AB/1.drawio.png" alt="img1"></p>
+<p>即正常的Tool调用流程,重点在于Tool的实现.</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="屏幕截取"><a href="#屏幕截取" class="headerlink" title="屏幕截取"></a>屏幕截取</h3><p>调用个库截取一下即可,真正的问题在于你截取了屏幕之后如何传递给Agent</p>
+<p>参见阿里云 千问模型的文档 <a target="_blank" rel="noopener" href="https://bailian.console.aliyun.com/cn-beijing/?spm=5176.29619931.J_SEsSjsNv72yRuRFS2VknO.2.74cd10d7ikXQEa&tab=doc#/doc/?type=model&url=2845871">图像与视频理解</a></p>
+<p>其中说到,有两种方法,一种是传base64,一种是本地传路径,但是本地传路径的方法不适用于OpenAI方式,所以我们只能采用base64传图.</p>
+<p>下面代码也在图片截取之后做了转base64的操作,函数返回值也是对应的base64</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> mimetypes</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageGrab, Image</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> pic_resize</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tkinter <span class="keyword">as</span> tk</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pic_cap</span>():</span><br><span class="line">    root = tk.Tk()</span><br><span class="line">    screen_width = root.winfo_screenwidth()</span><br><span class="line">    screen_height = root.winfo_screenheight()</span><br><span class="line">    </span><br><span class="line">    img = ImageGrab.grab(bbox=(<span class="number">0</span>, <span class="number">0</span>,screen_width, screen_height))   <span class="comment">#获取当前分辨率宽高</span></span><br><span class="line">    <span class="built_in">print</span>(img.size[<span class="number">1</span>], img.size[<span class="number">0</span>])</span><br><span class="line">    img = np.array(img.getdata(), np.uint8).reshape(img.size[<span class="number">1</span>], img.size[<span class="number">0</span>], <span class="number">3</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;屏幕获取成功!&quot;</span>)</span><br><span class="line">    img=cv2.cvtColor(img,cv2.COLOR_RGB2BGR)</span><br><span class="line">    cv2.imwrite(<span class="string">&#x27;screenshot1.jpg&#x27;</span>, img)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 截图压缩，节省token，视情况使用</span></span><br><span class="line">    pic_size = pic_resize.pic_compress(<span class="string">&#x27;screenshot1.jpg&#x27;</span>, <span class="string">&#x27;screenshot1.jpg&#x27;</span>, target_size=<span class="number">200</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;图片压缩后的大小为(KB)：&quot;</span>, pic_size)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> os.path.exists(<span class="string">&quot;screenshot1.jpg&quot;</span>):</span><br><span class="line">        mime = mimetypes.guess_type(<span class="string">&quot;screenshot1.jpg&quot;</span>)[<span class="number">0</span>] <span class="keyword">or</span> <span class="string">&quot;image/png&quot;</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;screenshot1.jpg&quot;</span>, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            b64 = base64.b64encode(f.read()).decode()</span><br><span class="line">        <span class="comment"># 使用 data URI 字符串，API 要求 image_url.url 是字符串</span></span><br><span class="line">        image_repr = <span class="string">f&quot;data:<span class="subst">&#123;mime&#125;</span>;base64,<span class="subst">&#123;b64&#125;</span>&quot;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        image_repr = <span class="string">&quot;screenshot1.jpg&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> image_repr</span><br></pre></td></tr></table></figure>
+
+<p>图片压缩部分代码,节省些token吧</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BytesIO</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pic_compress</span>(<span class="params">pic_path, out_path, target_size=<span class="number">199</span>, quality=<span class="number">90</span>, step=<span class="number">5</span>, pic_type=<span class="string">&#x27;.jpg&#x27;</span></span>):</span><br><span class="line">    <span class="comment"># 读取图片bytes</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(pic_path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        pic_byte = f.read()</span><br><span class="line"></span><br><span class="line">    img_np = np.frombuffer(pic_byte, np.uint8)</span><br><span class="line">    img_cv = cv2.imdecode(img_np, cv2.IMREAD_ANYCOLOR)</span><br><span class="line"></span><br><span class="line">    current_size = <span class="built_in">len</span>(pic_byte) / <span class="number">1024</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;图片压缩前的大小为(KB)：&quot;</span>, current_size)</span><br><span class="line">    <span class="keyword">while</span> current_size &gt; target_size:</span><br><span class="line">        pic_byte = cv2.imencode(pic_type, img_cv, [<span class="built_in">int</span>(cv2.IMWRITE_JPEG_QUALITY), quality])[<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">if</span> quality - step &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        quality -= step</span><br><span class="line">        current_size = <span class="built_in">len</span>(pic_byte) / <span class="number">1024</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 保存图片</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(out_path, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(BytesIO(pic_byte).getvalue())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">len</span>(pic_byte) / <span class="number">1024</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Tool"><a href="#Tool" class="headerlink" title="Tool"></a>Tool</h3><p>首先,何时调用此Tool.<br>因为我们是小项目并且是用的外部API,所以我们在此将屏幕识别的触发设定为:用户在对话框输入”看看我在做什么”这类的被动方式.</p>
+<blockquote>
+<p>想要做到我们在前言提到的效果,可以使用轮询的方式主动不间断获取屏幕画面,当然这样的Token开支是巨大的.</p>
+</blockquote>
+<p>具体的实现思路为:<br>Agent检测到用户批准”屏幕识别”的意图 -&gt;  触发Tool -&gt; 截图并返回Base64图像信息 -&gt; 调用第三方Agent(这里为我们创建的Agent二号机)获取图像分析结果 -&gt; 带着结果返回给Agent</p>
+<blockquote>
+<p>调用第三方Agent(这里为我们创建的Agent二号机)获取图像分析结果:<br>这样做而不直接把Base64喂给原Agent的原因是,直接将Base64作为Tool的结果返回,会被识别为str而不是图像( <strong>千万不要这样做</strong> 会直接把token用光)<br>目前只想到这样用另一个Agent去做一个识别文本的中转,不清楚是否有更好的实现方法</p>
+</blockquote>
+<h4 id="Prompt"><a href="#Prompt" class="headerlink" title="Prompt"></a>Prompt</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">get_screenshot_tool</span><br><span class="line">   - 核心能力：无入参，截取用户屏幕并根据屏幕图片内容和用户输入以及上下文进行对话；</span><br><span class="line">   - 出参：图片的详细描述</span><br><span class="line">   - 使用场景：当用户谈到涉及“看看我的屏幕”，“结合我的屏幕”，“看我玩的这个游戏”，“你看看这个网页”等涉及要求你获取屏幕信息的场景；</span><br><span class="line">   - 示例：user：“猜猜我在电脑上干什么”，调用工具识别用户桌面,并结合出参结合上下文与人设与用户对话；</span><br></pre></td></tr></table></figure>
+
+<h4 id="Tool实现"><a href="#Tool实现" class="headerlink" title="Tool实现"></a>Tool实现</h4><p>这里的agent_nopic为Agent二号机,专门用于做图像识别结果中转</p>
+<blockquote>
+<p>为什么不直接用原有的Agent做这次图像识别?<br>因为原有的Agent带着get_screenshot_tool方法,而在输入涉及”用户屏幕”等词的时候,有有可能会调用该Tool导致循环嵌套,所以做中段识别应该交给一个什么Tool也没有的Agent来做.<br>agent_nopic就是我新创建的不含任何Tool的Agent</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tool(<span class="params">description=<span class="string">&quot;捕获用户桌面并响应&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_screenshot_tool</span>():</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 调用截图模块，返回 data URI 字符串</span></span><br><span class="line">    img_data_uri = pic_cap()</span><br><span class="line"></span><br><span class="line">    msg = &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: [</span><br><span class="line">        &#123;<span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>, <span class="string">&quot;text&quot;</span>: <span class="string">&quot;这是用户屏幕的截图,详细描述图片上的内容,仅仅是描述即可,不要有其他任何多余的输出,仅输出&#x27;这张图片描述了xxxxxx&#x27;即可&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;type&quot;</span>: <span class="string">&quot;image_url&quot;</span>, <span class="string">&quot;image_url&quot;</span>: &#123;<span class="string">&quot;url&quot;</span>: img_data_uri&#125;&#125;,</span><br><span class="line">    ]&#125;</span><br><span class="line">    llm.messages.append(msg)</span><br><span class="line"></span><br><span class="line">    res = llm.agent_nopic.invoke(&#123;</span><br><span class="line">        <span class="string">&quot;messages&quot;</span>:llm.messages</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    latest_message = res[<span class="string">&quot;messages&quot;</span>][-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> latest_message.content:</span><br><span class="line">        res=latest_message.content.strip()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;图像识别Tool中段输出:&quot;</span>+res)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用效果"><a href="#使用效果" class="headerlink" title="使用效果"></a>使用效果</h2><p>这是我触发屏幕识别时的截图</p>
+<p><img src="/../imgs/26.3.16.%E5%B1%8F%E5%B9%95%E8%AF%86%E5%88%AB/screenshot1.jpg" alt="img2"></p>
+<p>tool调用:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tool_calls=[</span><br><span class="line">    &#123;</span><br><span class="line">        &#x27;name&#x27;: &#x27;get_screenshot_tool&#x27;, </span><br><span class="line">        &#x27;args&#x27;: &#123;&#x27;input&#x27;: &#x27;看看我的屏幕&#x27;&#125;, </span><br><span class="line">        &#x27;id&#x27;: &#x27;17b3c2b3-e250-4a2e-932a-ff4635ac70f1&#x27;,</span><br><span class="line">        &#x27;type&#x27;: &#x27;tool_call&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">] </span><br></pre></td></tr></table></figure>
+
+<p>中段图像识别输出:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ToolMessage(</span><br><span class="line">    content=&#x27;这张图片 展示了用户浏览一个技术主题的网页，</span><br><span class="line">    左侧是“文章目录”和音乐播放器界面（显示歌单），</span><br><span class="line">    右侧是正文内容关于神经科学主题——主要讲述 RAG 技术和向量 </span><br><span class="line">    数据库在学习及 AI 记忆处理中的应用。屏幕底部任务栏显示时间为 11:32，</span><br><span class="line">    日期为 2026 年 3 月 16 日。&#x27;, </span><br><span class="line">    name=&#x27;get_screenshot_tool&#x27;,</span><br><span class="line">    id=&#x27;ee93efb4-d8f3-4d38-b5b1-1c632ebe2369&#x27;,</span><br><span class="line">    tool_call_id=&#x27;17b3c2b3-e250-4a2e-932a-ff4635ac70f1&#x27;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>最终输出</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">好呀！Master 刚才是在看关于神经科学和 RAG 技术的网页哦。</span><br><span class="line">页面里提到了向量数据库怎么帮 AI 记得住记忆呢，好像还讲了怎么用 LLM 来生成知识库，</span><br><span class="line">感觉挺有意思的～ Master 对这方面感兴趣吗？</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Agent/" rel="tag"># Agent</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/14/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94RAG/" rel="prev" title="Agent开发——RAG">
+                  <i class="fa fa-angle-left"></i> Agent开发——RAG
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">103k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:18</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2026/03/16/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E5%B1%8F%E5%B9%95%E8%8E%B7%E5%8F%96/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
