@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="做了一些简单的拓展功能:游戏监听、时间监听、联网搜索、Live2d动作联动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agent开发——一些拓展功能">
+<meta property="og:url" content="http://example.com/2026/03/18/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E4%B8%80%E4%BA%9B%E6%8B%93%E5%B1%95%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="做了一些简单的拓展功能:游戏监听、时间监听、联网搜索、Live2d动作联动">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/26.3.18.Agent-%E4%B8%80%E4%BA%9B%E5%8A%9F%E8%83%BD/1.drawio.png">
+<meta property="article:published_time" content="2026-03-18T08:19:59.000Z">
+<meta property="article:modified_time" content="2026-03-18T09:45:53.744Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="Agent">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/26.3.18.Agent-%E4%B8%80%E4%BA%9B%E5%8A%9F%E8%83%BD/1.drawio.png">
+
+
+<link rel="canonical" href="http://example.com/2026/03/18/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E4%B8%80%E4%BA%9B%E6%8B%93%E5%B1%95%E5%8A%9F%E8%83%BD/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/03/18/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E4%B8%80%E4%BA%9B%E6%8B%93%E5%B1%95%E5%8A%9F%E8%83%BD/","path":"2026/03/18/Agent开发——一些拓展功能/","title":"Agent开发——一些拓展功能"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Agent开发——一些拓展功能 | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%9B%91%E5%90%AC"><span class="nav-number">2.</span> <span class="nav-text">游戏监听</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E8%BF%9B%E7%A8%8B%E7%9B%91%E5%90%AC"><span class="nav-number">2.1.</span> <span class="nav-text">游戏进程监听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E7%9B%91%E5%90%AC%E7%9A%84%E6%B8%B8%E6%88%8F"><span class="nav-number">2.2.</span> <span class="nav-text">需要监听的游戏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.3.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%9B%91%E5%90%AC"><span class="nav-number">3.</span> <span class="nav-text">时间监听</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.1.</span> <span class="nav-text">具体实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%94%E7%BD%91%E6%90%9C%E7%B4%A2"><span class="nav-number">4.</span> <span class="nav-text">联网搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tool%E7%9A%84%E4%B9%A6%E5%86%99"><span class="nav-number">4.1.</span> <span class="nav-text">Tool的书写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prompt"><span class="nav-number">4.2.</span> <span class="nav-text">prompt</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Live2d%E5%8A%A8%E4%BD%9C%E8%81%94%E5%8A%A8"><span class="nav-number">5.</span> <span class="nav-text">Live2d动作联动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tool%E4%B9%A6%E5%86%99"><span class="nav-number">5.1.</span> <span class="nav-text">Tool书写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prompt-1"><span class="nav-number">5.2.</span> <span class="nav-text">prompt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8"><span class="nav-number">5.3.</span> <span class="nav-text">调用</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/03/18/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E4%B8%80%E4%BA%9B%E6%8B%93%E5%B1%95%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Agent开发——一些拓展功能 | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Agent开发——一些拓展功能
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-18 16:19:59 / 修改时间：17:45:53" itemprop="dateCreated datePublished" datetime="2026-03-18T16:19:59+08:00">2026-03-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2026/03/18/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E4%B8%80%E4%BA%9B%E6%8B%93%E5%B1%95%E5%8A%9F%E8%83%BD/" class="post-meta-item leancloud_visitors" data-flag-title="Agent开发——一些拓展功能" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>18 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>做了一些简单的拓展功能:游戏监听、时间监听、联网搜索、Live2d动作联动</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一问一答的对话还是过于枯燥了，不如做一些在用户层面上的主动对话吧（其实本质上还是一问一答，只是用户看不到了）</p>
+<h2 id="游戏监听"><a href="#游戏监听" class="headerlink" title="游戏监听"></a>游戏监听</h2><p>首先明确需求，我们要做的是用户在启动游戏时，AI能够主动挑起话题。</p>
+<p>首先，如何发现启动游戏？</p>
+<h3 id="游戏进程监听"><a href="#游戏进程监听" class="headerlink" title="游戏进程监听"></a>游戏进程监听</h3><p>遍历当前用户电脑上的所有运行着的进程，将其放入”initial_pids”即已启动的进程，以免我们的Agent启动后面临大量待处理的游戏进程监听结果。</p>
+<p>随后，用户需要维护一个游戏信息的list，当检测到list中的进程启动后则触发对话</p>
+<p>流程图如下</p>
+<p><img src="/../imgs/26.3.18.Agent-%E4%B8%80%E4%BA%9B%E5%8A%9F%E8%83%BD/1.drawio.png" alt="img1"></p>
+<h3 id="需要监听的游戏"><a href="#需要监听的游戏" class="headerlink" title="需要监听的游戏"></a>需要监听的游戏</h3><blockquote>
+<p>目前还是需要手动写入的</p>
+</blockquote>
+<p>如何获取对应进程的名称？<br>打开任务管理器，点击”详细信息“即可看到运行在电脑上的所有进程啦</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">process_names:</span> [[<span class="string">&quot;cloudmusic.exe&quot;</span>,<span class="string">&quot;网易云音乐&quot;</span>], [<span class="string">&quot;steam.exe&quot;</span>,<span class="string">&quot;steam平台&quot;</span>],[<span class="string">&quot;BsgLauncher.exe&quot;</span>,<span class="string">&quot;逃离塔科夫&quot;</span>],[<span class="string">&quot;bf6.exe&quot;</span>,<span class="string">&quot;战地风云6&quot;</span>],[<span class="string">&quot;SlayTheSpire2.exe&quot;</span>,<span class="string">&quot;杀戮尖塔2&quot;</span>]]</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>监听文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> psutil</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> PySide6.QtCore <span class="keyword">import</span> Signal, QObject</span><br><span class="line"><span class="keyword">import</span> llm</span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> config</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">listen_game</span>():</span><br><span class="line">    <span class="comment"># 从配置获取游戏参数</span></span><br><span class="line">    game_config = config.get(<span class="string">&quot;game&quot;</span>, &#123;&#125;)</span><br><span class="line">    game_process_names = game_config.get(<span class="string">&quot;process_names&quot;</span>)</span><br><span class="line">    check_interval = game_config.get(<span class="string">&quot;check_interval&quot;</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 记录应用启动时的所有进程ID</span></span><br><span class="line">    initial_pids = <span class="built_in">set</span>(psutil.pids())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">for</span> process_name <span class="keyword">in</span> game_process_names:</span><br><span class="line">            <span class="comment"># 获取当前所有匹配的进程ID</span></span><br><span class="line">            current_pids = []</span><br><span class="line">            <span class="keyword">for</span> proc <span class="keyword">in</span> psutil.process_iter([<span class="string">&#x27;pid&#x27;</span>, <span class="string">&#x27;name&#x27;</span>]):</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    <span class="keyword">if</span> proc.info[<span class="string">&#x27;name&#x27;</span>].lower() == process_name[<span class="number">0</span>].lower():</span><br><span class="line">                        current_pids.append(proc.info[<span class="string">&#x27;pid&#x27;</span>])</span><br><span class="line">                <span class="keyword">except</span> (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 检查是否有新启动的进程（PID不在初始列表中）</span></span><br><span class="line">            new_pids = [pid <span class="keyword">for</span> pid <span class="keyword">in</span> current_pids <span class="keyword">if</span> pid <span class="keyword">not</span> <span class="keyword">in</span> initial_pids]</span><br><span class="line">            key = process_name[<span class="number">0</span>].lower()</span><br><span class="line">            <span class="keyword">if</span> new_pids <span class="keyword">and</span> <span class="keyword">not</span> detected_games.get(key, <span class="literal">False</span>):</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;检测到新游戏 <span class="subst">&#123;process_name[<span class="number">1</span>]&#125;</span> 已打开，开始AI主动对话。&quot;</span>)</span><br><span class="line">                <span class="comment"># AI主动对话逻辑</span></span><br><span class="line">                game_info = <span class="string">f&quot;检测到程序 <span class="subst">&#123;process_name[<span class="number">1</span>]&#125;</span> 已打开，开始AI主动对话。&quot;</span></span><br><span class="line">                response = llm.chat(game_info)</span><br><span class="line">            <span class="keyword">elif</span> <span class="keyword">not</span> current_pids:</span><br><span class="line">                detected_games[key] = <span class="literal">False</span></span><br><span class="line">        time.sleep(check_interval)</span><br></pre></td></tr></table></figure>
+
+<p>main主进程中启动监听线程：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">self</span>.start_game_listener()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">start_game_listener</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;启动游戏监听线程&quot;&quot;&quot;</span></span><br><span class="line">    listener_thread = threading.Thread(target=game_listening.listen_game,daemon=<span class="literal">True</span>)</span><br><span class="line">    listener_thread.start()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;[INFO] 游戏监听线程已启动&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="时间监听"><a href="#时间监听" class="headerlink" title="时间监听"></a>时间监听</h2><p>和上面的游戏监听的原理一致，也是主动对话的一坏</p>
+<p>当时间来到特定节日或者当天的特定时间时，即可触发主动对话。</p>
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><p>为了当天的特殊日期不会重复，不得不开一个txt记录当天是否已经播报过了（while Ture下的涉及LLM调用的东西写起来一定要小心）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> PySide6.QtCore <span class="keyword">import</span> Signal, QObject</span><br><span class="line"><span class="keyword">import</span> llm</span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> config</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TimeSignal</span>(<span class="title class_ inherited__">QObject</span>):</span><br><span class="line">    time_detected = Signal(<span class="built_in">str</span>, <span class="built_in">str</span>, <span class="built_in">str</span>, <span class="built_in">bool</span>)  <span class="comment"># 用于传递时间检测信息</span></span><br><span class="line"></span><br><span class="line">time_signal = TimeSignal()</span><br><span class="line"></span><br><span class="line">listening_date = [[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">14</span>],[<span class="number">4</span>,<span class="number">1</span>],[<span class="number">5</span>,<span class="number">1</span>],[<span class="number">6</span>,<span class="number">1</span>],[<span class="number">7</span>,<span class="number">1</span>],[<span class="number">8</span>,<span class="number">1</span>],[<span class="number">9</span>,<span class="number">1</span>],[<span class="number">10</span>,<span class="number">1</span>],[<span class="number">12</span>,<span class="number">27</span>]]</span><br><span class="line">listening_time=[<span class="number">0</span>,<span class="number">8</span>,<span class="number">12</span>,<span class="number">14</span>,<span class="number">17</span>,<span class="number">20</span>,<span class="number">22</span>]</span><br><span class="line"></span><br><span class="line">localtime = time.localtime(time.time())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 节日播报记录文件</span></span><br><span class="line">HOLIDAY_RECORD_FILE = <span class="string">&quot;holiday_broadcasted.txt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_current_date_str</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;获取当前日期字符串，格式为YYYY-MM-DD&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> time.strftime(<span class="string">&quot;%Y-%m-%d&quot;</span>, localtime)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">has_broadcasted_today</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;检查今天是否已经播报过节日&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(HOLIDAY_RECORD_FILE):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(HOLIDAY_RECORD_FILE, <span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            last_broadcast_date = f.read().strip()</span><br><span class="line">        <span class="keyword">return</span> last_broadcast_date == get_current_date_str()</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">record_broadcast</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;记录今天的播报&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(HOLIDAY_RECORD_FILE, <span class="string">&quot;w&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(get_current_date_str())</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">listen_time</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        localtime = time.localtime(time.time())</span><br><span class="line">        <span class="comment">#特殊节日播报</span></span><br><span class="line">        <span class="keyword">for</span> date <span class="keyword">in</span> listening_date:</span><br><span class="line">            <span class="keyword">if</span> date[<span class="number">0</span>]==localtime.tm_mon <span class="keyword">and</span> date[<span class="number">1</span>]==localtime.tm_mday:</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> has_broadcasted_today():</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;今天是&quot;</span>+<span class="built_in">str</span>(date[<span class="number">0</span>])+<span class="string">&quot;月&quot;</span>+<span class="built_in">str</span>(date[<span class="number">1</span>])+<span class="string">&quot;日，触发特殊节日播报&quot;</span>)</span><br><span class="line">                    response = llm.chat(<span class="string">&quot;今天是&quot;</span>+<span class="built_in">str</span>(date[<span class="number">0</span>])+<span class="string">&quot;月&quot;</span>+<span class="built_in">str</span>(date[<span class="number">1</span>])+<span class="string">&quot;日，开始AI主动对话&quot;</span>)</span><br><span class="line">                    pattern = <span class="string">r&#x27;【[^】]*】&#x27;</span></span><br><span class="line">                    pure_text = re.sub(pattern, <span class="string">&#x27;&#x27;</span>, response)</span><br><span class="line">                    <span class="keyword">if</span> pure_text != response:</span><br><span class="line">                        expression = response.split(<span class="string">&quot;【&quot;</span>)[<span class="number">1</span>][:<span class="number">2</span>]</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&quot;表情&quot;</span> + expression)</span><br><span class="line">                    record_broadcast()</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;节日播报完成，已记录今天不再重复播报&quot;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            </span><br><span class="line">        <span class="comment">#特殊时间播报</span></span><br><span class="line">        <span class="keyword">for</span> cur_time <span class="keyword">in</span> listening_time:</span><br><span class="line">            <span class="keyword">if</span> cur_time == localtime.tm_hour <span class="keyword">and</span> localtime.tm_min==<span class="number">0</span>:     <span class="comment">#仅准点触发</span></span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;现在是&quot;</span>+<span class="built_in">str</span>(cur_time)+<span class="string">&quot;,触发主动报时&quot;</span>)</span><br><span class="line">                response = llm.chat(<span class="string">&quot;现在是&quot;</span>+<span class="built_in">str</span>(cur_time)+<span class="string">&quot;点，和Master主动打个招呼吧&quot;</span>)</span><br><span class="line">                pattern = <span class="string">r&#x27;【[^】]*】&#x27;</span></span><br><span class="line">                pure_text = re.sub(pattern, <span class="string">&#x27;&#x27;</span>, response)</span><br><span class="line">                <span class="keyword">if</span> pure_text != response:</span><br><span class="line">                    expression = response.split(<span class="string">&quot;【&quot;</span>)[<span class="number">1</span>][:<span class="number">2</span>]</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;表情&quot;</span> + expression)</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;时间播报完成，已记录今天不再重复播报&quot;</span>)</span><br><span class="line">                time.sleep(<span class="number">90</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="联网搜索"><a href="#联网搜索" class="headerlink" title="联网搜索"></a>联网搜索</h2><p>简单的Tool</p>
+<h3 id="Tool的书写"><a href="#Tool的书写" class="headerlink" title="Tool的书写"></a>Tool的书写</h3><p>使用的是langchain自带的duckduckgo的搜索</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tool(<span class="params">description=<span class="string">&quot;联网搜索&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">online_search_tool</span>(<span class="params"><span class="built_in">input</span>:<span class="built_in">str</span></span>):</span><br><span class="line">    <span class="keyword">from</span> langchain_community.tools <span class="keyword">import</span> DuckDuckGoSearchResults</span><br><span class="line">    search = DuckDuckGoSearchResults()</span><br><span class="line">    result = search.invoke(<span class="built_in">input</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;搜索结果:&quot;</span>+result)</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+
+<p>搜索结果如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">搜索结果:</span><br><span class="line">snippet: 有国际媒体认为，美以伊战事进入到&quot;新阶段&quot;，冲突长期化风险有增无减，美国正越来越接近&quot;下一个战争泥潭&quot;。1.目前战况如何 伊方统计显示，美以行动已致伊朗1300多名平民丧生。 美媒披露，至少13名美军人员死亡、约200人受伤，而实际伤亡人数或更高。, title: 6问美以伊战事走向_伊朗_美国_停战 - 搜狐, link: https://www.sohu.com/a/996928481_121455647, </span><br><span class="line">snippet: 新华社巴格达3月15日电 题：六问美以伊战事走向 新华社记者李军 美国和以色列对伊朗军事行动已进入第三周。伊朗伊斯兰革命卫队15日确认发起第53 ..., title: 国际观察｜六问美以伊战事走向_腾讯新闻, link: https://news.qq.com/rain/a/20260315A06VNX00?adChannelId=news, </span><br><span class="line">snippet: 伊方统计显示，美以行 动已致伊朗1300多名平民丧生。 美媒披露，至少13名美军人员死亡、约200人受伤，而实际伤亡人数或更高。 美国方面13日称，伊方逾1.5万个目标遭打击、导弹数量&quot;减少90%&quot;。 伊朗称，已摧毁70%的美军中东基地、近10部雷达。, title: 国际观察｜六问美以伊战事走向-我的钢铁网, link: https://news.mysteel.com/a/26031609/9402AADDA5F6825A.html,</span><br><span class="line">snippet: 美伊開戰 美國與以色列2026年2月28日聯手轟炸伊朗首都德黑蘭在內多個地區後，伊朗伊斯蘭革命衛隊宣稱對中東 地區美軍基地發動攻擊，報復美以空襲。, title: 美伊開戰 | 新聞專題 | 中央社 Cna, link: https://www.cna.com.tw/topic/newstopic/4469.aspx</span><br></pre></td></tr></table></figure>
+
+<h3 id="prompt"><a href="#prompt" class="headerlink" title="prompt"></a>prompt</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">online_search_tool</span><br><span class="line">   - 核心能力：入参为你不明白的词汇，句子。从网络中去搜索相关的知识以满足对话需求</span><br><span class="line">   - 出参：搜索的结果</span><br><span class="line">   - 使用场景：当与用户的对话涉及到了你不明白的词汇、知识，或者用户在问一些实时性的新闻、知识时，你若发现自己无法根据现有知识解答用户的问题，即可调用该工具联网搜索相关知识以回答用户</span><br><span class="line">   - 示例：用户问”你看最近美国对伊朗军事行动的新闻了吗“，你发现这是最新的新闻，你并不了解，需要调用此工具联网搜索相关信息以与用户继续对话</span><br></pre></td></tr></table></figure>
+
+<h2 id="Live2d动作联动"><a href="#Live2d动作联动" class="headerlink" title="Live2d动作联动"></a>Live2d动作联动</h2><p>我这里使用的是Live2dViewerEX来进行Live2d形象的呈现，使用ExAPI进行信号传输</p>
+<p>我之前的Blog有相关的介绍：<a target="_blank" rel="noopener" href="https://x-jzy.github.io/2025/10/30/%E4%BD%BF%E7%94%A8ExAPI%E8%AE%A9Live2D%E6%8E%A5%E5%85%A5%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93/#more">使用ExAPI让Live2D接入多智能体</a></p>
+<p>这里以公模 <strong>桃濑日和</strong> 为例:<br>模型目录下有hiyori_m01.motion3.json到hiyori_m08.motion3.json的8个动作文件，在简单看了一遍之后将8个动作分为三类，开心、伤心（失望）、惊喜。接下来要做的事情就很简单了。<br>写一个Tool来让Agent控制动作即可</p>
+<h3 id="Tool书写"><a href="#Tool书写" class="headerlink" title="Tool书写"></a>Tool书写</h3><p>目前的写法比较粗浅</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tool(<span class="params">description=<span class="string">&quot;根据对话展示心情&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_motion_tool</span>(<span class="params">emotion:<span class="built_in">str</span></span>):</span><br><span class="line">    <span class="keyword">global</span> motion_id</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;当前心情:&quot;</span>+emotion)</span><br><span class="line">    <span class="keyword">if</span> emotion==<span class="string">&quot;happy&quot;</span>:</span><br><span class="line">        list1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>]</span><br><span class="line">        motion_id = random.choice(list1) </span><br><span class="line">    <span class="keyword">elif</span> emotion ==<span class="string">&quot;sad&quot;</span>:</span><br><span class="line">        list1 = [<span class="number">4</span>,<span class="number">7</span>,<span class="number">8</span>]</span><br><span class="line">        motion_id = random.choice(list1)</span><br><span class="line">    <span class="keyword">elif</span> emotion == <span class="string">&quot;surprised&quot;</span>:</span><br><span class="line">        list1 = [<span class="number">6</span>]</span><br><span class="line">        motion_id = random.choice(list1)</span><br><span class="line">    <span class="keyword">return</span> emotion</span><br></pre></td></tr></table></figure>
+
+<h3 id="prompt-1"><a href="#prompt-1" class="headerlink" title="prompt"></a>prompt</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">get_motion_tool</span><br><span class="line">   - 核心能力：入参为你理解针对用户对话你应该的心情，共“happy”,&quot;sad&quot;,&quot;surprised&quot;三项可选，happy为默认项，sad同时可以表达失望、难过、苦恼等心情。注意，要传入的是你的心情！！！</span><br><span class="line">   - 出参：无</span><br><span class="line">   - 使用场景：用户的每一次对话都要调用此工具来判断对话情景下neuro应该展现的心情。注意，这个工具仅仅是判断心情用，与接下来你对对话的回复没有关系</span><br></pre></td></tr></table></figure>
+
+<h3 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h3><p>llm对话结束后,调用动作发送给Live2d模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Live2d三连</span></span><br><span class="line">    live2d_api.send_json_message(res)</span><br><span class="line">    live2d_api.send_sound()</span><br><span class="line">    live2d_api.send_motion(tools.tools.motion_id)</span><br></pre></td></tr></table></figure>
+
+<p>直接粗暴写成本地动作文件路径了，日后再改吧</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">send_motion</span>(<span class="params"><span class="built_in">id</span>:<span class="built_in">int</span></span>):</span><br><span class="line">    ws_uri = config.get(<span class="string">&quot;live2d.websocket_uri&quot;</span>, <span class="string">&quot;ws://127.0.0.1:10086/api&quot;</span>)</span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;msg&quot;</span>: <span class="number">13200</span>,</span><br><span class="line">        <span class="string">&quot;msgId&quot;</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span>: <span class="number">0</span>,</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="string">&quot;mtn&quot;</span>: <span class="string">&quot;C:\\Users\\X.J\\Desktop\\hiyori-main\\hiyori_m0&quot;</span>+<span class="built_in">str</span>(<span class="built_in">id</span>)+<span class="string">&quot;.motion3.json&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">from</span> websocket <span class="keyword">import</span> create_connection  <span class="comment"># 延迟导入</span></span><br><span class="line">        ws = create_connection(ws_uri)</span><br><span class="line">        ws.send(json.dumps(data))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;live2d动作发送成功&quot;</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Live2D动作发送错误:&quot;</span>, <span class="built_in">str</span>(e))</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Agent/" rel="tag"># Agent</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/16/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E5%B1%8F%E5%B9%95%E8%8E%B7%E5%8F%96/" rel="prev" title="Agent开发——屏幕获取">
+                  <i class="fa fa-angle-left"></i> Agent开发——屏幕获取
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">110k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:36</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2026/03/18/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E4%B8%80%E4%BA%9B%E6%8B%93%E5%B1%95%E5%8A%9F%E8%83%BD/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
