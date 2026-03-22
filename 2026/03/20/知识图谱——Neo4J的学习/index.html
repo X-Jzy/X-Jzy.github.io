@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="知识图谱的学习，从Neo4J开始">
+<meta property="og:type" content="article">
+<meta property="og:title" content="知识图谱——Neo4J的学习">
+<meta property="og:url" content="http://example.com/2026/03/20/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E2%80%94%E2%80%94Neo4J%E7%9A%84%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="知识图谱的学习，从Neo4J开始">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/26.3.20.Neo4J/ScreenShot_2026-03-20_093443_203.png">
+<meta property="og:image" content="http://example.com/imgs/26.3.20.Neo4J/2.png">
+<meta property="og:image" content="http://example.com/imgs/26.3.20.Neo4J/3.png">
+<meta property="og:image" content="http://example.com/imgs/26.3.20.Neo4J/4.png">
+<meta property="article:published_time" content="2026-03-20T01:14:39.000Z">
+<meta property="article:modified_time" content="2026-03-22T03:27:58.375Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="后端">
+<meta property="article:tag" content="知识图谱">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/26.3.20.Neo4J/ScreenShot_2026-03-20_093443_203.png">
+
+
+<link rel="canonical" href="http://example.com/2026/03/20/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E2%80%94%E2%80%94Neo4J%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/03/20/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E2%80%94%E2%80%94Neo4J%E7%9A%84%E5%AD%A6%E4%B9%A0/","path":"2026/03/20/知识图谱——Neo4J的学习/","title":"知识图谱——Neo4J的学习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>知识图谱——Neo4J的学习 | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">4.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%8A%82%E7%82%B9%E4%B8%8E%E5%85%B3%E7%B3%BB"><span class="nav-number">4.2.</span> <span class="nav-text">创建节点与关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%8B%E7%9C%8B%E6%8E%A7%E5%88%B6%E5%8F%B0"><span class="nav-number">4.3.</span> <span class="nav-text">看看控制台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2"><span class="nav-number">4.4.</span> <span class="nav-text">查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%A2%E6%A5%BC%E6%A2%A6%E4%BA%BA%E7%89%A9%E5%85%B3%E7%B3%BB%E4%B8%89%E5%85%83%E7%BB%84txt"><span class="nav-number">5.</span> <span class="nav-text">红楼梦人物关系三元组txt</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/03/20/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E2%80%94%E2%80%94Neo4J%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="知识图谱——Neo4J的学习 | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          知识图谱——Neo4J的学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-03-20 09:14:39" itemprop="dateCreated datePublished" datetime="2026-03-20T09:14:39+08:00">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-22 11:27:58" itemprop="dateModified" datetime="2026-03-22T11:27:58+08:00">2026-03-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url" rel="index"><span itemprop="name">知识图谱</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2026/03/20/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E2%80%94%E2%80%94Neo4J%E7%9A%84%E5%AD%A6%E4%B9%A0/" class="post-meta-item leancloud_visitors" data-flag-title="知识图谱——Neo4J的学习" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>18 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>知识图谱的学习，从Neo4J开始</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>大三下学期开了《知识图谱》的课程，我寻思这东西正好能给我的Agent项目整个知识库，同时还能分担期末大作业的压力，一举多得啊。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>官网下载社区版安装包即可 <a target="_blank" rel="noopener" href="https://neo4j.com/deployment-center/#community">https://neo4j.com/deployment-center/#community</a></p>
+<p>当然，我选择用docker，Docker Hub搜索Neo4J直接pull即可。</p>
+<p><img src="/../imgs/26.3.20.Neo4J/ScreenShot_2026-03-20_093443_203.png" alt="img1"></p>
+<p>启动后在浏览器访问<a href="http://localhost:7474进入Neo4j">http://localhost:7474进入Neo4j</a> Browser界面</p>
+<p>默认账密为neo4j与neo4j</p>
+<p><img src="/../imgs/26.3.20.Neo4J/2.png" alt="img2"></p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>Neo4j自己的操作语句名为cql(对应sql),在控制台中有着对应的使用教程，以及第三方的教程<a target="_blank" rel="noopener" href="https://www.w3cschool.cn/neo4j/">https://www.w3cschool.cn/neo4j/</a></p>
+<p>Neo4j的核心，又或是说它与其他数据库最不同的地方，在于节点标签与关系类型，即Node与Relationship，<br>在Neo4j中数据的主要存储形式为 (n:Label)-[:TYPE {name:value}]-&gt;(m:Label) 即 <strong>三元组</strong><br>(n:Label)为第一个Node，(m:Label)为第二个node，[:TYPE {name:value}]表示二者之间的关系，-&gt;表示第一个指向第二个（而不是双向）。</p>
+<p>例如 (小明:Person)-[喜欢{吃}]-&gt;(苹果:Item)</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>就和正常的SQL一样，只不过不需要建库</p>
+<p>graph即为操作的实例对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> py2neo <span class="keyword">import</span> Graph</span><br><span class="line"><span class="keyword">from</span> py2neo <span class="keyword">import</span> Node, Relationship</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 连接到Neo4j数据库</span></span><br><span class="line">graph = Graph(<span class="string">&quot;neo4j://localhost:7475&quot;</span>, auth=(<span class="string">&quot;neo4j&quot;</span>, <span class="string">&quot;yourpassword&quot;</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 创建唯一性约束确保数据一致性</span></span><br><span class="line">constraints = [</span><br><span class="line">    <span class="string">&quot;CREATE CONSTRAINT person_name IF NOT EXISTS FOR (p:Person) REQUIRE p.name IS UNIQUE&quot;</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> constraint <span class="keyword">in</span> constraints:</span><br><span class="line">    graph.run(constraint)</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建节点与关系"><a href="#创建节点与关系" class="headerlink" title="创建节点与关系"></a>创建节点与关系</h3><p>我这里做的情景是《红楼梦》的全部人物关系的三元组导入，txt的内容会放在文章最后</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">create_person</span>(<span class="params">name</span>):</span><br><span class="line">    person = Node(<span class="string">&quot;Person&quot;</span>, name=name)</span><br><span class="line">    graph.merge(person, <span class="string">&quot;Person&quot;</span>, <span class="string">&quot;name&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> person</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_relationship</span>(<span class="params">start_node, rel_type, end_node, **properties</span>):</span><br><span class="line">    rel = Relationship(start_node, rel_type, end_node, **properties)</span><br><span class="line">    graph.create(rel)</span><br><span class="line">    <span class="keyword">return</span> rel</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;relation.txt&quot;</span>, <span class="string">&quot;r&quot;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">        datas = line.split(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">        P1=create_person(datas[<span class="number">0</span>])</span><br><span class="line">        P2=create_person(datas[<span class="number">1</span>])</span><br><span class="line">        add_relationship(P1,datas[<span class="number">2</span>],P2)</span><br></pre></td></tr></table></figure>
+
+<h3 id="看看控制台"><a href="#看看控制台" class="headerlink" title="看看控制台"></a>看看控制台</h3><p><img src="/../imgs/26.3.20.Neo4J/3.png" alt="img3"></p>
+<p>其中将表示关系的MATCH p&#x3D;()-[]-&gt;() RETURN p LIMIT 25; 的 “Limit 25” 删去即可查看完整的可视化关系图谱</p>
+<p><img src="/../imgs/26.3.20.Neo4J/4.png" alt="img4"></p>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><p>这里仅列举两种，实际上还能有多种查询方式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> py2neo <span class="keyword">import</span> NodeMatcher</span><br><span class="line"><span class="keyword">from</span> py2neo <span class="keyword">import</span> Graph</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 连接到Neo4j数据库</span></span><br><span class="line">graph = Graph(<span class="string">&quot;neo4j://localhost:7475&quot;</span>, auth=(<span class="string">&quot;neo4j&quot;</span>, <span class="string">&quot;yourpassword&quot;</span>))</span><br><span class="line"> </span><br><span class="line">query = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">MATCH (person1:Person)-[r]-&gt;(person2:Person)</span></span><br><span class="line"><span class="string">WHERE person1.name = $name1 and person2.name = $name2</span></span><br><span class="line"><span class="string">RETURN type(r)</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">result = graph.run(query, name1=<span class="string">&quot;贾宝玉&quot;</span>,name2=<span class="string">&quot;贾政&quot;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;贾宝玉-&gt;贾政的关系:&quot;</span>+<span class="built_in">str</span>(result))</span><br><span class="line"></span><br><span class="line">query = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">MATCH path = shortestPath(</span></span><br><span class="line"><span class="string">  (person1:Person)-[*]-(person2:Person)</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">WHERE person1.name = &quot;贾宝玉&quot; AND person2.name = &quot;林黛玉&quot;</span></span><br><span class="line"><span class="string">RETURN path, nodes(path) AS nodes</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">result = graph.run(query).to_data_frame()</span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n贾宝玉到林黛玉的关联路径:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(result.iloc[<span class="number">0</span>][<span class="string">&#x27;path&#x27;</span>])</span><br><span class="line"><span class="built_in">print</span>(result.iloc[<span class="number">0</span>][<span class="string">&#x27;nodes&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<p>输出:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">贾宝玉-&gt;贾政的关系: type(r) </span><br><span class="line">---------</span><br><span class="line"> 次子</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">贾宝玉到林黛玉的关联路径:</span><br><span class="line">(贾宝玉)-[:次子</span><br><span class="line"> &#123;&#125;]-&gt;(贾政)-[:次子</span><br><span class="line"> &#123;&#125;]-&gt;(贾代善与贾母)&lt;-[:幺女</span><br><span class="line"> &#123;&#125;]-(贾敏)-[:生母</span><br><span class="line"> &#123;&#125;]-&gt;(林黛玉)</span><br><span class="line">[Node(&#x27;Person&#x27;, name=&#x27;贾宝玉&#x27;), Node(&#x27;Person&#x27;, name=&#x27;贾政&#x27;), Node(&#x27;Person&#x27;, name=&#x27;贾代善与贾母&#x27;), Node(&#x27;Person&#x27;, name=&#x27;贾敏&#x27;), Node(&#x27;Person&#x27;, name=&#x27;林黛玉&#x27;)]</span><br></pre></td></tr></table></figure>
+
+<h2 id="红楼梦人物关系三元组txt"><a href="#红楼梦人物关系三元组txt" class="headerlink" title="红楼梦人物关系三元组txt"></a>红楼梦人物关系三元组txt</h2><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br></pre></td><td class="code"><pre><span class="line">王嬷嬷,黛玉,奶娘</span><br><span class="line">金文翔,鸳鸯,哥哥</span><br><span class="line">金文翔,贾母,买办</span><br><span class="line">金彩,鸳鸯,父</span><br><span class="line">鲍二家的,鲍二,妻子</span><br><span class="line">马尚,马魁,孙子</span><br><span class="line">臻儿,香菱,丫鬟</span><br><span class="line">陈瑞文,陈翼,孙子</span><br><span class="line">李公子,长安府府太爷,小舅子</span><br><span class="line">金哥,长安县大财主张姓,女儿</span><br><span class="line">云儿,锦香院,妓女</span><br><span class="line">金氏,金荣,姑妈</span><br><span class="line">金氏,贾璜,妻</span><br><span class="line">胡氏,金荣,母</span><br><span class="line">贾璜,金氏,夫</span><br><span class="line">王子腾,都太尉统制县伯,后</span><br><span class="line">王子胜,都太尉统制县伯,后</span><br><span class="line">王子胜,王子腾,弟</span><br><span class="line">篆儿,邢岫烟,丫鬟</span><br><span class="line">王善保家的,邢夫人,陪房</span><br><span class="line">王善保家的,司棋,外祖母</span><br><span class="line">邢岫烟,邢夫人,侄女</span><br><span class="line">邢岫烟,薛蝌,妻</span><br><span class="line">邢忠,邢夫人,兄</span><br><span class="line">邢忠,邢岫烟,父</span><br><span class="line">赵国基,赵姨娘,兄弟</span><br><span class="line">小吉祥儿,赵姨娘,丫鬟</span><br><span class="line">小鹊,赵姨娘,丫鬟</span><br><span class="line">赖大的母亲,赖大,母亲</span><br><span class="line">赖大的母亲,赖二,母亲</span><br><span class="line">司棋,贾迎春,丫鬟</span><br><span class="line">莲花儿,贾迎春,丫鬟</span><br><span class="line">绣橘,贾迎春,丫鬟</span><br><span class="line">翠云,贾赦,侍妾</span><br><span class="line">贾琏,贾赦,子</span><br><span class="line">贾琮,贾赦,子</span><br><span class="line">邢夫人,贾赦,妻</span><br><span class="line">贾迎春,贾赦,女</span><br><span class="line">胡氏,贾蓉续娶,妻</span><br><span class="line">许氏,贾蓉续娶,妻</span><br><span class="line">许氏,贾蓉,续弦妻子</span><br><span class="line">秦可卿,贾蓉,妻</span><br><span class="line">娄氏,贾菌,母</span><br><span class="line">周氏,贾芹,母</span><br><span class="line">倪二,贾芸,邻居</span><br><span class="line">卜世仁,贾芸,舅舅</span><br><span class="line">卜世仁,香料铺,掌柜</span><br><span class="line">王嫂子,贾芸,母</span><br><span class="line">四姐,贾琼,妹妹</span><br><span class="line">隆儿,贾琏,小厮</span><br><span class="line">赵嬷嬷,贾琏,奶妈</span><br><span class="line">赵嬷嬷,赵天梁,母</span><br><span class="line">赵嬷嬷,赵天栋,母</span><br><span class="line">王熙凤,贾琏,妻</span><br><span class="line">昭儿,贾琏,小厮</span><br><span class="line">昭儿,王熙凤,小厮</span><br><span class="line">庆儿,贾琏,小厮</span><br><span class="line">庆儿,王熙凤,小厮</span><br><span class="line">王信,贾琏,小厮</span><br><span class="line">王信,王熙凤,小厮</span><br><span class="line">来旺,贾琏,仆人</span><br><span class="line">来旺,王熙凤,仆人</span><br><span class="line">贾巧姐,贾琏,女</span><br><span class="line">贾巧姐,王熙凤,女</span><br><span class="line">李纨,贾珠,妻</span><br><span class="line">贾兰,贾珠与李纨,子</span><br><span class="line">兴儿,贾珍,小厮</span><br><span class="line">喜儿,贾珍,小厮</span><br><span class="line">寿儿,贾珍,小厮</span><br><span class="line">卐儿,贾珍和尤氏,丫鬟</span><br><span class="line">贾蓉,贾珍,子</span><br><span class="line">佩凤,贾珍,妾</span><br><span class="line">偕鸾,贾珍,妾</span><br><span class="line">文花,贾珍,妾</span><br><span class="line">尤氏,贾珍,妻</span><br><span class="line">钱槐,贾环,小厮</span><br><span class="line">钱槐,赵姨娘,内侄</span><br><span class="line">贾代善,贾源,长子</span><br><span class="line">贾代善,贾宝玉,祖父</span><br><span class="line">鸳鸯,贾母,丫鬟</span><br><span class="line">琥珀,贾母,丫鬟</span><br><span class="line">珍珠,贾母,丫鬟</span><br><span class="line">玻璃,贾母,丫鬟</span><br><span class="line">翡翠,贾母,丫鬟</span><br><span class="line">鹦鹉,贾母,丫鬟</span><br><span class="line">靛儿,贾母,丫鬟</span><br><span class="line">傻大姐,贾母,丫头</span><br><span class="line">贾珍,贾敬,子</span><br><span class="line">贾惜春,贾敬,女</span><br><span class="line">贾惜春,贾珍,胞妹</span><br><span class="line">贾珠,贾政,长子</span><br><span class="line">贾元春,皇宫中,贤德妃</span><br><span class="line">傅试,贾政,门生</span><br><span class="line">程日兴,贾政,清客相公</span><br><span class="line">单聘仁,贾政,清客相公</span><br><span class="line">卜固修,贾政,清客相公</span><br><span class="line">胡斯来,贾政,清客相公</span><br><span class="line">贾宝玉,贾政,次子</span><br><span class="line">赵姨娘,贾政,妾</span><br><span class="line">赵姨娘,探春,母</span><br><span class="line">赵姨娘,贾环,母</span><br><span class="line">周姨娘,贾政,妾</span><br><span class="line">待书,贾探春,丫鬟</span><br><span class="line">翠墨,贾探春,丫鬟</span><br><span class="line">蝉姐,贾探春,丫鬟</span><br><span class="line">入画,贾惜春,丫鬟</span><br><span class="line">彩屏,贾惜春,丫鬟</span><br><span class="line">贾敕,贾府,远房宗族</span><br><span class="line">贾效,贾府,远房宗族</span><br><span class="line">贾敦,贾府,远房宗族</span><br><span class="line">贾珩,贾府,远房宗族</span><br><span class="line">贾㻞,贾府,远房宗族</span><br><span class="line">贾珖,贾府,远房宗族</span><br><span class="line">贾琛,贾府,远房宗族</span><br><span class="line">贾琼,贾府,远房宗族</span><br><span class="line">贾璘,贾府,远房宗族</span><br><span class="line">贾萍,贾府,远房宗族</span><br><span class="line">贾菖,贾府,远房宗族</span><br><span class="line">贾菱,贾府,远房宗族</span><br><span class="line">贾蓁,贾府,远房宗族</span><br><span class="line">贾藻,贾府,远房宗族</span><br><span class="line">贾蘅,贾府,远房宗族</span><br><span class="line">贾芬,贾府,远房宗族</span><br><span class="line">贾芳,贾府,远房宗族</span><br><span class="line">贾芝,贾府,远房宗族</span><br><span class="line">贾荇,贾府,远房宗族</span><br><span class="line">贾芷,贾府,远房宗族</span><br><span class="line">小玄儿,贾府角门看门,小厮</span><br><span class="line">钱华,贾府,买办</span><br><span class="line">余信,贾府掌管寺庙月例银子,管家</span><br><span class="line">柳家的,贾府做饭,佣人</span><br><span class="line">柳家的,五儿,母</span><br><span class="line">孙绍祖,贾府世交,后</span><br><span class="line">孙绍祖,贾迎春,夫</span><br><span class="line">贾代儒,贾瑞,祖父</span><br><span class="line">茗烟,贾宝玉,小厮</span><br><span class="line">锄药,贾宝玉,小厮</span><br><span class="line">墨雨,贾宝玉,小厮</span><br><span class="line">伴鹤,贾宝玉,小厮</span><br><span class="line">扫花,贾宝玉,小厮</span><br><span class="line">引泉,贾宝玉,小厮</span><br><span class="line">挑芸,贾宝玉,小厮</span><br><span class="line">双瑞,贾宝玉,小厮</span><br><span class="line">双寿,贾宝玉,小厮</span><br><span class="line">佳蕙,贾宝玉,小丫鬟</span><br><span class="line">王荣,贾宝玉,仆人</span><br><span class="line">钱启,贾宝玉,仆人</span><br><span class="line">张若锦,贾宝玉,仆人</span><br><span class="line">赵亦华,贾宝玉,仆人</span><br><span class="line">茜雪,贾宝玉,丫鬟</span><br><span class="line">晴雯,贾宝玉,丫鬟</span><br><span class="line">四儿,贾宝玉,丫鬟</span><br><span class="line">春燕,贾宝玉,丫鬟</span><br><span class="line">媚人,贾宝玉,丫鬟</span><br><span class="line">绮霰,贾宝玉,丫鬟</span><br><span class="line">麝月,贾宝玉,丫鬟</span><br><span class="line">檀云,贾宝玉,丫鬟</span><br><span class="line">秋纹,贾宝玉,丫鬟</span><br><span class="line">碧浪,贾宝玉,丫鬟</span><br><span class="line">坠儿,贾宝玉,丫鬟</span><br><span class="line">马道婆,贾宝玉寄名,干娘</span><br><span class="line">抱琴,贾元春,丫鬟</span><br><span class="line">史太君,贾代善,妻</span><br><span class="line">贾敏,贾代善与贾母,幺女</span><br><span class="line">贾敏,林黛玉,生母</span><br><span class="line">贾敷,贾代化,长子</span><br><span class="line">贾敷,贾敬,兄</span><br><span class="line">贾敬,贾代化,次子</span><br><span class="line">喜鸾,贾㻞,妹妹</span><br><span class="line">蒋玉菡,贵顺亲王府,戏子</span><br><span class="line">女先儿,说书,女艺人</span><br><span class="line">山子野,设计大观园,园艺师</span><br><span class="line">戚建辉,襄阳侯,孙</span><br><span class="line">花母,袭人,母亲</span><br><span class="line">花自芳,袭人,兄</span><br><span class="line">夏金桂,薛蟠,妻</span><br><span class="line">薛宝琴,薛蝌,妹</span><br><span class="line">莺儿,薛宝钗,丫鬟</span><br><span class="line">文杏,薛宝钗,丫鬟</span><br><span class="line">小螺,薛宝琴,丫鬟</span><br><span class="line">同喜,薛姨妈,丫头</span><br><span class="line">同贵,薛姨妈,丫头</span><br><span class="line">薛宝钗,薛姨妈,女</span><br><span class="line">门子,葫芦庙,小和尚</span><br><span class="line">多官,荣国府,酒头厨子</span><br><span class="line">赖大,赖尚荣,父</span><br><span class="line">赖尚荣,荣国府大管家赖大,子</span><br><span class="line">林之孝,小红,父亲</span><br><span class="line">贾源,贾宝玉,曾祖父</span><br><span class="line">叶妈,茗烟,母亲</span><br><span class="line">叶妈,大观园花草,佣人</span><br><span class="line">叶妈,莺儿,干娘</span><br><span class="line">石光珠,缮国公,孙子</span><br><span class="line">戴良,管粮仓,头目</span><br><span class="line">田妈,管理大观园谷物庄稼,佣人</span><br><span class="line">祝妈,管理大观园竹林,佣人</span><br><span class="line">秦业,秦可卿,养父</span><br><span class="line">秦业,秦钟,父亲</span><br><span class="line">瑞珠,秦可卿,丫鬟</span><br><span class="line">宝珠,秦可卿,丫鬟</span><br><span class="line">冯紫英,神武将军冯唐,子</span><br><span class="line">神瑛侍者,贾宝玉,前身</span><br><span class="line">绛珠仙子,受神瑛侍者甘露,恩</span><br><span class="line">绛珠仙子,林黛玉,前身</span><br><span class="line">张妈,看后门,佣人</span><br><span class="line">张华,皇粮庄,庄头之后</span><br><span class="line">吴贵妃,皇宫中,贵妃</span><br><span class="line">薛蝌,皇商,子</span><br><span class="line">薛蝌,薛姨妈,侄</span><br><span class="line">小童,甄家,奴仆</span><br><span class="line">严老爷,甄士隐,朋友</span><br><span class="line">封肃,甄士隐,岳父</span><br><span class="line">霍启,甄士隐家,奴仆</span><br><span class="line">姣杏,甄士隐家,丫鬟</span><br><span class="line">封氏,甄士隐,妻</span><br><span class="line">香菱,甄士隐,女</span><br><span class="line">香菱,后为薛蟠,妾</span><br><span class="line">平儿,王熙凤,通房大丫鬟</span><br><span class="line">丰儿,王熙凤,丫鬟</span><br><span class="line">王仁,王熙凤,兄</span><br><span class="line">王君效,王济仁,师祖</span><br><span class="line">王夫人,王子腾,妹</span><br><span class="line">王夫人,贾政,妻</span><br><span class="line">周瑞,王夫人,陪房</span><br><span class="line">周瑞,贾府掌管收取地租,管家</span><br><span class="line">来喜家的,王夫人,陪房</span><br><span class="line">玉钏,王夫人,丫鬟</span><br><span class="line">玉钏,金钏,胞妹</span><br><span class="line">金钏,王夫人,丫鬟</span><br><span class="line">绣鸾,王夫人,丫鬟</span><br><span class="line">绣凤,王夫人,丫鬟</span><br><span class="line">彩云,王夫人,丫鬟</span><br><span class="line">彩霞,王夫人,丫鬟</span><br><span class="line">刘姥姥,王夫人父亲的连宗宗侄孙王成之子狗儿,岳母</span><br><span class="line">薛姨妈,王夫人,妹</span><br><span class="line">王成,狗儿,父</span><br><span class="line">刘氏,狗儿,妻</span><br><span class="line">刘氏,刘姥姥,女儿</span><br><span class="line">板儿,狗儿,子</span><br><span class="line">板儿,刘氏,子</span><br><span class="line">青儿,狗儿,女</span><br><span class="line">青儿,刘氏,女</span><br><span class="line">牛继宗,牛清,孙子</span><br><span class="line">净虚,水月庵,老尼姑</span><br><span class="line">净虚,智能,师傅</span><br><span class="line">净虚,智善,师傅</span><br><span class="line">智能,水月庵,尼姑</span><br><span class="line">杏奴,柳湘莲,小厮</span><br><span class="line">柳芳,柳彪,孙子</span><br><span class="line">柳五儿,柳嫂子,女</span><br><span class="line">雪雁,林黛玉,小丫鬟</span><br><span class="line">春纤,林黛玉,丫鬟</span><br><span class="line">林黛玉,林如海与贾敏,女</span><br><span class="line">林之孝家的,贾府中总领家事,媳妇</span><br><span class="line">李婶娘,李纨,婶娘</span><br><span class="line">素云,李纨,丫头</span><br><span class="line">李绮,李纨娘,女</span><br><span class="line">李守中,李纨,父</span><br><span class="line">李纹,李婶娘,女</span><br><span class="line">袭人,原为贾母,丫鬟</span><br><span class="line">胡老爷,贾蓉,续妻胡氏之父</span><br><span class="line">裘良,景田侯子,孙</span><br><span class="line">拐子,拐卖英莲,人贩子</span><br><span class="line">空空道人,抄录《石头记》,道人</span><br><span class="line">张材家的,张材,妻</span><br><span class="line">蒋子宁,平原侯,孙</span><br><span class="line">尤老娘,尤氏,继母</span><br><span class="line">尤老娘,尤二姐,母亲</span><br><span class="line">尤老娘,尤三姐,母亲</span><br><span class="line">尤二姐,尤氏,妹妹</span><br><span class="line">银蝶,尤氏,丫鬟</span><br><span class="line">炒豆儿,尤氏,丫鬟</span><br><span class="line">尤三姐,尤二姐,妹妹</span><br><span class="line">冯渊,小乡绅,子</span><br><span class="line">渺渺真人,将顽石变成美玉,道人</span><br><span class="line">渺渺真人,后回书中,跛足道人</span><br><span class="line">茫茫大士,将顽石变成美玉,僧人</span><br><span class="line">茫茫大士,后回书中,癞头僧人</span><br><span class="line">李嬷嬷,宝玉,奶娘</span><br><span class="line">李嬷嬷,李贵,母</span><br><span class="line">李贵,宝玉,仆人</span><br><span class="line">李贵,李嬷嬷,子</span><br><span class="line">谢鲸,定城侯,孙</span><br><span class="line">贾蔷,宁府,正派玄孙</span><br><span class="line">焦大,宁国府里从小跟随宁国公,老仆人</span><br><span class="line">俞禄,宁国府,小管家</span><br><span class="line">秦钟,秦业,子</span><br><span class="line">秦钟,秦可卿,弟</span><br><span class="line">薛蟠,薛姨妈,子</span><br><span class="line">贾赦,贾代善与贾母,长子</span><br><span class="line">贾政,贾代善与贾母,次子</span><br><span class="line">詹光,贾政,清客相公</span><br><span class="line">贾瑞,贾代儒,孙</span><br><span class="line">贾菌,娄氏,子</span><br><span class="line">警幻仙子,太虚幻境,仙姑</span><br><span class="line">痴梦仙姑,太虚幻境,仙姑</span><br><span class="line">引愁金女,太虚幻境,仙姑</span><br><span class="line">钟情大士,太虚幻境,仙姑</span><br><span class="line">度恨菩提,太虚幻境,仙姑</span><br><span class="line">王一贴,天齐庙,道士</span><br><span class="line">宝蟾,夏金桂,陪房丫头</span><br><span class="line">小舍儿,夏金桂,丫鬟</span><br><span class="line">夏奶奶,夏金桂,母</span><br><span class="line">冷子兴,周瑞,女婿</span><br><span class="line">周瑞家的,周瑞,妻</span><br><span class="line">周瑞家的,王夫人,陪房</span><br><span class="line">周瑞家的,冷子兴,岳母</span><br><span class="line">贾芹,周氏,子</span><br><span class="line">贾芹,铁槛寺和尚道士,总管</span><br><span class="line">吴天佑,吴贵妃,父</span><br><span class="line">林如海,林黛玉,父</span><br><span class="line">贾雨村,黛玉,老师</span><br><span class="line">秦显家的,司棋,婶娘</span><br><span class="line">秦显家的,荣国府上夜,佣人</span><br><span class="line">潘又安,司棋,姑表弟</span><br><span class="line">史湘云,史鼐,侄女</span><br><span class="line">史湘云,史鼎,侄女</span><br><span class="line">周奶娘,史湘云,奶妈</span><br><span class="line">缕儿,史湘云,丫鬟</span><br><span class="line">翠缕,史湘云,丫鬟</span><br><span class="line">秋桐,贾赦,丫鬟</span><br><span class="line">善姐,王熙凤,丫鬟</span><br><span class="line">小红,贾宝玉,丫鬟</span><br><span class="line">紫鹃,贾母,丫鬟</span><br><span class="line">银姐,卜世仁,女</span><br><span class="line">单大娘,单大良,妻</span><br><span class="line">张友士,冯紫英,老师</span><br><span class="line">傅秋芳,傅试,妹妹</span><br><span class="line">史鼐,保龄侯尚书令史公,后</span><br><span class="line">史鼎,保龄侯尚书令,后</span><br><span class="line">史鼎,史鼐,弟</span><br><span class="line">侯孝康,侯晓明,孙子</span><br><span class="line">余信家的,余信,妻</span><br><span class="line">小鸠儿,何婆,女儿</span><br><span class="line">小鸠儿,春燕,妹妹</span><br><span class="line">邢德全,邢夫人,胞弟</span><br><span class="line">贾代化,贾演,长子</span><br><span class="line">贾芸,五嫂子,儿子</span><br><span class="line">多姑娘,多浑虫,妻</span><br><span class="line">夏婆子,春燕,姨妈</span><br><span class="line">夏婆子,藕官,干娘</span><br><span class="line">何婆子,丫鬟春燕,母</span><br><span class="line">何婆子,芳官,干娘</span><br><span class="line">小霞,丫鬟彩霞,妹妹</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag"># 后端</a>
+              <a href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="tag"># 知识图谱</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/18/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E4%B8%80%E4%BA%9B%E6%8B%93%E5%B1%95%E5%8A%9F%E8%83%BD/" rel="prev" title="Agent开发——一些拓展功能">
+                  <i class="fa fa-angle-left"></i> Agent开发——一些拓展功能
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">117k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:53</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2026/03/20/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E2%80%94%E2%80%94Neo4J%E7%9A%84%E5%AD%A6%E4%B9%A0/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
