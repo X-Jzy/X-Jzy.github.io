@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Agent开发——知识图谱，使用知识图谱的五元组解决记忆问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agent开发——知识图谱">
+<meta property="og:url" content="http://example.com/2026/03/22/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="Agent开发——知识图谱，使用知识图谱的五元组解决记忆问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/26.3.22.Agent-%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/1.drawio.png">
+<meta property="og:image" content="http://example.com/imgs/26.3.22.Agent-%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/2.png">
+<meta property="article:published_time" content="2026-03-22T06:32:17.000Z">
+<meta property="article:modified_time" content="2026-03-22T07:39:02.714Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="知识图谱">
+<meta property="article:tag" content="记忆">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/26.3.22.Agent-%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/1.drawio.png">
+
+
+<link rel="canonical" href="http://example.com/2026/03/22/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/03/22/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/","path":"2026/03/22/Agent开发——知识图谱/","title":"Agent开发——知识图谱"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Agent开发——知识图谱 | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.1.</span> <span class="nav-text">获取数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%AF%9D%E5%86%85%E5%AE%B9%E6%8B%86%E5%88%86%E4%BA%94%E5%85%83%E7%BB%84"><span class="nav-number">3.2.</span> <span class="nav-text">对话内容拆分五元组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E5%85%83%E7%BB%84%E5%AD%98%E5%85%A5Neo4j"><span class="nav-number">3.3.</span> <span class="nav-text">五元组存入Neo4j</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E5%85%83%E7%BB%84%E6%90%9C%E7%B4%A2keyword"><span class="nav-number">3.4.</span> <span class="nav-text">五元组搜索keyword</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tool"><span class="nav-number">3.5.</span> <span class="nav-text">Tool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tool-Prompt"><span class="nav-number">3.6.</span> <span class="nav-text">Tool-Prompt</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E5%85%88%EF%BC%8C%E6%9D%A5%E4%B8%80%E5%8F%A5%E8%83%BD%E7%94%A8%E4%BA%8E%E8%AE%B0%E5%BF%86%E7%9A%84%E8%AF%9D%E9%A2%98"><span class="nav-number">4.1.</span> <span class="nav-text">首先，来一句能用于记忆的话题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%AF%9D%E7%BB%93%E6%9D%9F%E5%90%8E%E5%90%AF%E5%8A%A8%E4%BA%94%E5%85%83%E7%BB%84%E5%88%86%E5%89%B2"><span class="nav-number">4.2.</span> <span class="nav-text">对话结束后启动五元组分割</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%8B%E7%9C%8BNeo4j%E7%9A%84webui"><span class="nav-number">4.3.</span> <span class="nav-text">看看Neo4j的webui</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%91%E8%B5%B7%E8%AE%B0%E5%BF%86%E5%AF%B9%E8%AF%9D"><span class="nav-number">4.4.</span> <span class="nav-text">挑起记忆对话</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/03/22/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Agent开发——知识图谱 | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Agent开发——知识图谱
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-22 14:32:17 / 修改时间：15:39:02" itemprop="dateCreated datePublished" datetime="2026-03-22T14:32:17+08:00">2026-03-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url" rel="index"><span itemprop="name">知识图谱</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2026/03/22/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" class="post-meta-item leancloud_visitors" data-flag-title="Agent开发——知识图谱" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>17 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Agent开发——知识图谱，使用知识图谱的五元组解决记忆问题</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用简单的知识图谱来解决Agent的记忆问题，继“记忆压缩”、RAG之后的第三种记忆存取形式</p>
+<p>观前提示：本文所使用的并不是GraphRAG，而仅仅是知识图谱，与其说是记忆，更像是古早的知识图谱+LLM的知识库形式</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>和我们之前的两种记忆解决方案一样，大致流程就是：</p>
+<p>上一轮对话结束——&gt; 保存对话内容 ——&gt; 之后的对话需要记忆搜索 ——&gt; 搜索到保存的对话记忆 ——&gt; 如此循环</p>
+<p>具体流程图如下：</p>
+<p><img src="/../imgs/26.3.22.Agent-%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/1.drawio.png" alt="img1"></p>
+<p>以上的实现思路源自 <a target="_blank" rel="noopener" href="https://github.com/RTGS2017/NagaAgent">开源项目娜迦Agent</a>, 及其作者 <a target="_blank" rel="noopener" href="https://space.bilibili.com/266938091?spm_id_from=333.337.search-card.all.click">b站：柏斯阔落
+</a></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="获取数据库"><a href="#获取数据库" class="headerlink" title="获取数据库"></a>获取数据库</h3><p>约束唯一性，仅第一次运行即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建唯一性约束确保数据一致性</span></span><br><span class="line">constraints = [</span><br><span class="line">    <span class="string">&quot;CREATE CONSTRAINT Person IF NOT EXISTS FOR (p:Person) REQUIRE p.name IS UNIQUE&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CREATE CONSTRAINT Position IF NOT EXISTS FOR (po:Position) REQUIRE po.name IS UNIQUE&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CREATE CONSTRAINT Organization IF NOT EXISTS FOR (o:Organization) REQUIRE o.name IS UNIQUE&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CREATE CONSTRAINT Item IF NOT EXISTS FOR (i:Item) REQUIRE i.name IS UNIQUE&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CREATE CONSTRAINT Concept IF NOT EXISTS FOR (c:Concept) REQUIRE c.name IS UNIQUE&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CREATE CONSTRAINT Time IF NOT EXISTS FOR (t:Time) REQUIRE t.name IS UNIQUE&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CREATE CONSTRAINT Event IF NOT EXISTS FOR (e:Event) REQUIRE e.name IS UNIQUE&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CREATE CONSTRAINT Activity IF NOT EXISTS FOR (a:Activity) REQUIRE a.name IS UNIQUE&quot;</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> constraint <span class="keyword">in</span> constraints:</span><br><span class="line">    get_graph().run(constraint)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_graph</span>():</span><br><span class="line">    <span class="comment"># 连接到Neo4j数据库</span></span><br><span class="line">    graph = Graph(<span class="string">&quot;neo4j://localhost:7475&quot;</span>, auth=(<span class="string">&quot;neo4j&quot;</span>, <span class="string">&quot;yourpassword&quot;</span>))</span><br><span class="line">    <span class="keyword">return</span> graph</span><br></pre></td></tr></table></figure>
+
+<h3 id="对话内容拆分五元组"><a href="#对话内容拆分五元组" class="headerlink" title="对话内容拆分五元组"></a>对话内容拆分五元组</h3><p>在AI时代之前，这属于NLP领域，有了AI之后，只要文本内容不长或者你舍得Token，AI进行chunking的处理显然是最理想的。</p>
+<p>五元组的定义 [“主语”，“主语类型”，“谓语（关系）”，“宾语”，“宾语类型”]<br>如句子，“小明喜欢吃苹果”，可拆分为<br>[“小明”，“人物”，“喜欢吃”，“苹果”，“物品”]</p>
+<p>在将来检索时，只需要搜索“喜欢吃”即可搜索到相关五元组</p>
+<p>此处的prompt来自 <a target="_blank" rel="noopener" href="https://github.com/RTGS2017/NagaAgent">开源项目娜迦Agent</a></p>
+<p>使用第三方AI(在此处为agent_nopic，没有任何Tool和上下文的纯LLM)进行五元组分割，若内容没有实际意义则返回空。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">extract_quintuples</span>(<span class="params">text:<span class="built_in">str</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;使用结构化输出的五元组提取&quot;&quot;&quot;</span></span><br><span class="line">    system_prompt = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    从以下中文文本中抽取有价值的五元组（主语-主语类型-谓语-宾语-宾语类型）关系，以 JSON 数组格式返回。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    ## 提取规则</span></span><br><span class="line"><span class="string">    1. 只提取**事实性**信息，包括：</span></span><br><span class="line"><span class="string">    - 具体的行为和动作</span></span><br><span class="line"><span class="string">    - 明确的实体关系</span></span><br><span class="line"><span class="string">    - 实际存在的状态和属性</span></span><br><span class="line"><span class="string">    - 用户表达的具体需求、偏好、计划</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    2. 严格过滤以下内容：</span></span><br><span class="line"><span class="string">    - 比喻、拟人、夸张等修辞手法</span></span><br><span class="line"><span class="string">    - 时间的陈述（如“现在是14点”）</span></span><br><span class="line"><span class="string">    - 虚拟、假设、想象的内容</span></span><br><span class="line"><span class="string">    - 纯粹的情感表达（如&quot;我很开心&quot;、&quot;你真棒&quot;）</span></span><br><span class="line"><span class="string">    - 赞美、讽刺、调侃等主观评价</span></span><br><span class="line"><span class="string">    - 闲聊中的无关信息</span></span><br><span class="line"><span class="string">    - 重复或冗余的关系</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    3. 类型包括但不限于：人物、地点、组织、物品、概念、时间、事件、活动等。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    ## 示例</span></span><br><span class="line"><span class="string">    输入：小明在公园里踢足球。</span></span><br><span class="line"><span class="string">    输出：[[&quot;小明&quot;, &quot;人物&quot;, &quot;踢&quot;, &quot;足球&quot;, &quot;物品&quot;], [&quot;小明&quot;, &quot;人物&quot;, &quot;在&quot;, &quot;公园&quot;, &quot;地点&quot;]]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    输入：你像小太阳一样温暖。</span></span><br><span class="line"><span class="string">    输出：[] （比喻句，不提取）</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    输入：我喜欢吃苹果和香蕉。</span></span><br><span class="line"><span class="string">    输出：[[&quot;我&quot;, &quot;人物&quot;, &quot;喜欢吃&quot;, &quot;苹果&quot;, &quot;物品&quot;], [&quot;我&quot;, &quot;人物&quot;, &quot;喜欢吃&quot;, &quot;香蕉&quot;, &quot;物品&quot;]]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    输入：如果我是鸟，我会飞到月球。</span></span><br><span class="line"><span class="string">    输出：[] （假设内容，不提取）</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    请从文本中提取有价值的事实性五元组：</span></span><br><span class="line"><span class="string">    <span class="subst">&#123;text&#125;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    除了JSON数据，请不要输出任何其他数据，例如：```、```json、以下是我提取的数据：。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    msgs = []</span><br><span class="line">    msgs.append(&#123;</span><br><span class="line">        <span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>,</span><br><span class="line">        <span class="string">&quot;content&quot;</span>: system_prompt</span><br><span class="line">    &#125;)</span><br><span class="line">    msgs.append(&#123;</span><br><span class="line">        <span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>,</span><br><span class="line">        <span class="string">&quot;content&quot;</span>: text</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    res = get_agent_nopic().invoke(&#123;</span><br><span class="line">        <span class="string">&quot;messages&quot;</span>:msgs</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    latest_message = res[<span class="string">&quot;messages&quot;</span>][-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> latest_message.content:</span><br><span class="line">        res=latest_message.content.strip()</span><br><span class="line">    </span><br><span class="line">    quintuples = json.loads(res)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;提取到 <span class="subst">&#123;<span class="built_in">len</span>(quintuples)&#125;</span> 个五元组&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>([<span class="built_in">tuple</span>(t) <span class="keyword">for</span> t <span class="keyword">in</span> quintuples <span class="keyword">if</span> <span class="built_in">len</span>(t) == <span class="number">5</span>])</span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">tuple</span>(t) <span class="keyword">for</span> t <span class="keyword">in</span> quintuples <span class="keyword">if</span> <span class="built_in">len</span>(t) == <span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="五元组存入Neo4j"><a href="#五元组存入Neo4j" class="headerlink" title="五元组存入Neo4j"></a>五元组存入Neo4j</h3><p>对话内容进行了五元组拆分后，即可存入知识图谱<br>注意：上面的拆分的返回结果为 quintuple的tuple，即一句话会被拆分为多个五元组,所以需要for导入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">store_quintuples</span>(<span class="params">quintuples:<span class="built_in">tuple</span></span>):</span><br><span class="line">    graph = get_graph()</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(quintuples)==<span class="number">0</span>: </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;存储开始：&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> subject, subject_type, relation, object_, object_type <span class="keyword">in</span> quintuples:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;主语: <span class="subst">&#123;subject&#125;</span> (类型: <span class="subst">&#123;subject_type&#125;</span>)&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;谓语: <span class="subst">&#123;relation&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;宾语: <span class="subst">&#123;object_&#125;</span> (类型: <span class="subst">&#123;object_type&#125;</span>)&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;---&quot;</span>) </span><br><span class="line">        h_label = subject_type</span><br><span class="line">        t_label = object_type</span><br><span class="line">        h_node = Node(h_label, name=subject, entity_type=subject_type)</span><br><span class="line">        t_node = Node(t_label, name=object_, entity_type=object_type)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 合并时使用对应标签和唯一键 &quot;name&quot;</span></span><br><span class="line">        graph.merge(h_node, h_label, <span class="string">&quot;name&quot;</span>)</span><br><span class="line">        graph.merge(t_node, t_label, <span class="string">&quot;name&quot;</span>)</span><br><span class="line"></span><br><span class="line">        r = Relationship(h_node, relation, t_node, head_type=subject_type, tail_type=object_type)</span><br><span class="line">        graph.merge(r)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="五元组搜索keyword"><a href="#五元组搜索keyword" class="headerlink" title="五元组搜索keyword"></a>五元组搜索keyword</h3><p>搜索五元组中keyword任何一个可能出现的地方，即五元的四个where “OR”</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">search_quintuples</span>(<span class="params">keyword:<span class="built_in">str</span></span>):</span><br><span class="line">    graph = get_graph()</span><br><span class="line">    query = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    MATCH (e1)-[r]-&gt;(e2)</span></span><br><span class="line"><span class="string">    WHERE e1.name CONTAINS $kw OR e2.name CONTAINS $kw</span></span><br><span class="line"><span class="string">    OR e1.entity_type CONTAINS $kw OR e2.entity_type CONTAINS $kw</span></span><br><span class="line"><span class="string">    OR type(r) CONTAINS $kw</span></span><br><span class="line"><span class="string">    RETURN e1.name, e1.entity_type, type(r), e2.name, e2.entity_type LIMIT 5</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    results = graph.run(query, kw=keyword).data()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;关键词搜索结果:&quot;</span>+<span class="built_in">str</span>(results))</span><br><span class="line">    <span class="keyword">return</span> results</span><br></pre></td></tr></table></figure>
+
+<h3 id="Tool"><a href="#Tool" class="headerlink" title="Tool"></a>Tool</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@tool(<span class="params">description=<span class="string">&quot;知识图谱记忆搜索&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">graph_search_tool</span>(<span class="params"><span class="built_in">input</span>:<span class="built_in">str</span></span>):</span><br><span class="line">    <span class="keyword">return</span> memory.graph_memory.search_quintuples(<span class="built_in">input</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Tool-Prompt"><a href="#Tool-Prompt" class="headerlink" title="Tool-Prompt"></a>Tool-Prompt</h3><p>和之前的RAG检索的Prompt几乎一致</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph_search_tool:</span><br><span class="line">   - 核心能力：入参为用户输入语句中的关键词，从知识图谱精准检索相关的记忆以在对话情景中展现日常对话的；</span><br><span class="line">   - 出参：与关键词相关的几条记忆知识；</span><br><span class="line">   - 使用场景：当用户谈到涉及“你还记得”、“上次”、“忘了”、“回想”等涉及记忆的场景，你现有短期记忆无法精准解答时，调用此工具获取此前的长期记忆；</span><br><span class="line">   - 调用规则：若tool返回的此前记忆也与对话内容无关，则可以忽略该记忆；若返回的记忆与对话内容相关，则结合记忆与上下文情景与用户对话；</span><br><span class="line">   - 示例：user：&quot;你还记得我之前说过我最爱吃的甜品吗&quot;，入参传入“甜品”或“爱吃”，得到记忆并结合记忆与上下文情景继续对话；</span><br></pre></td></tr></table></figure>
+
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><h3 id="首先，来一句能用于记忆的话题"><a href="#首先，来一句能用于记忆的话题" class="headerlink" title="首先，来一句能用于记忆的话题"></a>首先，来一句能用于记忆的话题</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">用户输入：我最爱的乐队是Fall Out Boy</span><br><span class="line">AIMessage(content=&quot;Fall Out Boy啊！那首《Sugar, We&#x27;re Goin Down》可是超级经典呢。</span><br><span class="line">    看来Master喜欢这种充满活力的流行朋克风格？下次要不要一起听听他们的新专辑，或者聊聊你最 喜欢他们的哪首歌？&quot; ........)</span><br></pre></td></tr></table></figure>
+
+<h3 id="对话结束后启动五元组分割"><a href="#对话结束后启动五元组分割" class="headerlink" title="对话结束后启动五元组分割"></a>对话结束后启动五元组分割</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">提取到 3 个五元组</span><br><span class="line">[(&#x27;Master&#x27;, &#x27;人物&#x27;, &#x27;最爱的乐队是&#x27;, &#x27;Fall Out Boy&#x27;, &#x27;组织&#x27;), (&#x27;Fall Out Boy&#x27;, &#x27;组织&#x27;, &#x27;拥有歌曲&#x27;, &quot;Sugar, We&#x27;re Goin Down&quot;, &#x27;物品&#x27;), (&quot;Sugar, We&#x27;re Goin Down&quot;, &#x27;物品&#x27;, &#x27;风格是&#x27;, &#x27;流行朋克&#x27;, &#x27;概念&#x27;)]</span><br><span class="line">存储开始：</span><br><span class="line">主语: Master (类型: 人物)</span><br><span class="line">谓语: 最爱的乐队是</span><br><span class="line">宾语: Fall Out Boy (类型: 组织)</span><br><span class="line">---</span><br><span class="line">主语: Fall Out Boy (类型: 组织)</span><br><span class="line">谓语: 拥有歌曲</span><br><span class="line">宾语: Sugar, We&#x27;re Goin Down (类型: 物品)</span><br><span class="line">---</span><br><span class="line">主语: Sugar, We&#x27;re Goin Down (类型: 物品)</span><br><span class="line">谓语: 风格是</span><br><span class="line">宾语: 流行朋克 (类型: 概念)</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<h3 id="看看Neo4j的webui"><a href="#看看Neo4j的webui" class="headerlink" title="看看Neo4j的webui"></a>看看Neo4j的webui</h3><p><img src="/../imgs/26.3.22.Agent-%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/2.png" alt="img2"></p>
+<p>已经存进去了</p>
+<h3 id="挑起记忆对话"><a href="#挑起记忆对话" class="headerlink" title="挑起记忆对话"></a>挑起记忆对话</h3><p>此前已关闭RAG功能，并删除短期记忆</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">用户输入：你还记得我说过我最爱的乐队是什么吗</span><br><span class="line">&#123;&#x27;name&#x27;: &#x27;graph_search_tool&#x27;, &#x27;args&#x27;: &#123;&#x27;input&#x27;: &#x27;最爱的乐队&#x27;&#125;,.....&#125;</span><br><span class="line">关键词搜索结果:[&#123;&#x27;e1.name&#x27;: &#x27;Master&#x27;, &#x27;e1.entity_type&#x27;: &#x27;人物&#x27;, &#x27;type(r)&#x27;: &#x27;最爱的乐队是&#x27;, &#x27;e2.name&#x27;: &#x27;Fall Out Boy&#x27;, &#x27;e2.entity_type&#x27;: &#x27;组织&#x27;&#125;]</span><br><span class="line">AIMessage(content=&#x27;当然记得啦，Master最爱的乐队是Fall Out Boy！</span><br><span class="line">    他们的歌总是很有活力，每次听都让人忍不住跟着节奏摇摆呢。Master最近有在听他们的新歌吗？&#x27;。。。。。。)</span><br></pre></td></tr></table></figure>
+
+<p>大成功！</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>看到这里，不知道你发现没有，知识图谱的记忆系统的keyword搜索是直接拿着str进去搜的，与RAG的语义相似的向量不同，本方法搜的是什么就是什么，“喜欢”与“爱”，“西红柿”和“番茄”这类词搜索的结果是不同的！</p>
+<p>这也是我在使用知识图谱做记忆系统后十分纠结的原因，想要缓解这一问题的一个方法就是开放此前的五元组分割的尺度，将记忆系统扩大为一个真正的知识库，否则在记忆效果上它是被RAG吊打的。</p>
+<p>然而，知识图谱在记忆搜索深度上也是吊打RAG的，比方说我上述的例子：<br>“Master喜欢Fall Out Boy”,一般RAG搜索“喜欢的乐队”只会出现“Master喜欢Fall Out Boy”这样一句话，而知识图谱如果多搜索几轮可以沿着知识网发散到各处。</p>
+<p>综上，RAG在这类Agent的记忆解决方面效果是优于知识图谱的，但是RAG的记忆深度不及知识图谱，也不具有记忆的关联搜索能力。<br>因此，知识图谱作为RAG无法有效搜索记忆时的补充也是不错的选择，可以将RAG的优先级设置为最高，并将知识图谱搜索的深度提高(注意Token)，二者配合即为一个更加完善的记忆系统。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>知识图谱(五元组)</th>
+<th>RAG</th>
+<th>记忆压缩(短期记忆)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>记忆效果</td>
+<td>一般(无法识别同义词)</td>
+<td>较强(可以识别同义词，但是没有深度)</td>
+<td>短期极强，长期极弱</td>
+</tr>
+<tr>
+<td>记忆深度</td>
+<td>极强(如果你不缺Token，可以在搜索时直接BFS、DFS)</td>
+<td>无</td>
+<td>短期极强，长期极弱</td>
+</tr>
+<tr>
+<td>Token花费</td>
+<td>低</td>
+<td>低</td>
+<td>高(线性增长)</td>
+</tr>
+<tr>
+<td>可视化效果</td>
+<td>强(Neo4j的可视化图)</td>
+<td>无</td>
+<td>强？(直接看json文本)</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/%E8%AE%B0%E5%BF%86/" rel="tag"># 记忆</a>
+              <a href="/tags/Agent/" rel="tag"># Agent</a>
+              <a href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="tag"># 知识图谱</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/20/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E2%80%94%E2%80%94Neo4J%E7%9A%84%E5%AD%A6%E4%B9%A0/" rel="prev" title="知识图谱——Neo4J的学习">
+                  <i class="fa fa-angle-left"></i> 知识图谱——Neo4J的学习
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">124k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:10</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2026/03/22/Agent%E5%BC%80%E5%8F%91%E2%80%94%E2%80%94%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
