@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="开始使用Kaggle去系统接触一下机器学习深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习——Kaggle初体验">
+<meta property="og:url" content="http://example.com/2026/05/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Kaggle%E5%88%9D%E4%BD%93%E9%AA%8C/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="开始使用Kaggle去系统接触一下机器学习深度学习">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-26T23:11:58.000Z">
+<meta property="article:modified_time" content="2026-05-27T01:42:25.339Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2026/05/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Kaggle%E5%88%9D%E4%BD%93%E9%AA%8C/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/05/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Kaggle%E5%88%9D%E4%BD%93%E9%AA%8C/","path":"2026/05/27/机器学习——Kaggle初体验/","title":"机器学习——Kaggle初体验"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>机器学习——Kaggle初体验 | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E8%A7%81"><span class="nav-number">2.</span> <span class="nav-text">初见</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#First-Try"><span class="nav-number">3.</span> <span class="nav-text">First Try</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="nav-number">3.1.</span> <span class="nav-text">第一步：读取数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%88%86%E6%9E%90"><span class="nav-number">3.2.</span> <span class="nav-text">第二步：分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E5%88%A0%E9%99%A4%E6%97%A0%E5%85%B3%E5%88%97"><span class="nav-number">3.3.</span> <span class="nav-text">第三步：删除无关列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">3.4.</span> <span class="nav-text">第四步：预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E7%BC%BA%E5%A4%B1%E5%80%BC"><span class="nav-number">3.4.1.</span> <span class="nav-text">检查缺失值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E7%BC%BA%E5%A4%B1%E5%80%BC"><span class="nav-number">3.4.2.</span> <span class="nav-text">处理缺失值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%86%E5%88%86x-train-y-train%E5%B9%B6%E5%BD%92%E4%B8%80%E5%8C%96"><span class="nav-number">3.4.3.</span> <span class="nav-text">拆分x_train,y_train并归一化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5%EF%BC%9A%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.5.</span> <span class="nav-text">第五步：训练模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E6%AD%A5%EF%BC%9A%E9%A2%84%E6%B5%8B"><span class="nav-number">3.6.</span> <span class="nav-text">第六步：预测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/05/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Kaggle%E5%88%9D%E4%BD%93%E9%AA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="机器学习——Kaggle初体验 | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习——Kaggle初体验
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-05-27 07:11:58 / 修改时间：09:42:25" itemprop="dateCreated datePublished" datetime="2026-05-27T07:11:58+08:00">2026-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2026/05/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Kaggle%E5%88%9D%E4%BD%93%E9%AA%8C/" class="post-meta-item leancloud_visitors" data-flag-title="机器学习——Kaggle初体验" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>开始使用Kaggle去系统接触一下机器学习深度学习</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>2026年5月27日，保研前的所有课程已经结束，已经可以为将来的研究生牛马生活做些铺垫了，遂开始系统学习机器学习深度学习。此前已经将理论诸如SVM、LSTM、CNN之类过了一遍，但是很少有使用pytorch、sklearn实操的机会，于是选择在kaggle上找些题做。</p>
+<h2 id="初见"><a href="#初见" class="headerlink" title="初见"></a>初见</h2><p>早在大三上学期的《数据挖掘》课上，老师就为我们介绍过kaggle这个平台并鼓励我们在上面参加比赛，那时的我还是个抱着Agent开发和传统后端不放的纯正软工人，直到现在才知道当时的短浅QAQ</p>
+<p>Kaggle的本质也是个大型的OJ，我是这么认为的。给定题目数据集，用户去做分类&#x2F;回归等任务并提交测试集的预测csv，最终平台将预测结果与test_data的label进行评估并最终打分（准确率）。</p>
+<p>kaggle的主要workspace是notebook(话说搞ML,DL的好像都喜欢在notebook写东西)，当然也可以下载到本地去运行，毕竟最终要提交的只有预测结果的csv。</p>
+<h2 id="First-Try"><a href="#First-Try" class="headerlink" title="First Try"></a>First Try</h2><p>毫无疑问的，Hello World级别的 <a target="_blank" rel="noopener" href="https://www.kaggle.com/competitions/titanic/overview">Titanic - Machine Learning from Disaster</a></p>
+<p>本质是通过泰坦尼克号的所有乘客的信息，预测其生还与否</p>
+<p>那么就开始做题吧~</p>
+<h3 id="第一步：读取数据"><a href="#第一步：读取数据" class="headerlink" title="第一步：读取数据"></a>第一步：读取数据</h3><p>没啥好说的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">train_data = pd.read_csv(<span class="string">&quot;../input/competitions/titanic/train.csv&quot;</span>)</span><br><span class="line">test_data = pd.read_csv(<span class="string">&quot;../input/competitions/titanic/test.csv&quot;</span>)</span><br><span class="line"><span class="built_in">print</span> (train_data.head())</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">   PassengerId  Survived  Pclass  \</span><br><span class="line"><span class="number">0</span>            <span class="number">1</span>         <span class="number">0</span>       <span class="number">3</span>   </span><br><span class="line"><span class="number">1</span>            <span class="number">2</span>         <span class="number">1</span>       <span class="number">1</span>   </span><br><span class="line"><span class="number">2</span>            <span class="number">3</span>         <span class="number">1</span>       <span class="number">3</span>   </span><br><span class="line"><span class="number">3</span>            <span class="number">4</span>         <span class="number">1</span>       <span class="number">1</span>   </span><br><span class="line"><span class="number">4</span>            <span class="number">5</span>         <span class="number">0</span>       <span class="number">3</span>   </span><br><span class="line"></span><br><span class="line">                                                Name     Sex   Age  SibSp  \</span><br><span class="line"><span class="number">0</span>                            Braund, Mr. Owen Harris    male  <span class="number">22.0</span>      <span class="number">1</span>   </span><br><span class="line"><span class="number">1</span>  Cumings, Mrs. John Bradley (Florence Briggs Th...  female  <span class="number">38.0</span>      <span class="number">1</span>   </span><br><span class="line"><span class="number">2</span>                             Heikkinen, Miss. Laina  female  <span class="number">26.0</span>      <span class="number">0</span>   </span><br><span class="line"><span class="number">3</span>       Futrelle, Mrs. Jacques Heath (Lily May Peel)  female  <span class="number">35.0</span>      <span class="number">1</span>   </span><br><span class="line"><span class="number">4</span>                           Allen, Mr. William Henry    male  <span class="number">35.0</span>      <span class="number">0</span>   </span><br><span class="line"></span><br><span class="line">   Parch            Ticket     Fare Cabin Embarked  </span><br><span class="line"><span class="number">0</span>      <span class="number">0</span>         A/<span class="number">5</span> <span class="number">21171</span>   <span class="number">7.2500</span>   NaN        S  </span><br><span class="line"><span class="number">1</span>      <span class="number">0</span>          PC <span class="number">17599</span>  <span class="number">71.2833</span>   C85        C  </span><br><span class="line"><span class="number">2</span>      <span class="number">0</span>  STON/O2. <span class="number">3101282</span>   <span class="number">7.9250</span>   NaN        S  </span><br><span class="line"><span class="number">3</span>      <span class="number">0</span>            <span class="number">113803</span>  <span class="number">53.1000</span>  C123        S  </span><br><span class="line"><span class="number">4</span>      <span class="number">0</span>            <span class="number">373450</span>   <span class="number">8.0500</span>   NaN        S  </span><br></pre></td></tr></table></figure>
+
+<h3 id="第二步：分析"><a href="#第二步：分析" class="headerlink" title="第二步：分析"></a>第二步：分析</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(train_data.groupby(<span class="string">&#x27;Sex&#x27;</span>)[<span class="string">&#x27;Survived&#x27;</span>].mean())  </span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Sex</span><br><span class="line">female    <span class="number">0.742038</span></span><br><span class="line">male      <span class="number">0.188908</span></span><br><span class="line">Name: Survived, dtype: float64</span><br></pre></td></tr></table></figure>
+
+<p>可以通过这种方式去判断哪些属性有用，哪些没用</p>
+<h3 id="第三步：删除无关列"><a href="#第三步：删除无关列" class="headerlink" title="第三步：删除无关列"></a>第三步：删除无关列</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除无关列</span></span><br><span class="line">cols_to_drop=[<span class="string">&#x27;PassengerId&#x27;</span>,<span class="string">&#x27;Name&#x27;</span>,<span class="string">&#x27;Ticket&#x27;</span>,<span class="string">&#x27;Fare&#x27;</span>,<span class="string">&#x27;Cabin&#x27;</span>,<span class="string">&#x27;Embarked&#x27;</span>]</span><br><span class="line">train_data = train_data.drop(cols_to_drop, axis=<span class="number">1</span>)</span><br><span class="line">test_data = test_data.drop(cols_to_drop, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(train_data.head())</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   Survived  Pclass     Sex   Age  SibSp  Parch</span><br><span class="line"><span class="number">0</span>         <span class="number">0</span>       <span class="number">3</span>    male  <span class="number">22.0</span>      <span class="number">1</span>      <span class="number">0</span></span><br><span class="line"><span class="number">1</span>         <span class="number">1</span>       <span class="number">1</span>  female  <span class="number">38.0</span>      <span class="number">1</span>      <span class="number">0</span></span><br><span class="line"><span class="number">2</span>         <span class="number">1</span>       <span class="number">3</span>  female  <span class="number">26.0</span>      <span class="number">0</span>      <span class="number">0</span></span><br><span class="line"><span class="number">3</span>         <span class="number">1</span>       <span class="number">1</span>  female  <span class="number">35.0</span>      <span class="number">1</span>      <span class="number">0</span></span><br><span class="line"><span class="number">4</span>         <span class="number">0</span>       <span class="number">3</span>    male  <span class="number">35.0</span>      <span class="number">0</span>      <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="第四步：预处理"><a href="#第四步：预处理" class="headerlink" title="第四步：预处理"></a>第四步：预处理</h3><h4 id="检查缺失值"><a href="#检查缺失值" class="headerlink" title="检查缺失值"></a>检查缺失值</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data.isna().<span class="built_in">any</span>()</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Survived    <span class="literal">False</span></span><br><span class="line">Pclass      <span class="literal">False</span></span><br><span class="line">Sex         <span class="literal">False</span></span><br><span class="line">Age          <span class="literal">True</span></span><br><span class="line">SibSp       <span class="literal">False</span></span><br><span class="line">Parch       <span class="literal">False</span></span><br><span class="line">dtype: <span class="built_in">bool</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="处理缺失值"><a href="#处理缺失值" class="headerlink" title="处理缺失值"></a>处理缺失值</h4><p><em><strong>注意！！！</strong></em>  一定，一定，要使用训练集的平均值去给测试集做缺失值填充，接下来的归一化等操作还会涉及到此类问题。</p>
+<p>究其原因，如果使用测试集的平均值填充，那么测试集的平均值就相当于泄露了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 处理缺失值</span></span><br><span class="line">train_data[<span class="string">&#x27;Age&#x27;</span>] = train_data[<span class="string">&#x27;Age&#x27;</span>].fillna(train_data[<span class="string">&#x27;Age&#x27;</span>].mean())</span><br><span class="line">test_data[<span class="string">&#x27;Age&#x27;</span>] = test_data[<span class="string">&#x27;Age&#x27;</span>].fillna(train_data[<span class="string">&#x27;Age&#x27;</span>].mean())  <span class="comment"># 用训练集的平均值  </span></span><br><span class="line"><span class="built_in">print</span>(train_data.head(<span class="number">10</span>))</span><br><span class="line">train_data.isna().<span class="built_in">any</span>()</span><br></pre></td></tr></table></figure>
+
+<h4 id="拆分x-train-y-train并归一化"><a href="#拆分x-train-y-train并归一化" class="headerlink" title="拆分x_train,y_train并归一化"></a>拆分x_train,y_train并归一化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练包含features与label分别为x与y</span></span><br><span class="line">x_train = train_data.drop(<span class="string">&quot;Survived&quot;</span>,axis=<span class="number">1</span>)</span><br><span class="line">y_train = train_data[<span class="string">&quot;Survived&quot;</span>]</span><br><span class="line">x_test = test_data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据归一化</span></span><br><span class="line">scaler = MinMaxScaler()</span><br><span class="line">x_train = scaler.fit_transform(x_train)</span><br><span class="line">x_test = scaler.transform(x_test)</span><br><span class="line"><span class="built_in">print</span>(x_train[:<span class="number">10</span>])</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="number">1.</span>         <span class="number">1.</span>         <span class="number">0.27117366</span> <span class="number">0.125</span>      <span class="number">0.</span>        ]</span><br><span class="line"> [<span class="number">0.</span>         <span class="number">0.</span>         <span class="number">0.4722292</span>  <span class="number">0.125</span>      <span class="number">0.</span>        ]</span><br><span class="line"> [<span class="number">1.</span>         <span class="number">0.</span>         <span class="number">0.32143755</span> <span class="number">0.</span>         <span class="number">0.</span>        ]</span><br><span class="line"> [<span class="number">0.</span>         <span class="number">0.</span>         <span class="number">0.43453129</span> <span class="number">0.125</span>      <span class="number">0.</span>        ]</span><br><span class="line"> [<span class="number">1.</span>         <span class="number">1.</span>         <span class="number">0.43453129</span> <span class="number">0.</span>         <span class="number">0.</span>        ]</span><br><span class="line"> [<span class="number">1.</span>         <span class="number">1.</span>         <span class="number">0.36792055</span> <span class="number">0.</span>         <span class="number">0.</span>        ]</span><br><span class="line"> [<span class="number">0.</span>         <span class="number">1.</span>         <span class="number">0.67328474</span> <span class="number">0.</span>         <span class="number">0.</span>        ]</span><br><span class="line"> [<span class="number">1.</span>         <span class="number">1.</span>         <span class="number">0.01985423</span> <span class="number">0.375</span>      <span class="number">0.16666667</span>]</span><br><span class="line"> [<span class="number">1.</span>         <span class="number">0.</span>         <span class="number">0.33400352</span> <span class="number">0.</span>         <span class="number">0.33333333</span>]</span><br><span class="line"> [<span class="number">0.5</span>        <span class="number">0.</span>         <span class="number">0.17064589</span> <span class="number">0.125</span>      <span class="number">0.</span>        ]]</span><br></pre></td></tr></table></figure>
+
+<h3 id="第五步：训练模型"><a href="#第五步：训练模型" class="headerlink" title="第五步：训练模型"></a>第五步：训练模型</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line">model = SVC(kernel=<span class="string">&#x27;linear&#x27;</span>)  <span class="comment"># 使用线性核</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型  </span></span><br><span class="line">model.fit(x_train, y_train)  </span><br></pre></td></tr></table></figure>
+
+<h3 id="第六步：预测"><a href="#第六步：预测" class="headerlink" title="第六步：预测"></a>第六步：预测</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 预测测试集  </span></span><br><span class="line">predictions = model.predict(x_test)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成提交文件（必须包含PassengerId和Survived两列）  </span></span><br><span class="line">test_data = pd.read_csv(<span class="string">&quot;../input/competitions/titanic/test.csv&quot;</span>)</span><br><span class="line">output = pd.DataFrame(&#123;  </span><br><span class="line">    <span class="string">&#x27;PassengerId&#x27;</span>: test_data.PassengerId,  </span><br><span class="line">    <span class="string">&#x27;Survived&#x27;</span>: predictions  </span><br><span class="line">&#125;)  </span><br><span class="line">output.to_csv(<span class="string">&#x27;submission.csv&#x27;</span>, index=<span class="literal">False</span>)  <span class="comment"># 保存到当前目录  </span></span><br><span class="line"><span class="built_in">print</span>(output[:<span class="number">50</span>])</span><br></pre></td></tr></table></figure>
+
+<p>最终提交</p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>0.76555的准确率，位居70%。</p>
+<p>下一步就是优化了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在Kaggle上做这个还是挺有意思的，找回了大一的时候做OJ的感觉。甚至也会有优秀解法可以参考</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/31/Selenium%E2%80%94%E2%80%94%E6%99%BA%E6%85%A7%E6%A0%91%E5%88%B7%E8%AF%BE/" rel="prev" title="Selenium——智慧树刷课">
+                  <i class="fa fa-angle-left"></i> Selenium——智慧树刷课
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">141k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:52</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2026/05/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Kaggle%E5%88%9D%E4%BD%93%E9%AA%8C/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
