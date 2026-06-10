@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="使用特征工程去提高此前的泰坦尼克生存预测的ACC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习——特征工程">
+<meta property="og:url" content="http://example.com/2026/06/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="使用特征工程去提高此前的泰坦尼克生存预测的ACC">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-10T10:24:43.000Z">
+<meta property="article:modified_time" content="2026-06-10T10:53:43.929Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2026/06/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/06/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/","path":"2026/06/10/机器学习——特征工程/","title":"机器学习——特征工程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>机器学习——特征工程 | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">什么是特征工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">特征工程为什么有用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-number">4.</span> <span class="nav-text">实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/06/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="机器学习——特征工程 | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习——特征工程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-06-10 18:24:43 / 修改时间：18:53:43" itemprop="dateCreated datePublished" datetime="2026-06-10T18:24:43+08:00">2026-06-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2026/06/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/" class="post-meta-item leancloud_visitors" data-flag-title="机器学习——特征工程" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>使用特征工程去提高此前的泰坦尼克生存预测的ACC</p>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在此之前我们在Kaggle上完成了我们的第一个Kaggle竞赛，得分仅有0.76555，接下来我们借助特征工程的方法来进行优化。</p>
+<h2 id="什么是特征工程"><a href="#什么是特征工程" class="headerlink" title="什么是特征工程"></a>什么是特征工程</h2><p>特征工程是将原始数据转化为更能代表问题本质的、适合机器学习模型输入的特征（通常是表格中的列）的过程。<br>简单来说，模型只认识数字，而且希望这些数字已经包含了问题的规律。特征工程的任务就是通过“加工”数据，让模型能更轻松地学到规律。<br>它的核心目标有两个：</p>
+<p>1.提升模型性能：让模型达到更高的准确率。<br>2.降低计算复杂度：减少无用或冗余的数据，让模型训练更快、更高效。</p>
+<p>常见的特征工程步骤包括：</p>
+<p>·<strong>数据清洗</strong>：处理缺失值（如填充或删除）、异常值和重复数据。</p>
+<p>·<strong>特征变换</strong>：将数据缩放到相同范围（标准化、归一化）、对长尾分布的数据取对数、将文本或类别变成数值（如独热编码）。</p>
+<p>·<strong>特征构建</strong>：从现有特征中创造更有意义的新特征，比如从“年月日”中提取“星期几”，或计算“面积 &#x3D; 长 × 宽”。</p>
+<p>·<strong>特征选择</strong>：筛选出对预测目标最有用、最相关的特征，剔除无关或冗余的特征（如通过相关系数、随机森林特征重要性等方法）。</p>
+<p>·<strong>特征降维</strong>：在保留大部分信息的前提下，将高维特征压缩到低维（如使用PCA主成分分析）。</p>
+<h2 id="特征工程为什么有用"><a href="#特征工程为什么有用" class="headerlink" title="特征工程为什么有用"></a>特征工程为什么有用</h2><p>在此前的泰坦尼克生存预测数据集的处理中，我直接drop掉了’Name’这个属性，认为：<strong>人的名字怎么会影响生存率呢？</strong></p>
+<p>然而，与中文语境不同的是，<strong>英文的名字是能够反映一个人的社会地位的！</strong></p>
+<p>Miss 和 Mrs, Mme, Ms 的姓名前缀分别代表了未婚与已婚，那么已婚的乘客会<strong>有丈夫陪同，生存率是不是会更高呢？</strong></p>
+<p>这就是问题所在了！</p>
+<p>在原有的，我们认为没有意义的数据中创造更有意义的新特征，这就是特征工程做的事情</p>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从 Name 列中提取称谓（如 Mr., Mrs., Miss., Master.）</span></span><br><span class="line"><span class="comment"># 称谓往往能反映年龄、社会地位和性别，可能影响获救优先级</span></span><br><span class="line">train_data[<span class="string">&#x27;Title&#x27;</span>] = train_data[<span class="string">&#x27;Name&#x27;</span>].<span class="built_in">str</span>.extract(<span class="string">&#x27; ([A-Za-z]+)\.&#x27;</span>, expand=<span class="literal">False</span>)</span><br><span class="line">test_data[<span class="string">&#x27;Title&#x27;</span>] = test_data[<span class="string">&#x27;Name&#x27;</span>].<span class="built_in">str</span>.extract(<span class="string">&#x27; ([A-Za-z]+)\.&#x27;</span>, expand=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Sex         0    1</span><br><span class="line">Title             </span><br><span class="line">Capt        0    1</span><br><span class="line">Col         0    2</span><br><span class="line">Countess    1    0</span><br><span class="line">Don         0    1</span><br><span class="line">Dr          1    6</span><br><span class="line">Jonkheer    0    1</span><br><span class="line">Lady        1    0</span><br><span class="line">Major       0    2</span><br><span class="line">Master      0   40</span><br><span class="line">Miss      182    0</span><br><span class="line">Mlle        2    0</span><br><span class="line">Mme         1    0</span><br><span class="line">Mr          0  517</span><br><span class="line">Mrs       125    0</span><br><span class="line">Ms          1    0</span><br><span class="line">Rev         0    6</span><br><span class="line">Sir         0    1</span><br></pre></td></tr></table></figure>
+
+<p>含义如下：</p>
+<blockquote>
+<p>Capt: Captain，船长或陆军上尉（男性）<br>Col: Colonel，陆军上校（男性）<br>Countess: 伯爵夫人（女性）<br>Don: 西班牙语&#x2F;意大利语中的尊称，先生，贵族头衔（男性）<br>Dr: Doctor，博士&#x2F;医生（男女均可，但表中男性多）<br>Jonkheer: 荷兰语，相当于“Esquire”或年轻贵族，男性<br>Lady: 女士，贵族女性（女性）<br>Major: 少校（男性）<br>Master: 对年轻男孩的称谓（男性，表中男性40，无女性）<br>Miss: 未婚女性（女性）<br>Mlle: 法语 Mademoiselle，未婚女性（女性）<br>Mme: 法语 Madame，已婚女性（女性）<br>Mr: Mister，先生（男性）<br>Mrs: 夫人（已婚女性）<br>Ms: 现代女性称谓，不指明婚姻状况（女性）<br>Rev: Reverend，牧师（男性居多，表中男性6）<br>Sir: 爵士（男性）</p>
+</blockquote>
+<p>那么我们就可以对以上的身份进行分组（分组是提高泛化能力，现有数据集相对较小，仅出现一次的如Don、Sir等如果单独去做one-hot，可能会导致过拟合）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将称谓进行分类</span></span><br><span class="line">title_mapping = &#123;</span><br><span class="line">    <span class="string">&#x27;Capt&#x27;</span>: <span class="string">&#x27;elite&#x27;</span>, <span class="string">&#x27;Col&#x27;</span>: <span class="string">&#x27;elite&#x27;</span>, <span class="string">&#x27;Countess&#x27;</span>: <span class="string">&#x27;elite&#x27;</span>, <span class="string">&#x27;Don&#x27;</span>: <span class="string">&#x27;elite&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Jonkheer&#x27;</span>: <span class="string">&#x27;elite&#x27;</span>, <span class="string">&#x27;Lady&#x27;</span>: <span class="string">&#x27;elite&#x27;</span>, <span class="string">&#x27;Major&#x27;</span>: <span class="string">&#x27;elite&#x27;</span>, <span class="string">&#x27;Sir&#x27;</span>: <span class="string">&#x27;elite&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Dr&#x27;</span>: <span class="string">&#x27;professional&#x27;</span>, <span class="string">&#x27;Rev&#x27;</span>: <span class="string">&#x27;professional&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mr&#x27;</span>: <span class="string">&#x27;male_adult&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Mrs&#x27;</span>: <span class="string">&#x27;married_female&#x27;</span>, <span class="string">&#x27;Ms&#x27;</span>: <span class="string">&#x27;married_female&#x27;</span>, <span class="string">&#x27;Mme&#x27;</span>: <span class="string">&#x27;married_female&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Miss&#x27;</span>: <span class="string">&#x27;unmarried_female&#x27;</span>, <span class="string">&#x27;Mlle&#x27;</span>: <span class="string">&#x27;unmarried_female&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Master&#x27;</span>: <span class="string">&#x27;child&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">train_data[<span class="string">&#x27;TitleGroup&#x27;</span>] = train_data[<span class="string">&#x27;Title&#x27;</span>].<span class="built_in">map</span>(title_mapping)</span><br><span class="line">test_data[<span class="string">&#x27;TitleGroup&#x27;</span>] = test_data[<span class="string">&#x27;Title&#x27;</span>].<span class="built_in">map</span>(title_mapping)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(train_data.groupby(<span class="string">&#x27;TitleGroup&#x27;</span>)[<span class="string">&#x27;Survived&#x27;</span>].mean())  </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">TitleGroup</span><br><span class="line">child               0.575000</span><br><span class="line">elite               0.500000</span><br><span class="line">male_adult          0.156673</span><br><span class="line">married_female      0.795276</span><br><span class="line">professional        0.230769</span><br><span class="line">unmarried_female    0.701087</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，unmarried_female生存率确实低于married_female，male_adult生成率低的吓人！</p>
+<p>最后，去做one-hot编码就可用于训练啦！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_data = pd.get_dummies(train_data, columns=[<span class="string">&#x27;TitleGroup&#x27;</span>])</span><br><span class="line">test_data = pd.get_dummies(test_data, columns=[<span class="string">&#x27;TitleGroup&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>特征工程不只局限于我上面说的，除此之外还能包括更细粒度的东西。<br>如Name中体现出是已婚女性，其配偶（属性Sibsp，同辈亲属数量）真的在船上吗？如果不在的话存活率是否会降低？毕竟，<strong>同辈兄弟姐妹对你的重视程度可能不如你的爱人？</strong></p>
+<p>总之，我认为特征工程是一个很考验人想象力的东西，落到具体的领域上需要对应的知识（如社会学、心理学之类的），好的特征工程能够有效提升模型的泛化能力和学习效果。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/27/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Kaggle%E5%88%9D%E4%BD%93%E9%AA%8C/" rel="prev" title="机器学习——Kaggle初体验">
+                  <i class="fa fa-angle-left"></i> 机器学习——Kaggle初体验
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">144k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6:01</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2026/06/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
