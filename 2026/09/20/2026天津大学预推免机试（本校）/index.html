@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-barber-shop.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.25.0","exturl":false,"sidebar":{"position":"left","width_expanded":390,"width_dual_column":340,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"foundation","dark":"foundation"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":{"valine":{"order":-1}},"activeClass":"valine"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="对于我这个只打算保天大本校的fw来说，花费一个月来准备这样一场机试属实无奈（不然还能去干什么呢）？ 最终也是很可惜，5题做对4题，最后一题小失误葬送整题。当然，做出4题保本校应该没问题吧。。。我看除了acm佬大伙也都是3、4题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2026天津大学预推免机试&#x2F;面试（本校）">
+<meta property="og:url" content="http://example.com/2026/09/20/2026%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E9%A2%84%E6%8E%A8%E5%85%8D%E6%9C%BA%E8%AF%95%EF%BC%88%E6%9C%AC%E6%A0%A1%EF%BC%89/index.html">
+<meta property="og:site_name" content="桐谷鸣人&#39;s Blog">
+<meta property="og:description" content="对于我这个只打算保天大本校的fw来说，花费一个月来准备这样一场机试属实无奈（不然还能去干什么呢）？ 最终也是很可惜，5题做对4题，最后一题小失误葬送整题。当然，做出4题保本校应该没问题吧。。。我看除了acm佬大伙也都是3、4题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-20T02:41:08.000Z">
+<meta property="article:modified_time" content="2026-09-20T03:32:00.898Z">
+<meta property="article:author" content="桐谷鸣人">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2026/09/20/2026%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E9%A2%84%E6%8E%A8%E5%85%8D%E6%9C%BA%E8%AF%95%EF%BC%88%E6%9C%AC%E6%A0%A1%EF%BC%89/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2026/09/20/2026%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E9%A2%84%E6%8E%A8%E5%85%8D%E6%9C%BA%E8%AF%95%EF%BC%88%E6%9C%AC%E6%A0%A1%EF%BC%89/","path":"2026/09/20/2026天津大学预推免机试（本校）/","title":"2026天津大学预推免机试/面试（本校）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2026天津大学预推免机试/面试（本校） | 桐谷鸣人's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/pjax.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">桐谷鸣人's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#A-%E8%BF%99%E4%B8%AA%E6%9C%88%E6%9C%89%E5%87%A0%E5%A4%A9"><span class="nav-number">1.</span> <span class="nav-text">A. 这个月有几天</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5"><span class="nav-number">1.2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA"><span class="nav-number">1.3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.4.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#B-%E5%A5%96%E5%AD%A6%E9%87%91%E8%AF%84%E5%AE%9A"><span class="nav-number">2.</span> <span class="nav-text">B. 奖学金评定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-1"><span class="nav-number">2.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5-1"><span class="nav-number">2.2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA-1"><span class="nav-number">2.3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.4.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-%E8%A3%81%E5%89%AA%E6%9C%A8%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">C. 裁剪木料</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">3.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5-2"><span class="nav-number">3.2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA-2"><span class="nav-number">3.3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.4.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#D-%E6%AD%8C%E5%8D%95%E8%BF%9E%E6%92%AD"><span class="nav-number">4.</span> <span class="nav-text">D. 歌单连播</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-3"><span class="nav-number">4.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5-3"><span class="nav-number">4.2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA-3"><span class="nav-number">4.3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-3"><span class="nav-number">4.4.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#E-%E7%8F%AD%E8%BD%A6%E4%BC%98%E6%83%A0%E5%88%B8"><span class="nav-number">5.</span> <span class="nav-text">E. 班车优惠券</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-4"><span class="nav-number">5.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5-4"><span class="nav-number">5.2.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA-4"><span class="nav-number">5.3.</span> <span class="nav-text">输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF-4"><span class="nav-number">5.4.</span> <span class="nav-text">思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E8%AF%95"><span class="nav-number">6.</span> <span class="nav-text">面试</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="桐谷鸣人"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">桐谷鸣人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=340 height=450 src="//music.163.com/outchain/player?type=0&id=13479111559&auto=1&height=430"></iframe>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/09/20/2026%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E9%A2%84%E6%8E%A8%E5%85%8D%E6%9C%BA%E8%AF%95%EF%BC%88%E6%9C%AC%E6%A0%A1%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="桐谷鸣人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2026天津大学预推免机试&#x2F;面试（本校） | 桐谷鸣人's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2026天津大学预推免机试/面试（本校）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-09-20 10:41:08 / 修改时间：11:32:00" itemprop="dateCreated datePublished" datetime="2026-09-20T10:41:08+08:00">2026-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2026/09/20/2026%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E9%A2%84%E6%8E%A8%E5%85%8D%E6%9C%BA%E8%AF%95%EF%BC%88%E6%9C%AC%E6%A0%A1%EF%BC%89/" class="post-meta-item leancloud_visitors" data-flag-title="2026天津大学预推免机试/面试（本校）" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>对于我这个只打算保天大本校的fw来说，花费一个月来准备这样一场机试属实无奈（不然还能去干什么呢）？</p>
+<p>最终也是很可惜，5题做对4题，最后一题小失误葬送整题。当然，做出4题保本校应该没问题吧。。。我看除了acm佬大伙也都是3、4题。</p>
+<span id="more"></span>
+
+<h1 id="A-这个月有几天"><a href="#A-这个月有几天" class="headerlink" title="A. 这个月有几天"></a>A. 这个月有几天</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>教务处要给排课模块补一个小工具：给定年份和月份，回答这个月一共有多少天。</p>
+<p>日期按照现行的格里高利历规则处理，即：</p>
+<ul>
+<li>1、3、5、7、8、10、12 月为 31 天；</li>
+<li>4、6、9、11 月为 30 天；</li>
+<li>2 月在闰年为 29 天，在平年为 28 天。</li>
+</ul>
+<p>一个年份 (y) 是闰年，当且仅当：</p>
+<ul>
+<li>(y) 能被 4 整除但不能被 100 整除；或</li>
+<li>(y) 能被 400 整除。</li>
+</ul>
+<p>现在有 (T) 组询问，请你依次回答。</p>
+<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>第一行一个整数 (T)，表示询问组数。</p>
+<p>接下来 (T) 行，每行两个整数 (y) 和 (m)，表示询问 (y) 年 (m) 月的天数。</p>
+<p>对于全部测试数据，保证：<br>(1 \le T \le 10^5)<br>(1 \le y \le 10^9)<br>(1 \le m \le 12)</p>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>输出 (T) 行，第 (i) 行一个整数，表示第 (i) 组询问的答案。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>简单的if判断即可，这题做不出来可以告别研究生生活了。</p>
+<hr>
+<h1 id="B-奖学金评定"><a href="#B-奖学金评定" class="headerlink" title="B. 奖学金评定"></a>B. 奖学金评定</h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h2><p>学院要评定年度奖学金，需要给全部 (n) 名候选人排出一个先后顺序。</p>
+<p>每名候选人有 一个用户名（由小写英文字母组成，互不相同）和语文、数学、英语三科成绩。</p>
+<p>排序规则依次为：</p>
+<ol>
+<li>总分（三科之和）从高到低；</li>
+<li>若总分相同，语文成绩从高到低；</li>
+<li>若总分和语文成绩都相同，用户名的字典序从小到大。</li>
+</ol>
+<p>由于用户名互不相同，上述规则可以唯一确定排名。</p>
+<p>请输出排在最前面的 (\min(n, 5)) 名候选人。</p>
+<p>字典序比较：从左往右逐个字符比较，第一个不同的位置上字母较小者字典序更小；若某个串是另一个串的前缀，则较短者字典序更小。例如：<br><code>apple &lt; apply</code>，<code>ab &lt; abc</code>。</p>
+<h2 id="输入-1"><a href="#输入-1" class="headerlink" title="输入"></a>输入</h2><p>第一行一个整数 (n)，表示候选人人数。</p>
+<p>接下来 (n) 行，每行一个字符串和三个整数：<br>(name_i, c_i, m_i, e_i)</p>
+<p>分别表示第 (i) 名候选人的用户名与语文、数学、英语成绩，之间用一个空格隔开。</p>
+<p>对于全部测试数据，保证：<br>(1 \le n \le 2 \times 10^5)<br>(0 \le c_i, m_i, e_i \le 100)<br>用户名长度在 1 到 10 之间，只包含小写字母，且互不相同。</p>
+<h2 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h2><p>输出 (\min(n, 5)) 行，按照排名从前到后，每行输出一个字符串和一个整数：该候选人的用户名与总分，用一个空格隔开。</p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>数据在2x10^5, 显然需要nlogn，那么排序就不能用n^2的冒泡之类，很容易想到将学生定义为结构体并用sort进行排序。然后就是写sort的cmp函数了</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (x.total != y.total) <span class="keyword">return</span> x.total &gt; y.total;</span><br><span class="line"><span class="keyword">if</span> (x.c != y.c) <span class="keyword">return</span> x.c &gt; y.c;</span><br><span class="line"><span class="keyword">return</span> x.name &lt; y.name;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="C-裁剪木料"><a href="#C-裁剪木料" class="headerlink" title="C. 裁剪木料"></a>C. 裁剪木料</h1><h2 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h2><p>社团要做一批展板支架，仓库里有 (n) 根木料，第 (i) 根长 (a_i) 厘米。</p>
+<p>现在需要裁出至少 (k) 根支架，并且要求所有支架的长度完全相同，都等于某个正整数 (L) 厘米。</p>
+<p>裁剪规则：</p>
+<ul>
+<li>一根长 (a_i) 的木料可以裁出 (\lfloor \frac{a_i}{L} \rfloor) 根长为 (L) 的支架，裁剪不产生损耗；</li>
+<li>裁剩下的零碎料直接丢弃，不能把多根木料拼接起来。</li>
+</ul>
+<p>为了让支架尽量结实，请你求出最大的 (L)。</p>
+<p>如果连 (L &#x3D; 1) 都凑不出 (k) 根支架，则输出 (0)。</p>
+<h2 id="输入-2"><a href="#输入-2" class="headerlink" title="输入"></a>输入</h2><p>第一行两个整数 (n) 和 (k)，表示木料根数与需要的支架数量。</p>
+<p>第二行 (n) 个整数：<br>(a_1, a_2, \dots, a_n)<br>表示每根木料的长度。</p>
+<p>对于全部测试数据，保证：<br>(1 \le n \le 2 \times 10^5)<br>(1 \le a_i \le 10^9)<br>(1 \le k \le 10^{18})</p>
+<h2 id="输出-2"><a href="#输出-2" class="headerlink" title="输出"></a>输出</h2><p>一行一个整数，表示最大的 (L)；若无解则输出 (0)。</p>
+<h2 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h2><p>在考场上做到二分答案的模板题很难忍住不笑，<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2440">P2440 木材加工</a>。当然，n^2暴力从1到max_num遍历也能骗点分咯。</p>
+<hr>
+<h1 id="D-歌单连播"><a href="#D-歌单连播" class="headerlink" title="D. 歌单连播"></a>D. 歌单连播</h1><h2 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h2><p>小 Z 的歌单里按顺序排着 (n) 首歌，第 (i) 首歌的演唱者编号为 (a_i)（编号相同表示同一位置歌手）。</p>
+<p>他打算从歌单中挑出连续的一段来连播，但有个要求：这一段里不能出现同一位歌手的两首歌。</p>
+<p>请你求出他最多能连播多少首，也就是求最长的连续子段，使得段内的 (a_i) 互不相同。</p>
+<h2 id="输入-3"><a href="#输入-3" class="headerlink" title="输入"></a>输入</h2><p>第一行一个整数 (n)，表示歌曲数量。</p>
+<p>第二行 (n) 个整数：<br>(a_1, a_2, \dots, a_n)<br>表示每首歌的演唱者编号。</p>
+<p>对于全部测试数据，保证：<br>(1 \le n \le 2 \times 10^5)<br>(1 \le a_i \le 10^9)</p>
+<h2 id="输出-3"><a href="#输出-3" class="headerlink" title="输出"></a>输出</h2><p>一行一个整数，表示满足条件的最长连续子段的长度。</p>
+<h2 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h2><p>开个 <strong>unordered_map</strong> 存上一次出现数字 ai 的位置，从头到尾遍历1…n即可，遇到 <strong>m.find(ai)!&#x3D;m.end()</strong> 则将 max_len 置为两个重复的ai之间的距离(其实也就是从上一次ai到现在的每次 len++ 记录的长度)，并将 “上一次ai”的位置置为当前ai的位置。 如此遍历到最后即可。实际上 O(n) 的复杂度就做掉了。</p>
+<hr>
+<h1 id="E-班车优惠券"><a href="#E-班车优惠券" class="headerlink" title="E. 班车优惠券"></a>E. 班车优惠券</h1><h2 id="题目描述-4"><a href="#题目描述-4" class="headerlink" title="题目描述"></a>题目描述</h2><p>学校的班车网络有 (n) 个站点，编号 1 到 (n)，站点之间有 (m) 条双向线路。</p>
+<p>第 (j) 条线路连接站点 (u_j) 与 (v_j)，每乘坐一次的票价为 (w_j) 元。</p>
+<p>小 Z 现在在站点 1，要去站点 (n)。他手上有 (k) 张优惠券，规则如下：</p>
+<ul>
+<li>每乘一条线路时，他可以选择使用一张优惠券，则这一次乘坐完全免费；</li>
+<li>也可以不使用优惠券，按票价 (w_j) 付费；</li>
+<li>优惠券总共只有 (k) 张，用不完不要紧，但不能超额使用。</li>
+</ul>
+<p>你可以任意选择乘车路线（允许重复经过同一个站点或同一条线路），请你求出他从站点 1 到站点 (n) 最少需要花多少钱。</p>
+<p>如果无论如何乘车都到不了站点 (n)，输出 <code>-1</code>。</p>
+<h2 id="输入-4"><a href="#输入-4" class="headerlink" title="输入"></a>输入</h2><p>第一行三个整数 (n, m, k)，分别表示站点数、线路数、优惠券张数。</p>
+<p>接下来 (m) 行，每行三个整数：<br>(u_j, v_j, w_j)</p>
+<p>表示一条连接 (u_j) 与 (v_j)，票价为 (w_j) 的双向线路。</p>
+<p>对于全部测试数据，保证：<br>(1 \le n \le 10^5)<br>(0 \le m \le 2 \times 10^5)<br>(0 \le k \le 5)<br>(1 \le u_j, v_j \le n)<br>(u_j \ne v_j)<br>(1 \le w_j \le 10^5)<br>数据中可能存在重边（两个站点之间有多条线路），但没有自环，图不保证连通。</p>
+<h2 id="输出-4"><a href="#输出-4" class="headerlink" title="输出"></a>输出</h2><p>一行一个整数，表示最少花费；若无法到达站点 (n)，输出 <code>-1</code>。</p>
+<h2 id="思路-4"><a href="#思路-4" class="headerlink" title="思路"></a>思路</h2><p>分层Dijkstra。考场上用的dfs+记忆化，但是似乎会有环的循环问题。</p>
+<h1 id="面试"><a href="#面试" class="headerlink" title="面试"></a>面试</h1><p>智算学部四个学院都在早上9:30-11:30进行机试，软件学院在下午单独进行面试，分了两组，每人10分钟（ <strong>6分钟ppt+4分钟提问</strong> ）。<br>面试的老师也都是上过我们课的老师，提问的氛围类似聊天（因为当时面试给我们也有椅子，所以是 <strong>坐着面对面</strong> 而不是那种站在白板前类似拷打的场面），老师提问主要聚焦于你的项目，主要验证项目是不是你做的，至于项目怎么样倒是无所谓（但是老师似乎更喜欢 <strong>有实际落地</strong> 的项目而不是”小玩具“），我当时展示有三个项目，分别问了：</p>
+<p><strong>“这个项目是一年前的了，放到现在的多模态agent时代，如果让你重做一遍，你会选择在什么角度下手”</strong></p>
+<p><strong>“这个项目实际落地的话，你认为会出现什么问题？使用真实场景下的数据，你的模型会有什么表现”</strong></p>
+<p><strong>“我看这个项目是你自己弄的小玩意（看得出来他不喜欢个人项目）哈，它这个视觉部分是怎么实现的？”</strong></p>
+<p>当然，其实全答出来能证明你是真做了就没什么问题咯。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/06/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/" rel="prev" title="机器学习——特征工程">
+                  <i class="fa fa-angle-left"></i> 机器学习——特征工程
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="valine-comments"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">桐谷鸣人</span>
+  </div>
+  <div>
+	<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+	<script>
+		var now = new Date();
+		function createtime() {
+			var grt= new Date("10/7/2025 23:00:00");
+			now.setTime(now.getTime()+250);
+			days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+			hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+			if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+			mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+			seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+			snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+			document.getElementById("timeDate").innerHTML = "本站已持续运行 "+dnum+" 天 ";
+			document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+		}
+	setInterval("createtime()",250);
+	</script>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">147k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6:07</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="valine" type="application/json">{"enable":true,"appId":"bspA2CXIuamDKOp2Ie9gcxvW-gzGzoHsz","appKey":"CMwWJMCxLRQgWWBb9oFgM7pS","serverURLs":"https://bspa2cxi.lc-cn-n1-shared.com","placeholder":"ヾﾉ≧∀≦)o来啊，快活啊!","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":true,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[],"libUrl":"https://cdnjs.cloudflare.com/ajax/libs/valine/1.5.3/Valine.min.js","el":"#valine-comments","path":"/2026/09/20/2026%E5%A4%A9%E6%B4%A5%E5%A4%A7%E5%AD%A6%E9%A2%84%E6%8E%A8%E5%85%8D%E6%9C%BA%E8%AF%95%EF%BC%88%E6%9C%AC%E6%A0%A1%EF%BC%89/"}</script>
+<script>
+document.addEventListener('page:loaded', () => {
+  NexT.utils.loadComments(CONFIG.valine.el)
+    .then(() => NexT.utils.getScript(
+      CONFIG.valine.libUrl,
+      { condition: window.Valine }
+    ))
+    .then(() => {
+      new Valine(CONFIG.valine);
+    });
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"../live2d_models/suomi/","tagMode":false,"log":false,"model":{"jsonPath":"/live2d_models/suomi/suomi.model.json"},"display":{"position":"right","width":400,"height":800},"mobile":{"show":false}});</script></body>
+</html>
